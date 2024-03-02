@@ -1,0 +1,6 @@
+# .graphclientrc.yml
+sources:
+  - name: beefy-cl
+    handler:
+      graphql:
+        endpoint: https://api.0xgraph.xyz/subgraphs/name/beefyfinance/beefy-cl
