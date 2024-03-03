@@ -14,6 +14,7 @@ import { ChangeEventHandler, useCallback, useMemo, useState } from "react";
 import Decimal from "decimal.js";
 import { EChartsOption } from "echarts";
 import { formatAs } from "../../utils/format-number";
+import { ts2Date } from "../../utils/timestamp-to-date";
 
 export function ProtocolTimeseries() {
   const [result, _] = useQuery({
@@ -65,7 +66,7 @@ function ProtocolSnapshotChart({
       data
         .map((snapshot) => {
           return [
-            new Date(parseInt(snapshot.roundedTimestamp, 10) * 1000).getTime(),
+            ts2Date(snapshot.roundedTimestamp).getTime(),
             new Decimal(snapshot[selectedConfig.key]).toNumber(),
           ];
         })

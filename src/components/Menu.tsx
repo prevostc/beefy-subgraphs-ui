@@ -14,7 +14,8 @@ import { useMatchRoute } from "@tanstack/react-router";
 
 const menuItems: { title: string; route: AppLinkProps["to"] }[] = [
   { title: "Beefy ALM", route: "/" },
-  { title: "Protocol Snapshots", route: "/protocol/timeseries" },
+  { title: "Snapshots", route: "/protocol/timeseries" },
+  { title: "Vaults", route: "/vault" },
 ];
 
 type MenuProps = Omit<NavbarProps, "onMenuOpenChange">;

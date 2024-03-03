@@ -9,3 +9,4 @@ sources:
 documents:
   - ./src/queries/protocol.graphql
   - ./src/queries/protocol-snapshots.graphql
+  - ./src/queries/vault-list.graphql

@@ -17,6 +17,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
+const VaultIndexLazyImport = createFileRoute('/vault/')()
 const ProtocolTimeseriesLazyImport = createFileRoute('/protocol/timeseries')()
 
 // Create/Update Routes
@@ -25,6 +26,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const VaultIndexLazyRoute = VaultIndexLazyImport.update({
+  path: '/vault/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/vault/index.lazy').then((d) => d.Route))
 
 const ProtocolTimeseriesLazyRoute = ProtocolTimeseriesLazyImport.update({
   path: '/protocol/timeseries',
@@ -45,6 +51,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtocolTimeseriesLazyImport
       parentRoute: typeof rootRoute
     }
+    '/vault/': {
+      preLoaderRoute: typeof VaultIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -53,6 +63,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   ProtocolTimeseriesLazyRoute,
+  VaultIndexLazyRoute,
 ])
 
 /* prettier-ignore-end */

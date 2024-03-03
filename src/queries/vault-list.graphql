@@ -1,0 +1,33 @@
+fragment TokenFrag on Token {
+  address: id
+  symbol
+  name
+  decimals
+}
+
+query VaultList {
+  vaults: beefyCLVaults(where: { lifecycle: RUNNING }) {
+    id
+    createdWith {
+      transactionHash: id
+      blockNumber
+      blockTimestamp
+      sender {
+        address: id
+      }
+    }
+    owner
+    sharesToken {
+      ...TokenFrag
+    }
+    strategy {
+      address: id
+    }
+    underlyingToken0 {
+      ...TokenFrag
+    }
+    underlyingToken1 {
+      ...TokenFrag
+    }
+  }
+}
