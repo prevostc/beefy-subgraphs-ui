@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/.*\\.(?!css|js)",
+      "destination": "/index.html"
+    }
+  ]
+}
