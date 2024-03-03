@@ -109,8 +109,8 @@ function ProtocolSnapshotChart({
   );
 
   return (
-    <div>
-      <div>
+    <div className="w-full flex items-stretch flex-col">
+      <div className="max-w-full">
         <Select
           selectedKeys={[selectedConfig.key]}
           onChange={handleSelectionChange}
@@ -126,7 +126,10 @@ function ProtocolSnapshotChart({
         </Select>
       </div>
       <div>
-        <ReactECharts option={chartOptions} />
+        <ReactECharts
+          style={{ height: "500px", width: "100%", maxWidth: "100%" }}
+          option={chartOptions}
+        />
       </div>
     </div>
   );
