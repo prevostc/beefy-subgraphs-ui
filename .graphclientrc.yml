@@ -4,3 +4,7 @@ sources:
     handler:
       graphql:
         endpoint: https://api.0xgraph.xyz/subgraphs/name/beefyfinance/beefy-cl
+
+
+documents:
+  - ./src/routes/protocol/protocol.graphql
