@@ -7,21 +7,24 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarProps,
 } from "@nextui-org/react";
 import { AppLink, AppLinkProps } from "./AppLink";
-import { useMatch, useMatchRoute, useMatches } from "@tanstack/react-router";
+import { useMatchRoute } from "@tanstack/react-router";
 
 const menuItems: { title: string; route: AppLinkProps["to"] }[] = [
   { title: "Home", route: "/" },
   { title: "Protocol", route: "/protocol" },
 ];
 
-export const Menu = () => {
+type MenuProps = Omit<NavbarProps, "onMenuOpenChange">;
+
+export const Menu = (props: MenuProps) => {
   const matchRoute = useMatchRoute();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} {...props}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}

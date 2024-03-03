@@ -3,13 +3,9 @@ import { Menu } from "./Menu";
 
 export const PageLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <>
-      <header>
-        <Menu />
-      </header>
-      <div className="w-full flex flex-col items-center px-6">
-        <div className="min-w-full">{children}</div>
-      </div>
-    </>
+    <div className="flex flex-col items-center justify-center">
+      <Menu />
+      <div className="px-unit-sm max-w-[1024px] md:w-[100%]">{children}</div>
+    </div>
   );
 };
