@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import Decimal from "decimal.js";
+import { formatAs } from "../utils/format-number";
 
 export default function Metric({
   description,
@@ -18,15 +19,7 @@ export default function Metric({
   mode: "usd" | "percent" | "count";
 }) {
   const d = useMemo(() => new Decimal(value), [value]);
-  const formattedValue = useMemo(() => {
-    if (mode === "usd") {
-      return `$${d.toNumber().toLocaleString()}`;
-    }
-    if (mode === "percent") {
-      return `${d.toFixed(2)}%`;
-    }
-    return d.toNumber().toLocaleString();
-  }, [d, mode]);
+  const formattedValue = useMemo(() => formatAs(d, mode), [d, mode]);
   const rawValue = useMemo(() => d.toNumber(), [d]);
   return (
     <Card className="min-w-unit-52">

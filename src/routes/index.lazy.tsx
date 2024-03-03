@@ -1,10 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { PageLayout } from "../components/PageLayout";
+import { ProtocolMetrics } from "../components/ProtocolMetrics/ProtocolMetrics";
 
 export const Route = createLazyFileRoute("/")({
-  component: Index,
+  component: ProtocolMetrics,
 });
-
-function Index() {
-  return <h3>Welcome Home!</h3>;
-}

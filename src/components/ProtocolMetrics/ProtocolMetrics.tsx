@@ -1,15 +1,10 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { ProtocolStatsDocument } from "../../../.graphclient/index";
 import { useQuery } from "urql";
+import { ProtocolStatsDocument } from "../../../.graphclient";
 import { Spinner } from "@nextui-org/react";
-import Metric from "../../components/Metric";
-import QueryDebug from "../../components/QueryDebug";
+import Metric from "../Metric";
+import QueryDebug from "../QueryDebug";
 
-export const Route = createLazyFileRoute("/protocol/")({
-  component: ProtocolPage,
-});
-
-function ProtocolPage() {
+export function ProtocolMetrics() {
   const [result, _] = useQuery({
     query: ProtocolStatsDocument,
   });
@@ -22,7 +17,7 @@ function ProtocolPage() {
     <div>
       <div className="w-full flex flex-wrap justify-evenly gap-5 lg:gap-0 lg:justify-between">
         <Metric
-          description="Beefy CL TVL"
+          description="Beefy ALM TVL"
           mode="usd"
           value={protocol.totalValueLockedUSD}
         />

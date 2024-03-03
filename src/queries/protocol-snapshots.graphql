@@ -1,0 +1,36 @@
+query ProtocolSnapshots {
+  dailySnapshots: protocolSnapshots(
+    where: { period: 86400 }
+    orderBy: roundedTimestamp
+    orderDirection: desc
+    first: 30
+  ) {
+    id
+    period
+    roundedTimestamp
+    timestamp
+    totalValueLockedUSD
+    activeVaultCount
+    activeInvestorCount
+    newInvestorCount
+    totalTransactionCount
+    investorTransactionsCount
+    harvesterTransactionsCount
+    totalGasSpent
+    totalGasSpentUSD
+    investorGasSpent
+    investorGasSpentUSD
+    harvesterGasSpent
+    harvesterGasSpentUSD
+    protocolGasSaved
+    protocolGasSavedUSD
+    protocolFeesCollectedNative
+    protocolFeesCollectedUSD
+    harvesterFeesCollectedNative
+    harvesterFeesCollectedUSD
+    strategistFeesCollectedNative
+    strategistFeesCollectedUSD
+    zapFeesCollectedNative
+    zapFeesCollectedUSD
+  }
+}

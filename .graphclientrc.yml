@@ -7,4 +7,5 @@ sources:
 
 
 documents:
-  - ./src/routes/protocol/protocol.graphql
+  - ./src/queries/protocol.graphql
+  - ./src/queries/protocol-snapshots.graphql

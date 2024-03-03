@@ -17,7 +17,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
-const ProtocolIndexLazyImport = createFileRoute('/protocol/')()
+const ProtocolTimeseriesLazyImport = createFileRoute('/protocol/timeseries')()
 
 // Create/Update Routes
 
@@ -26,11 +26,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const ProtocolIndexLazyRoute = ProtocolIndexLazyImport.update({
-  path: '/protocol/',
+const ProtocolTimeseriesLazyRoute = ProtocolTimeseriesLazyImport.update({
+  path: '/protocol/timeseries',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import('./routes/protocol/index.lazy').then((d) => d.Route),
+  import('./routes/protocol/timeseries.lazy').then((d) => d.Route),
 )
 
 // Populate the FileRoutesByPath interface
@@ -41,8 +41,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/protocol/': {
-      preLoaderRoute: typeof ProtocolIndexLazyImport
+    '/protocol/timeseries': {
+      preLoaderRoute: typeof ProtocolTimeseriesLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -52,7 +52,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  ProtocolIndexLazyRoute,
+  ProtocolTimeseriesLazyRoute,
 ])
 
 /* prettier-ignore-end */

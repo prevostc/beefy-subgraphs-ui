@@ -14,19 +14,28 @@ export default function QueryDebug({
   return (
     <Accordion isCompact variant="shadow">
       <AccordionItem key="1" aria-label="Show query" title="Show query">
-        <Snippet symbol="" codeString={queryStr}>
-          <pre>{queryStr}</pre>
-        </Snippet>
+        <AccordionSnippet code={queryStr} />
       </AccordionItem>
       <AccordionItem
         key="2"
         aria-label="Show raw result"
         title="Show raw result"
       >
-        <Snippet symbol="">
-          <pre>{JSON.stringify(result, null, 2)}</pre>
-        </Snippet>
+        <AccordionSnippet code={JSON.stringify(result, null, 2)} />
       </AccordionItem>
     </Accordion>
+  );
+}
+
+function AccordionSnippet({ code }: { code: string }) {
+  return (
+    <Snippet
+      hideCopyButton
+      symbol=""
+      codeString={code}
+      className="overflow-x-auto py-unit-md"
+    >
+      <pre className="max-w-[70vw] md:max-w-full">{code}</pre>
+    </Snippet>
   );
 }

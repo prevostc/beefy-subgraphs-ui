@@ -13,8 +13,8 @@ import { AppLink, AppLinkProps } from "./AppLink";
 import { useMatchRoute } from "@tanstack/react-router";
 
 const menuItems: { title: string; route: AppLinkProps["to"] }[] = [
-  { title: "Home", route: "/" },
-  { title: "Protocol", route: "/protocol" },
+  { title: "Beefy ALM", route: "/" },
+  { title: "Protocol Snapshots", route: "/protocol/timeseries" },
 ];
 
 type MenuProps = Omit<NavbarProps, "onMenuOpenChange">;
@@ -31,7 +31,7 @@ export const Menu = (props: MenuProps) => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">Beefy CL</p>
+          <p className="font-bold text-inherit">Beefy ALM</p>
         </NavbarBrand>
       </NavbarContent>
 
