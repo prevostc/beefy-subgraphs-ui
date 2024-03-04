@@ -1,0 +1,66 @@
+fragment Token on Token {
+  address: id
+  symbol
+  name
+  decimals
+}
+
+fragment Transaction on Transaction {
+  transactionHash: id
+  blockNumber
+  blockTimestamp
+  sender {
+    address: id
+  }
+}
+
+fragment VaultAddresses on BeefyCLVault {
+  owner
+  strategy {
+    address: id
+  }
+}
+
+query VaultStats($vaultAddress: ID!) {
+  vault: beefyCLVault(id: $vaultAddress) {
+    address: id
+    createdWith {
+      ...Transaction
+    }
+    sharesToken {
+      ...Token
+    }
+    underlyingToken0 {
+      ...Token
+    }
+    underlyingToken1 {
+      ...Token
+    }
+    ...VaultAddresses
+    currentPriceOfToken0InToken1
+    priceRangeMin1
+    priceRangeMax1
+    priceRangeMin1USD
+    priceRangeMax1USD
+    underlyingAmount0
+    underlyingAmount1
+    underlyingAmount0USD
+    underlyingAmount1USD
+    totalValueLockedUSD
+    totalHarvestCount
+    totalDepositCount
+    totalWithdrawCount
+    totalTransferCount
+    totalHarvestedAmount0
+    totalHarvestedAmount1
+    totalHarvestedAmount0USD
+    totalHarvestedAmount1USD
+    totalHarvestValueUSD
+    totalHarvesterFeeCollectedNative
+    totalProtocolFeeCollectedNative
+    totalStrategistFeeCollectedNative
+    totalHarvesterFeeCollectedUSD
+    totalProtocolFeeCollectedUSD
+    totalStrategistFeeCollectedUSD
+  }
+}

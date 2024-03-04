@@ -1,8 +1,5 @@
 import { Link as UiLink, LinkProps as UiLinkProps } from "@nextui-org/react";
-import {
-  Link as RouterLink,
-  LinkProps as RouterLinkProps,
-} from "@tanstack/react-router";
+import { LinkProps as RouterLinkProps } from "@tanstack/react-router";
 
 export type AppLinkProps = Omit<RouterLinkProps & UiLinkProps, "href">;
 
