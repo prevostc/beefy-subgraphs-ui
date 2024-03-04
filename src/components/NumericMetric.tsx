@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import Decimal from "decimal.js";
-import { formatAs } from "../utils/format-number";
+import { NumberFormatMode, formatAs } from "../utils/format-number";
 
 export default function Metric({
   description,
@@ -16,7 +16,7 @@ export default function Metric({
 }: {
   description: string;
   value: string | number;
-  mode: "usd" | "percent" | "count";
+  mode: NumberFormatMode;
 }) {
   const d = useMemo(() => new Decimal(value), [value]);
   const formattedValue = useMemo(() => formatAs(d, mode), [d, mode]);
