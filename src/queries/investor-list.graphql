@@ -1,0 +1,24 @@
+fragment Investor on Investor {
+  id
+  address: id
+  lastInteractionTimestamp
+  activePositionCount
+  investedDuration
+  totalPositionValueUSD
+  averageDailyTotalPositionValueUSD30D
+  last30DailyTotalPositionValuesUSD
+  totalInteractionsCount
+}
+
+fragment Token on Token {
+  address: id
+  symbol
+  name
+  decimals
+}
+
+query InvestorList($first: Int = 1000, $skip: Int = 0) {
+  investors(first: $first, skip: $skip) {
+    ...Investor
+  }
+}

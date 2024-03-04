@@ -2,7 +2,7 @@ import { useQuery } from "urql";
 import { ProtocolStatsDocument } from "../../../.graphclient";
 import { Spinner } from "@nextui-org/react";
 import Metric from "../NumericMetric";
-import QueryDebug from "../QueryDebug";
+import { QueryDebug } from "../QueryDebug";
 
 export function ProtocolMetrics() {
   const [result, _] = useQuery({

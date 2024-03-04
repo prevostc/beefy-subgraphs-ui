@@ -21,21 +21,25 @@ fragment VaultAddresses on BeefyCLVault {
   }
 }
 
+fragment VaultTokens on BeefyCLVault {
+  sharesToken {
+    ...Token
+  }
+  underlyingToken0 {
+    ...Token
+  }
+  underlyingToken1 {
+    ...Token
+  }
+}
+
 query VaultList {
   vaults: beefyCLVaults(where: { lifecycle: RUNNING }) {
     id
     createdWith {
       ...Transaction
     }
-    sharesToken {
-      ...Token
-    }
-    underlyingToken0 {
-      ...Token
-    }
-    underlyingToken1 {
-      ...Token
-    }
+    ...VaultTokens
     ...VaultAddresses
   }
 }

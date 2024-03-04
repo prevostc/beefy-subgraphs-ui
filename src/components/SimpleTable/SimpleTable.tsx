@@ -17,7 +17,7 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { ChevronDownIcon } from "../ChevronDownIcon";
 import { capitalize } from "../../utils/capitalize";
 
-type ColumnDefType<C, R> = {
+export type ColumnDefType<C, R> = {
   key: C;
   label: string;
   render: (row: R) => ReactNode;

@@ -17,9 +17,11 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const VaultsLazyImport = createFileRoute('/vaults')()
+const InvestorsLazyImport = createFileRoute('/investors')()
 const IndexLazyImport = createFileRoute('/')()
-const VaultVaultAddressLazyImport = createFileRoute('/vault/$vaultAddress')()
+const VaultAddressLazyImport = createFileRoute('/vault/$address')()
 const ProtocolTimeseriesLazyImport = createFileRoute('/protocol/timeseries')()
+const InvestorAddressLazyImport = createFileRoute('/investor/$address')()
 
 // Create/Update Routes
 
@@ -28,16 +30,21 @@ const VaultsLazyRoute = VaultsLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/vaults.lazy').then((d) => d.Route))
 
+const InvestorsLazyRoute = InvestorsLazyImport.update({
+  path: '/investors',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/investors.lazy').then((d) => d.Route))
+
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const VaultVaultAddressLazyRoute = VaultVaultAddressLazyImport.update({
-  path: '/vault/$vaultAddress',
+const VaultAddressLazyRoute = VaultAddressLazyImport.update({
+  path: '/vault/$address',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import('./routes/vault.$vaultAddress.lazy').then((d) => d.Route),
+  import('./routes/vault.$address.lazy').then((d) => d.Route),
 )
 
 const ProtocolTimeseriesLazyRoute = ProtocolTimeseriesLazyImport.update({
@@ -45,6 +52,13 @@ const ProtocolTimeseriesLazyRoute = ProtocolTimeseriesLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/protocol.timeseries.lazy').then((d) => d.Route),
+)
+
+const InvestorAddressLazyRoute = InvestorAddressLazyImport.update({
+  path: '/investor/$address',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/investor.$address.lazy').then((d) => d.Route),
 )
 
 // Populate the FileRoutesByPath interface
@@ -55,16 +69,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/investors': {
+      preLoaderRoute: typeof InvestorsLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/vaults': {
       preLoaderRoute: typeof VaultsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/investor/$address': {
+      preLoaderRoute: typeof InvestorAddressLazyImport
       parentRoute: typeof rootRoute
     }
     '/protocol/timeseries': {
       preLoaderRoute: typeof ProtocolTimeseriesLazyImport
       parentRoute: typeof rootRoute
     }
-    '/vault/$vaultAddress': {
-      preLoaderRoute: typeof VaultVaultAddressLazyImport
+    '/vault/$address': {
+      preLoaderRoute: typeof VaultAddressLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -74,9 +96,11 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
+  InvestorsLazyRoute,
   VaultsLazyRoute,
+  InvestorAddressLazyRoute,
   ProtocolTimeseriesLazyRoute,
-  VaultVaultAddressLazyRoute,
+  VaultAddressLazyRoute,
 ])
 
 /* prettier-ignore-end */

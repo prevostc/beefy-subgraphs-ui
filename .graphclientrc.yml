@@ -11,3 +11,5 @@ documents:
   - ./src/queries/protocol-snapshots.graphql
   - ./src/queries/vault-list.graphql
   - ./src/queries/vault.graphql
+  - ./src/queries/investor-list.graphql
+  - ./src/queries/investor-positions.graphql

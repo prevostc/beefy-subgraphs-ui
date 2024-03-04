@@ -1,17 +1,18 @@
 import { useQuery } from "urql";
 import { VaultStatsDocument } from "../../../.graphclient";
-import { Divider, Spinner } from "@nextui-org/react";
-import QueryDebug from "../QueryDebug";
+import { Spinner } from "@nextui-org/react";
+import { QueryDebug } from "../QueryDebug";
 import { TokenBlock } from "../TokenBlock";
 import { TransactionBlock } from "../TransactionBlock";
 import { VaultAddressesBlock } from "../VaultAddressesBlock";
 import Metric from "../NumericMetric";
+import { Section } from "../Section";
 
-export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
+export function VaultMetrics({ address }: { address: string }) {
   const [result, _] = useQuery({
     query: VaultStatsDocument,
     variables: {
-      vaultAddress,
+      address,
     },
   });
 
@@ -21,8 +22,8 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
 
   return (
     <div className="max-w-[1024px] m-auto">
-      <Title>Configuration</Title>
-      <Section>
+      <Section.Title>Configuration</Section.Title>
+      <Section.Body>
         <TransactionBlock
           transaction={result.data.vault.createdWith}
           description="Created with"
@@ -43,10 +44,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           vaultAddresses={result.data.vault}
           description="Addresses"
         />
-      </Section>
+      </Section.Body>
 
-      <Title>Prices</Title>
-      <Section>
+      <Section.Title>Prices</Section.Title>
+      <Section.Body>
         <Metric
           value={result.data.vault.currentPriceOfToken0InToken1}
           description="Current Pool Price (in token 1)"
@@ -72,10 +73,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Price range max (in USD)"
           mode="usd"
         />
-      </Section>
+      </Section.Body>
 
-      <Title>Balances</Title>
-      <Section>
+      <Section.Title>Balances</Section.Title>
+      <Section.Body>
         <Metric
           value={result.data.vault.underlyingAmount0}
           description="Underlying token balance 0"
@@ -101,10 +102,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Total Value Locked (in USD)"
           mode="usd"
         />
-      </Section>
+      </Section.Body>
 
-      <Title>Counts</Title>
-      <Section>
+      <Section.Title>Counts</Section.Title>
+      <Section.Body>
         <Metric
           value={result.data.vault.totalHarvestCount}
           description="Harvest count"
@@ -125,10 +126,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Transfers"
           mode="count"
         />
-      </Section>
+      </Section.Body>
 
-      <Title>Harvest</Title>
-      <Section>
+      <Section.Title>Harvest</Section.Title>
+      <Section.Body>
         <Metric
           value={result.data.vault.totalHarvestedAmount0}
           description="Total Harvested token 0"
@@ -154,10 +155,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Total Harvested (in USD)"
           mode="usd"
         />
-      </Section>
+      </Section.Body>
 
-      <Title>Fees</Title>
-      <Section>
+      <Section.Title>Fees</Section.Title>
+      <Section.Body>
         <Metric
           value={result.data.vault.totalHarvesterFeeCollectedNative}
           description="Total Harvested Fee (in native)"
@@ -188,25 +189,9 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Total Strategist Fee (in USD)"
           mode="usd"
         />
-      </Section>
+      </Section.Body>
 
       <QueryDebug query={VaultStatsDocument} result={result.data} />
-    </div>
-  );
-}
-
-function Title({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <h1 className="text-default-800 text-2xl mb-unit-md">{children}</h1>
-      <Divider />
-    </>
-  );
-}
-function Section({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex flex-wrap flex-col sm:flex-row sm:justify-evenly lg:justify-between gap-unit-md py-unit-xl">
-      {children}
     </div>
   );
 }

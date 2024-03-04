@@ -21,8 +21,36 @@ fragment VaultAddresses on BeefyCLVault {
   }
 }
 
-query VaultStats($vaultAddress: ID!) {
-  vault: beefyCLVault(id: $vaultAddress) {
+fragment VaultMetrics on BeefyCLVault {
+  currentPriceOfToken0InToken1
+  priceRangeMin1
+  priceRangeMax1
+  priceRangeMin1USD
+  priceRangeMax1USD
+  underlyingAmount0
+  underlyingAmount1
+  underlyingAmount0USD
+  underlyingAmount1USD
+  totalValueLockedUSD
+  totalHarvestCount
+  totalDepositCount
+  totalWithdrawCount
+  totalTransferCount
+  totalHarvestedAmount0
+  totalHarvestedAmount1
+  totalHarvestedAmount0USD
+  totalHarvestedAmount1USD
+  totalHarvestValueUSD
+  totalHarvesterFeeCollectedNative
+  totalProtocolFeeCollectedNative
+  totalStrategistFeeCollectedNative
+  totalHarvesterFeeCollectedUSD
+  totalProtocolFeeCollectedUSD
+  totalStrategistFeeCollectedUSD
+}
+
+query VaultStats($address: ID!) {
+  vault: beefyCLVault(id: $address) {
     address: id
     createdWith {
       ...Transaction
@@ -37,33 +65,6 @@ query VaultStats($vaultAddress: ID!) {
       ...Token
     }
     ...VaultAddresses
-    currentPriceOfToken0InToken1
-    priceRangeMin1
-    priceRangeMax1
-    priceRangeMin1USD
-    priceRangeMax1USD
-
-    underlyingAmount0
-    underlyingAmount1
-    underlyingAmount0USD
-    underlyingAmount1USD
-    totalValueLockedUSD
-
-    totalHarvestCount
-    totalDepositCount
-    totalWithdrawCount
-    totalTransferCount
-
-    totalHarvestedAmount0
-    totalHarvestedAmount1
-    totalHarvestedAmount0USD
-    totalHarvestedAmount1USD
-    totalHarvestValueUSD
-    totalHarvesterFeeCollectedNative
-    totalProtocolFeeCollectedNative
-    totalStrategistFeeCollectedNative
-    totalHarvesterFeeCollectedUSD
-    totalProtocolFeeCollectedUSD
-    totalStrategistFeeCollectedUSD
+    ...VaultMetrics
   }
 }

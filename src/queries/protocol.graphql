@@ -1,11 +1,15 @@
+fragment ProtocolMetrics on Protocol {
+  totalValueLockedUSD
+  activeVaultCount
+  activeInvestorCount
+  transactionCount
+  harvestCount
+}
+
 query ProtocolStats {
   protocol(id: "0x01000000") {
     id
     name
-    totalValueLockedUSD
-    activeVaultCount
-    activeInvestorCount
-    transactionCount
-    harvestCount
+    ...ProtocolMetrics
   }
 }

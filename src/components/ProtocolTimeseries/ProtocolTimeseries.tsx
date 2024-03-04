@@ -5,7 +5,7 @@ import {
 } from "../../../.graphclient";
 import ReactECharts from "echarts-for-react";
 import { Select, SelectItem, Spinner } from "@nextui-org/react";
-import QueryDebug from "../QueryDebug";
+import { QueryDebug } from "../QueryDebug";
 import {
   ProtocolTimeseriesConfig,
   protocolTimeseriesConfigs,

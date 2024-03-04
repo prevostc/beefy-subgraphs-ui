@@ -1,12 +1,10 @@
 import { useQuery } from "urql";
 import { VaultListDocument, VaultListQuery } from "../../../.graphclient";
-import { Button, Spinner } from "@nextui-org/react";
-import QueryDebug from "../QueryDebug";
+import { Spinner } from "@nextui-org/react";
+import { QueryDebug } from "../QueryDebug";
 import { ReactNode } from "react";
-import { ts2Date } from "../../utils/timestamp-to-date";
-import { HexDisplay } from "../HexDisplay";
 import { TokenDataTable } from "../TokenDataTable";
-import { SimpleTable } from "../SimpleTable/SimpleTable";
+import { ColumnDefType, SimpleTable } from "../SimpleTable/SimpleTable";
 import { AppLink } from "../AppLink";
 import { AppLinkButton } from "../AppLinkButton";
 import { TransactionDataTable } from "../TransactionDataTable";
@@ -32,12 +30,6 @@ export function VaultList() {
     </div>
   );
 }
-
-type ColumnDefType<C, R> = {
-  key: C;
-  label: string;
-  render: (row: R) => ReactNode;
-};
 
 type ColumnKeys =
   | "name"
@@ -95,8 +87,8 @@ const columns = [
     render: (vault) => (
       <AppLinkButton
         as={AppLink}
-        to={`/vault/$vaultAddress`}
-        params={{ vaultAddress: vault.id }}
+        to={`/vault/$address`}
+        params={{ address: vault.id }}
       >
         👀
       </AppLinkButton>

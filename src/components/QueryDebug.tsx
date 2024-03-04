@@ -3,7 +3,7 @@ import { DocumentNode } from "graphql";
 import { printWithCache } from "@graphql-mesh/utils";
 import { useMemo } from "react";
 
-export default function QueryDebug({
+export function QueryDebug({
   query,
   result,
 }: {

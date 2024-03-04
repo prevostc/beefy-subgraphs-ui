@@ -1,0 +1,74 @@
+fragment Token on Token {
+  address: id
+  symbol
+  name
+  decimals
+}
+
+fragment Transaction on Transaction {
+  transactionHash: id
+  blockNumber
+  blockTimestamp
+  sender {
+    address: id
+  }
+}
+
+fragment Investor on Investor {
+  id
+  address: id
+  lastInteractionTimestamp
+  activePositionCount
+  investedDuration
+  totalPositionValueUSD
+  averageDailyTotalPositionValueUSD30D
+  last30DailyTotalPositionValuesUSD
+  totalInteractionsCount
+}
+
+fragment InvestorPositionsList on Investor {
+  positions(first: $first, skip: $skip) {
+    ...PositionMetrics
+    vault {
+      id
+      address: id
+      ...VaultTokens
+    }
+    createdWith {
+      ...Transaction
+    }
+  }
+}
+
+fragment PositionMetrics on InvestorPosition {
+  id
+  sharesBalance
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+  averageDailyPositionValueUSD30D
+  last30DailyPositionValuesUSD
+  lastUpdated
+  totalActiveTime
+}
+
+fragment VaultTokens on BeefyCLVault {
+  sharesToken {
+    ...Token
+  }
+  underlyingToken0 {
+    ...Token
+  }
+  underlyingToken1 {
+    ...Token
+  }
+}
+
+query InvestorPositions($address: ID!, $first: Int = 1000, $skip: Int = 0) {
+  investor(id: $address) {
+    ...Investor
+    ...InvestorPositionsList
+  }
+}
