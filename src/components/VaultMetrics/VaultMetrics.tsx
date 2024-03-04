@@ -2,7 +2,6 @@ import { useQuery } from "urql";
 import { VaultStatsDocument } from "../../../.graphclient";
 import { Divider, Spinner } from "@nextui-org/react";
 import QueryDebug from "../QueryDebug";
-import { TokenDataTable } from "../TokenDataTable";
 import { TokenBlock } from "../TokenBlock";
 import { TransactionBlock } from "../TransactionBlock";
 import { VaultAddressesBlock } from "../VaultAddressesBlock";
@@ -19,13 +18,11 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
   if (result.fetching || !result.data || !result.data.vault) {
     return <Spinner size="lg" />;
   }
+
   return (
-    <div>
-      <h1 className="text-default-800 text-2xl mb-unit-md">
-        Vault configuration
-      </h1>
-      <Divider />
-      <div className="flex flex-wrap justify-between gap-unit-md py-unit-xl">
+    <div className="max-w-[1024px] m-auto">
+      <Title>Configuration</Title>
+      <Section>
         <TransactionBlock
           transaction={result.data.vault.createdWith}
           description="Created with"
@@ -46,10 +43,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           vaultAddresses={result.data.vault}
           description="Addresses"
         />
-      </div>
-      <h1 className="text-default-800 text-2xl mb-unit-md">Prices</h1>
-      <Divider />
-      <div className="flex flex-wrap justify-between gap-unit-md py-unit-xl">
+      </Section>
+
+      <Title>Prices</Title>
+      <Section>
         <Metric
           value={result.data.vault.currentPriceOfToken0InToken1}
           description="Current Pool Price (in token 1)"
@@ -75,11 +72,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Price range max (in USD)"
           mode="usd"
         />
-      </div>
+      </Section>
 
-      <h1 className="text-default-800 text-2xl mb-unit-md">Balances</h1>
-      <Divider />
-      <div className="flex flex-wrap justify-between gap-unit-md py-unit-xl">
+      <Title>Balances</Title>
+      <Section>
         <Metric
           value={result.data.vault.underlyingAmount0}
           description="Underlying token balance 0"
@@ -105,11 +101,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Total Value Locked (in USD)"
           mode="usd"
         />
-      </div>
+      </Section>
 
-      <h1 className="text-default-800 text-2xl mb-unit-md">Counts</h1>
-      <Divider />
-      <div className="flex flex-wrap justify-between gap-unit-md py-unit-xl">
+      <Title>Counts</Title>
+      <Section>
         <Metric
           value={result.data.vault.totalHarvestCount}
           description="Harvest count"
@@ -130,11 +125,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Transfers"
           mode="count"
         />
-      </div>
+      </Section>
 
-      <h1 className="text-default-800 text-2xl mb-unit-md">Harvest</h1>
-      <Divider />
-      <div className="flex flex-wrap justify-between gap-unit-md py-unit-xl">
+      <Title>Harvest</Title>
+      <Section>
         <Metric
           value={result.data.vault.totalHarvestedAmount0}
           description="Total Harvested token 0"
@@ -160,11 +154,10 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Total Harvested (in USD)"
           mode="usd"
         />
-      </div>
+      </Section>
 
-      <h1 className="text-default-800 text-2xl mb-unit-md">Fees</h1>
-      <Divider />
-      <div className="flex flex-wrap justify-between gap-unit-md py-unit-xl">
+      <Title>Fees</Title>
+      <Section>
         <Metric
           value={result.data.vault.totalHarvesterFeeCollectedNative}
           description="Total Harvested Fee (in native)"
@@ -195,9 +188,25 @@ export function VaultMetrics({ vaultAddress }: { vaultAddress: string }) {
           description="Total Strategist Fee (in USD)"
           mode="usd"
         />
-      </div>
+      </Section>
 
       <QueryDebug query={VaultStatsDocument} result={result.data} />
+    </div>
+  );
+}
+
+function Title({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <h1 className="text-default-800 text-2xl mb-unit-md">{children}</h1>
+      <Divider />
+    </>
+  );
+}
+function Section({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex flex-wrap flex-col sm:flex-row sm:justify-evenly lg:justify-between gap-unit-md py-unit-xl">
+      {children}
     </div>
   );
 }
