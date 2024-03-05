@@ -17,9 +17,9 @@ fragment Transaction on Transaction {
 fragment Investor on Investor {
   id
   address: id
-  lastInteractionTimestamp
+  closedInvestmentDuration
+  currentInvestmentOpenAtTimestamp
   activePositionCount
-  investedDuration
   totalPositionValueUSD
   averageDailyTotalPositionValueUSD30D
   last30DailyTotalPositionValuesUSD
@@ -42,6 +42,8 @@ fragment InvestorPositionsList on Investor {
 
 fragment PositionMetrics on InvestorPosition {
   id
+  closedPositionDuration
+  positionOpenAtTimestamp
   sharesBalance
   underlyingBalance0
   underlyingBalance1
@@ -50,8 +52,6 @@ fragment PositionMetrics on InvestorPosition {
   positionValueUSD
   averageDailyPositionValueUSD30D
   last30DailyPositionValuesUSD
-  lastUpdated
-  totalActiveTime
 }
 
 fragment VaultTokens on BeefyCLVault {

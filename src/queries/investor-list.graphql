@@ -1,9 +1,9 @@
 fragment Investor on Investor {
   id
   address: id
-  lastInteractionTimestamp
+  closedInvestmentDuration
+  currentInvestmentOpenAtTimestamp
   activePositionCount
-  investedDuration
   totalPositionValueUSD
   averageDailyTotalPositionValueUSD30D
   last30DailyTotalPositionValuesUSD

@@ -111,6 +111,10 @@ export function formatAs(
     d = ts2Date(d).getTime();
   }
 
+  if (mode === "date" && d === 0) {
+    return "N/A";
+  }
+
   const abs = Math.abs(d);
   if (abs > 1000000 || (abs < 0.01 && abs > 0)) {
     return engineeringUtf8Superscript(formatters[mode].extreme.format(d));

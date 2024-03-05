@@ -1,5 +1,7 @@
 fragment PositionMetrics on InvestorPosition {
   id
+  closedPositionDuration
+  positionOpenAtTimestamp
   sharesBalance
   underlyingBalance0
   underlyingBalance1
@@ -8,8 +10,6 @@ fragment PositionMetrics on InvestorPosition {
   positionValueUSD
   averageDailyPositionValueUSD30D
   last30DailyPositionValuesUSD
-  lastUpdated
-  totalActiveTime
 }
 
 fragment PositionSnapshotList on InvestorPosition {

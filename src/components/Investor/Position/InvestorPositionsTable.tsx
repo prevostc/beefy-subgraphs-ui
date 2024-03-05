@@ -5,6 +5,9 @@ import { AppLinkButton } from "../../AppLinkButton";
 
 type ColumnKeys =
   | "vault"
+  | "closedPositionDuration"
+  | "positionOpenAtTimestamp"
+  | "sharesBalance"
   | "underlyingBalance0"
   | "underlyingBalance1"
   | "underlyingBalance0USD"
@@ -12,14 +15,10 @@ type ColumnKeys =
   | "positionValueUSD"
   | "averageDailyPositionValueUSD30D"
   | "last30DailyPositionValuesUSD"
-  | "lastUpdated"
-  | "totalActiveTime"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "vault",
   "positionValueUSD",
-  "totalActiveTime",
-  "lastUpdated",
   "underlyingBalance0USD",
   "underlyingBalance1USD",
   "actions",
@@ -32,6 +31,27 @@ const columns = [
     key: "vault",
     label: "Vault",
     render: (position) => <div>{position.vault.sharesToken.name}</div>,
+  },
+  {
+    key: "closedPositionDuration",
+    label: "Closed Position Duration",
+    render: (position) => (
+      <div>{formatAs(position.closedPositionDuration, "duration")}</div>
+    ),
+  },
+  {
+    key: "positionOpenAtTimestamp",
+    label: "Position Open At",
+    render: (position) => (
+      <div>{formatAs(position.positionOpenAtTimestamp, "date")}</div>
+    ),
+  },
+  {
+    key: "sharesBalance",
+    label: "Shares balance",
+    render: (position) => (
+      <div>{formatAs(position.sharesBalance, "float")}</div>
+    ),
   },
   {
     key: "underlyingBalance0",
@@ -85,18 +105,6 @@ const columns = [
           .join(" → ")}
       </div>
     ),
-  },
-  {
-    key: "totalActiveTime",
-    label: "Total active time",
-    render: (position) => (
-      <div>{formatAs(position.totalActiveTime, "duration")}</div>
-    ),
-  },
-  {
-    key: "lastUpdated",
-    label: "Last updated",
-    render: (position) => <div>{formatAs(position.lastUpdated, "date")}</div>,
   },
   {
     key: "actions",

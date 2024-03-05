@@ -8,19 +8,19 @@ export function InvestorMetrics({ investor }: { investor: InvestorFragment }) {
       <Section.Title>Investor</Section.Title>
       <Section.Body>
         <Metric
-          value={investor.lastInteractionTimestamp}
-          description="Last Interaction"
+          value={investor.closedInvestmentDuration}
+          description="Closed Investment Duration"
+          mode="duration"
+        />
+        <Metric
+          value={investor.currentInvestmentOpenAtTimestamp}
+          description="Current Investment Open At"
           mode="date"
         />
         <Metric
           value={investor.activePositionCount}
           description="Active Positions"
           mode="count"
-        />
-        <Metric
-          value={investor.investedDuration}
-          description="Invested Duration"
-          mode="duration"
         />
         <Metric
           value={investor.totalPositionValueUSD}

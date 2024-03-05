@@ -70,6 +70,16 @@ export function InvestorPositionDashboard({ id }: { id: string }) {
 
       <Section.Metrics>
         <Metric
+          value={result.data.investorPosition.closedPositionDuration}
+          description="Closed Position Duration"
+          mode="duration"
+        />
+        <Metric
+          value={result.data.investorPosition.positionOpenAtTimestamp}
+          description="Position Open At"
+          mode="date"
+        />
+        <Metric
           value={result.data.investorPosition.sharesBalance}
           description="Shares"
           mode="count"

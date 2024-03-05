@@ -35,9 +35,9 @@ export function InvestorsList() {
 
 type ColumnKeys =
   | "address"
-  | "lastInteractionTimestamp"
+  | "closedInvestmentDuration"
+  | "currentInvestmentOpenAtTimestamp"
   | "activePositionCount"
-  | "investedDuration"
   | "totalPositionValueUSD"
   | "averageDailyTotalPositionValueUSD30D"
   | "last30DailyTotalPositionValuesUSD"
@@ -45,6 +45,7 @@ type ColumnKeys =
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "address",
+  "currentInvestmentOpenAtTimestamp",
   "activePositionCount",
   "totalPositionValueUSD",
   "averageDailyTotalPositionValueUSD30D",
@@ -63,21 +64,23 @@ const columns = [
     render: (investor) => <HexDisplay hexString={investor.address} />,
   },
   {
-    key: "lastInteractionTimestamp",
-    label: "Last interaction",
+    key: "closedInvestmentDuration",
+    label: "Closed investment duration",
     render: (investor) => (
-      <div>{ts2Date(investor.lastInteractionTimestamp).toISOString()}</div>
+      <div>{formatAs(investor.closedInvestmentDuration, "duration")}</div>
+    ),
+  },
+  {
+    key: "currentInvestmentOpenAtTimestamp",
+    label: "Current investment open at",
+    render: (investor) => (
+      <div>{formatAs(investor.currentInvestmentOpenAtTimestamp, "date")}</div>
     ),
   },
   {
     key: "activePositionCount",
     label: "Active position count",
     render: (investor) => <div>{investor.activePositionCount}</div>,
-  },
-  {
-    key: "investedDuration",
-    label: "Invested duration",
-    render: (investor) => <div>{investor.investedDuration}</div>,
   },
   {
     key: "totalPositionValueUSD",
