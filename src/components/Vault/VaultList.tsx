@@ -12,6 +12,7 @@ import { VaultAddressesDataTable } from "../VaultAddressesDataTable";
 import { PageBody } from "../PageBody";
 import { Section } from "../Section";
 import { Query } from "../../../.graphclient/index";
+import { formatAs } from "../../utils/format-number";
 
 export function VaultList() {
   const [result, _] = useQuery({
@@ -39,6 +40,11 @@ export function VaultList() {
 
 type ColumnKeys =
   | "name"
+  | "totalValueLockedUSD"
+  | "totalHarvestCount"
+  | "totalDepositCount"
+  | "totalWithdrawCount"
+  | "totalTransferCount"
   | "sharesToken"
   | "underlyingToken0"
   | "underlyingToken1"
@@ -47,6 +53,11 @@ type ColumnKeys =
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "name",
+  "totalValueLockedUSD",
+  "totalHarvestCount",
+  "totalDepositCount",
+  "totalWithdrawCount",
+  "totalTransferCount",
   "sharesToken",
   "createdWith",
   "actions",
@@ -61,6 +72,31 @@ const columns = [
     key: "name",
     label: "Name",
     render: (vault) => <div>{vault.sharesToken.symbol}</div>,
+  },
+  {
+    key: "totalValueLockedUSD",
+    label: "TVL",
+    render: (vault) => <div>{formatAs(vault.totalValueLockedUSD, "usd")}</div>,
+  },
+  {
+    key: "totalHarvestCount",
+    label: "Harvests",
+    render: (vault) => <div>{formatAs(vault.totalHarvestCount, "count")}</div>,
+  },
+  {
+    key: "totalDepositCount",
+    label: "Deposits",
+    render: (vault) => <div>{formatAs(vault.totalDepositCount, "count")}</div>,
+  },
+  {
+    key: "totalWithdrawCount",
+    label: "Withdraws",
+    render: (vault) => <div>{formatAs(vault.totalWithdrawCount, "count")}</div>,
+  },
+  {
+    key: "totalTransferCount",
+    label: "Transfers",
+    render: (vault) => <div>{formatAs(vault.totalTransferCount, "count")}</div>,
   },
   {
     key: "sharesToken",

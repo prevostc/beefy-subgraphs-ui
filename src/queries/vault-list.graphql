@@ -33,6 +33,34 @@ fragment VaultTokens on BeefyCLVault {
   }
 }
 
+fragment VaultMetrics on BeefyCLVault {
+  currentPriceOfToken0InToken1
+  priceRangeMin1
+  priceRangeMax1
+  priceRangeMin1USD
+  priceRangeMax1USD
+  underlyingAmount0
+  underlyingAmount1
+  underlyingAmount0USD
+  underlyingAmount1USD
+  totalValueLockedUSD
+  totalHarvestCount
+  totalDepositCount
+  totalWithdrawCount
+  totalTransferCount
+  totalHarvestedAmount0
+  totalHarvestedAmount1
+  totalHarvestedAmount0USD
+  totalHarvestedAmount1USD
+  totalHarvestValueUSD
+  totalHarvesterFeeCollectedNative
+  totalProtocolFeeCollectedNative
+  totalStrategistFeeCollectedNative
+  totalHarvesterFeeCollectedUSD
+  totalProtocolFeeCollectedUSD
+  totalStrategistFeeCollectedUSD
+}
+
 query VaultList {
   vaults: beefyCLVaults(where: { lifecycle: RUNNING }) {
     id
@@ -41,5 +69,6 @@ query VaultList {
     }
     ...VaultTokens
     ...VaultAddresses
+    ...VaultMetrics
   }
 }
