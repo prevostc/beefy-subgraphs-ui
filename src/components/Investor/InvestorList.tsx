@@ -41,7 +41,9 @@ type ColumnKeys =
   | "totalPositionValueUSD"
   | "averageDailyTotalPositionValueUSD30D"
   | "last30DailyTotalPositionValuesUSD"
-  | "totalInteractionsCount"
+  | "cumulativeInteractionsCount"
+  | "cumulativeDepositCount"
+  | "cumulativeWithdrawCount"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "address",
@@ -49,7 +51,9 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "activePositionCount",
   "totalPositionValueUSD",
   "averageDailyTotalPositionValueUSD30D",
-  "totalInteractionsCount",
+  "cumulativeInteractionsCount",
+  "cumulativeDepositCount",
+  "cumulativeWithdrawCount",
   "actions",
 ];
 type VaultTableColumnDef = ColumnDefType<
@@ -110,9 +114,25 @@ const columns = [
     ),
   },
   {
-    key: "totalInteractionsCount",
-    label: "Total interactions count",
-    render: (investor) => <div>{investor.totalInteractionsCount}</div>,
+    key: "cumulativeInteractionsCount",
+    label: "Cumulative interactions count",
+    render: (investor) => (
+      <div>{formatAs(investor.cumulativeInteractionsCount, "count")}</div>
+    ),
+  },
+  {
+    key: "cumulativeDepositCount",
+    label: "Cumulative deposit count",
+    render: (investor) => (
+      <div>{formatAs(investor.cumulativeDepositCount, "count")}</div>
+    ),
+  },
+  {
+    key: "cumulativeWithdrawCount",
+    label: "Cumulative withdraw count",
+    render: (investor) => (
+      <div>{formatAs(investor.cumulativeWithdrawCount, "count")}</div>
+    ),
   },
   {
     key: "actions",

@@ -7,7 +7,9 @@ fragment Investor on Investor {
   totalPositionValueUSD
   averageDailyTotalPositionValueUSD30D
   last30DailyTotalPositionValuesUSD
-  totalInteractionsCount
+  cumulativeInteractionsCount
+  cumulativeDepositCount
+  cumulativeWithdrawCount
 }
 
 fragment Token on Token {

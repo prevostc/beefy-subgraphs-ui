@@ -33,8 +33,18 @@ export function InvestorMetrics({ investor }: { investor: InvestorFragment }) {
           mode="usd"
         />
         <Metric
-          value={investor.totalInteractionsCount}
-          description="Total Interactions"
+          value={investor.cumulativeInteractionsCount}
+          description="Cumulative Interactions count"
+          mode="count"
+        />
+        <Metric
+          value={investor.cumulativeDepositCount}
+          description="Cumulative Deposits count"
+          mode="count"
+        />
+        <Metric
+          value={investor.cumulativeWithdrawCount}
+          description="Cumulative Withdrawals count"
           mode="count"
         />
       </Section.Body>

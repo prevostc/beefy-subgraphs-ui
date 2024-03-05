@@ -23,7 +23,9 @@ fragment Investor on Investor {
   totalPositionValueUSD
   averageDailyTotalPositionValueUSD30D
   last30DailyTotalPositionValuesUSD
-  totalInteractionsCount
+  cumulativeInteractionsCount
+  cumulativeDepositCount
+  cumulativeWithdrawCount
 }
 
 fragment InvestorPositionsList on Investor {
@@ -73,6 +75,8 @@ fragment InvestorSnapshot on InvestorSnapshot {
   timestamp
   totalPositionValueUSD
   interactionsCount
+  depositCount
+  withdrawCount
 }
 
 fragment InvestorSnapshotList on Investor {

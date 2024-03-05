@@ -21,6 +21,8 @@ type SnapshotType = InvestorSnapshotFragment;
 const investorTimeseriesConfigs: SnapshotTimeseriesConfig<SnapshotType>[] = [
   { key: "totalPositionValueUSD", format: "usd" },
   { key: "interactionsCount", format: "count" },
+  { key: "depositCount", format: "count" },
+  { key: "withdrawCount", format: "count" },
 ];
 
 export function InvestorDashboard({ address }: { address: string }) {
