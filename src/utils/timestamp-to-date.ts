@@ -1,3 +1,6 @@
-export function ts2Date(timestamp: string) {
-  return new Date(parseInt(timestamp, 10) * 1000);
+export function ts2Date(timestamp: string | number) {
+  if (typeof timestamp === "string") {
+    timestamp = parseInt(timestamp, 10);
+  }
+  return new Date(timestamp * 1000);
 }

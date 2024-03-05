@@ -108,7 +108,7 @@ export function SnapshotTimeseries<TRow extends Snapshot>({
         },
       ],
     }),
-    [dataset, selectedConfig, yAxisFitData]
+    [dataset, selectedConfig, yAxisFitData, setYAxisFitData]
   );
 
   return (
