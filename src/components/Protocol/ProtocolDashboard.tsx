@@ -19,8 +19,8 @@ const protocolTimeseriesConfigs: SnapshotTimeseriesConfig<SnapshotType>[] = [
   { key: "activeVaultCount", format: "count" },
   { key: "activeInvestorCount", format: "count" },
   { key: "newInvestorCount", format: "count" },
-  { key: "totalTransactionCount", format: "count" },
-  { key: "investorTransactionsCount", format: "count" },
+  { key: "transactionCount", format: "count" },
+  { key: "investorInteractionsCount", format: "count" },
   { key: "harvesterTransactionsCount", format: "count" },
   { key: "totalGasSpent", format: "count" },
   { key: "totalGasSpentUSD", format: "usd" },
@@ -64,14 +64,19 @@ export function ProtocolMetrics() {
           value={protocol.activeVaultCount}
         />
         <Metric
-          description="Harvest Count"
+          description="Cumulative Trx Count"
           mode="count"
-          value={protocol.harvestCount}
+          value={protocol.cumulativeTransactionCount}
         />
         <Metric
-          description="Trx Count"
+          description="Cumulative Investor Interactions Count"
           mode="count"
-          value={protocol.transactionCount}
+          value={protocol.cumulativeInvestorInteractionsCount}
+        />
+        <Metric
+          description="Cumulative Harvest Count"
+          mode="count"
+          value={protocol.cumulativeHarvestCount}
         />
       </Section.Metrics>
 

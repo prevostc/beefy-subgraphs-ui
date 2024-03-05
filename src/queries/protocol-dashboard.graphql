@@ -2,8 +2,9 @@ fragment ProtocolMetrics on Protocol {
   totalValueLockedUSD
   activeVaultCount
   activeInvestorCount
-  transactionCount
-  harvestCount
+  cumulativeTransactionCount
+  cumulativeInvestorInteractionsCount
+  cumulativeHarvestCount
 }
 
 fragment ProtocolSnapshotMetrics on ProtocolSnapshot {
@@ -11,8 +12,8 @@ fragment ProtocolSnapshotMetrics on ProtocolSnapshot {
   activeVaultCount
   activeInvestorCount
   newInvestorCount
-  totalTransactionCount
-  investorTransactionsCount
+  transactionCount
+  investorInteractionsCount
   harvesterTransactionsCount
   totalGasSpent
   totalGasSpentUSD
