@@ -66,9 +66,29 @@ fragment VaultTokens on BeefyCLVault {
   }
 }
 
-query InvestorPositions($address: ID!, $first: Int = 1000, $skip: Int = 0) {
+fragment InvestorSnapshot on InvestorSnapshot {
+  id
+  period
+  roundedTimestamp
+  timestamp
+  totalPositionValueUSD
+  interactionsCount
+}
+
+fragment InvestorSnapshotList on Investor {
+  dailySnapshots: snapshots(
+    where: { period: 86400 }
+    first: $first
+    skip: $skip
+  ) {
+    ...InvestorSnapshot
+  }
+}
+
+query InvestorDashboard($address: ID!, $first: Int = 1000, $skip: Int = 0) {
   investor(id: $address) {
     ...Investor
     ...InvestorPositionsList
+    ...InvestorSnapshotList
   }
 }

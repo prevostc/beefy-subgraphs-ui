@@ -14,8 +14,8 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { ReactNode, useCallback, useMemo, useState } from "react";
-import { ChevronDownIcon } from "../ChevronDownIcon";
-import { capitalize } from "../../utils/capitalize";
+import { ChevronDownIcon } from "./ChevronDownIcon";
+import { capitalize } from "../utils/capitalize";
 
 export type ColumnDefType<C, R> = {
   key: C;

@@ -1,7 +1,7 @@
 import { useQuery } from "urql";
 import { Spinner } from "@nextui-org/react";
 import { QueryDebug } from "../QueryDebug";
-import { ColumnDefType, SimpleTable } from "../SimpleTable/SimpleTable";
+import { ColumnDefType, SimpleTable } from "../SimpleTable";
 import { AppLink } from "../AppLink";
 import { AppLinkButton } from "../AppLinkButton";
 import { InvestorListDocument, InvestorListQuery } from "../../../.graphclient";

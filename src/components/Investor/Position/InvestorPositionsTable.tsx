@@ -1,7 +1,7 @@
-import { InvestorPositionsListFragment } from "../../../.graphclient";
-import { ColumnDefType, SimpleTable } from "../SimpleTable/SimpleTable";
-import { formatAs } from "../../utils/format-number";
-import { AppLinkButton } from "../AppLinkButton";
+import { InvestorPositionsListFragment } from "../../../../.graphclient";
+import { ColumnDefType, SimpleTable } from "../../SimpleTable";
+import { formatAs } from "../../../utils/format-number";
+import { AppLinkButton } from "../../AppLinkButton";
 
 type ColumnKeys =
   | "vault"
@@ -105,14 +105,14 @@ const columns = [
       <div className="flex gap-unit-sm">
         <AppLinkButton
           to={`/vault/$address`}
-          params={{ id: position.vault.id }}
+          params={{ address: position.vault.address }}
           variant="faded"
         >
           vault
         </AppLinkButton>
         <AppLinkButton
-          to={`/vault/$address`}
-          params={{ id: position.vault.id }}
+          to={`/investor/position/$id`}
+          params={{ id: position.id }}
         >
           👀
         </AppLinkButton>

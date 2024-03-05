@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { ProtocolMetrics } from "../components/ProtocolMetrics/ProtocolMetrics";
+import { ProtocolMetrics } from "../components/Protocol/ProtocolDashboard";
 
 export const Route = createLazyFileRoute("/")({
   component: ProtocolMetrics,

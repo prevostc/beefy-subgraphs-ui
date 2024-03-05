@@ -1,0 +1,60 @@
+fragment PositionMetrics on InvestorPosition {
+  id
+  sharesBalance
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+  averageDailyPositionValueUSD30D
+  last30DailyPositionValuesUSD
+  lastUpdated
+  totalActiveTime
+}
+
+fragment PositionSnapshotList on InvestorPosition {
+  dailySnapshots: snapshots(
+    first: $first
+    skip: $skip
+    where: { period: 86400 }
+  ) {
+    ...InvestorPositionSnapshot
+  }
+}
+
+fragment InvestorPositionSnapshot on InvestorPositionSnapshot {
+  id
+  period
+  roundedTimestamp
+  timestamp
+  sharesBalance
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+}
+
+fragment PositionNavigation on InvestorPosition {
+  id
+  vault {
+    id
+    address: id
+    sharesToken {
+      name
+    }
+  }
+  investor {
+    id
+    address: id
+  }
+}
+
+query InvestorPositionDashboard($id: ID!, $first: Int = 1000, $skip: Int = 0) {
+  investorPosition(id: $id) {
+    id
+    ...PositionNavigation
+    ...PositionMetrics
+    ...PositionSnapshotList
+  }
+}

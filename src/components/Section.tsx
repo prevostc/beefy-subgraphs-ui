@@ -16,7 +16,16 @@ function Body({ children }: { children: React.ReactNode }) {
   );
 }
 
+function Metrics({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="w-full flex flex-wrap justify-evenly gap-unit-md lg:justify-between py-unit-xl">
+      {children}
+    </div>
+  );
+}
+
 export const Section = {
   Title,
   Body,
+  Metrics,
 };

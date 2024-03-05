@@ -20,8 +20,8 @@ const VaultsLazyImport = createFileRoute('/vaults')()
 const InvestorsLazyImport = createFileRoute('/investors')()
 const IndexLazyImport = createFileRoute('/')()
 const VaultAddressLazyImport = createFileRoute('/vault/$address')()
-const ProtocolTimeseriesLazyImport = createFileRoute('/protocol/timeseries')()
 const InvestorAddressLazyImport = createFileRoute('/investor/$address')()
+const InvestorPositionIdLazyImport = createFileRoute('/investor/position/$id')()
 
 // Create/Update Routes
 
@@ -47,18 +47,18 @@ const VaultAddressLazyRoute = VaultAddressLazyImport.update({
   import('./routes/vault.$address.lazy').then((d) => d.Route),
 )
 
-const ProtocolTimeseriesLazyRoute = ProtocolTimeseriesLazyImport.update({
-  path: '/protocol/timeseries',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/protocol.timeseries.lazy').then((d) => d.Route),
-)
-
 const InvestorAddressLazyRoute = InvestorAddressLazyImport.update({
   path: '/investor/$address',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/investor.$address.lazy').then((d) => d.Route),
+)
+
+const InvestorPositionIdLazyRoute = InvestorPositionIdLazyImport.update({
+  path: '/investor/position/$id',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/investor.position.$id.lazy').then((d) => d.Route),
 )
 
 // Populate the FileRoutesByPath interface
@@ -81,12 +81,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvestorAddressLazyImport
       parentRoute: typeof rootRoute
     }
-    '/protocol/timeseries': {
-      preLoaderRoute: typeof ProtocolTimeseriesLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/vault/$address': {
       preLoaderRoute: typeof VaultAddressLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/investor/position/$id': {
+      preLoaderRoute: typeof InvestorPositionIdLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -99,8 +99,8 @@ export const routeTree = rootRoute.addChildren([
   InvestorsLazyRoute,
   VaultsLazyRoute,
   InvestorAddressLazyRoute,
-  ProtocolTimeseriesLazyRoute,
   VaultAddressLazyRoute,
+  InvestorPositionIdLazyRoute,
 ])
 
 /* prettier-ignore-end */

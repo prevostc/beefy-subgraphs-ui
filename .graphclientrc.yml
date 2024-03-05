@@ -7,9 +7,9 @@ sources:
 
 
 documents:
-  - ./src/queries/protocol.graphql
-  - ./src/queries/protocol-snapshots.graphql
+  - ./src/queries/protocol-dashboard.graphql
   - ./src/queries/vault-list.graphql
   - ./src/queries/vault.graphql
   - ./src/queries/investor-list.graphql
-  - ./src/queries/investor-positions.graphql
+  - ./src/queries/investor-dashboard.graphql
+  - ./src/queries/position-dashboard.graphql

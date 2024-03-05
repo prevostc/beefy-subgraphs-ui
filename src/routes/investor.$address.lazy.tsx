@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { InvestorPositions } from "../components/InvestorPositions/InvestorPositions";
+import { InvestorDashboard } from "../components/Investor/InvestorDashboard";
 
 export const Route = createLazyFileRoute("/investor/$address")({
   component: Page,
@@ -7,5 +7,5 @@ export const Route = createLazyFileRoute("/investor/$address")({
 
 function Page() {
   const { address } = Route.useParams();
-  return <InvestorPositions address={address} />;
+  return <InvestorDashboard address={address} />;
 }

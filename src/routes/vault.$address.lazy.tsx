@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { VaultMetrics } from "../components/VaultMetrics/VaultMetrics";
+import { VaultMetrics } from "../components/Vault/VaultMetrics";
 
 export const Route = createLazyFileRoute("/vault/$address")({
   component: VaultPage,

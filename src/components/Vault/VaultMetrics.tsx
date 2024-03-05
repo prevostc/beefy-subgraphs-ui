@@ -7,6 +7,7 @@ import { TransactionBlock } from "../TransactionBlock";
 import { VaultAddressesBlock } from "../VaultAddressesBlock";
 import Metric from "../NumericMetric";
 import { Section } from "../Section";
+import { PageBody } from "../PageBody";
 
 export function VaultMetrics({ address }: { address: string }) {
   const [result, _] = useQuery({
@@ -21,9 +22,9 @@ export function VaultMetrics({ address }: { address: string }) {
   }
 
   return (
-    <div className="max-w-[1024px] m-auto">
+    <PageBody>
       <Section.Title>Configuration</Section.Title>
-      <Section.Body>
+      <Section.Metrics>
         <TransactionBlock
           transaction={result.data.vault.createdWith}
           description="Created with"
@@ -44,10 +45,10 @@ export function VaultMetrics({ address }: { address: string }) {
           vaultAddresses={result.data.vault}
           description="Addresses"
         />
-      </Section.Body>
+      </Section.Metrics>
 
       <Section.Title>Prices</Section.Title>
-      <Section.Body>
+      <Section.Metrics>
         <Metric
           value={result.data.vault.currentPriceOfToken0InToken1}
           description="Current Pool Price (in token 1)"
@@ -73,10 +74,10 @@ export function VaultMetrics({ address }: { address: string }) {
           description="Price range max (in USD)"
           mode="usd"
         />
-      </Section.Body>
+      </Section.Metrics>
 
       <Section.Title>Balances</Section.Title>
-      <Section.Body>
+      <Section.Metrics>
         <Metric
           value={result.data.vault.underlyingAmount0}
           description="Underlying token balance 0"
@@ -102,10 +103,10 @@ export function VaultMetrics({ address }: { address: string }) {
           description="Total Value Locked (in USD)"
           mode="usd"
         />
-      </Section.Body>
+      </Section.Metrics>
 
       <Section.Title>Counts</Section.Title>
-      <Section.Body>
+      <Section.Metrics>
         <Metric
           value={result.data.vault.totalHarvestCount}
           description="Harvest count"
@@ -126,10 +127,10 @@ export function VaultMetrics({ address }: { address: string }) {
           description="Transfers"
           mode="count"
         />
-      </Section.Body>
+      </Section.Metrics>
 
       <Section.Title>Harvest</Section.Title>
-      <Section.Body>
+      <Section.Metrics>
         <Metric
           value={result.data.vault.totalHarvestedAmount0}
           description="Total Harvested token 0"
@@ -155,10 +156,10 @@ export function VaultMetrics({ address }: { address: string }) {
           description="Total Harvested (in USD)"
           mode="usd"
         />
-      </Section.Body>
+      </Section.Metrics>
 
       <Section.Title>Fees</Section.Title>
-      <Section.Body>
+      <Section.Metrics>
         <Metric
           value={result.data.vault.totalHarvesterFeeCollectedNative}
           description="Total Harvested Fee (in native)"
@@ -189,9 +190,12 @@ export function VaultMetrics({ address }: { address: string }) {
           description="Total Strategist Fee (in USD)"
           mode="usd"
         />
-      </Section.Body>
+      </Section.Metrics>
 
-      <QueryDebug query={VaultStatsDocument} result={result.data} />
-    </div>
+      <Section.Title>Query</Section.Title>
+      <Section.Body>
+        <QueryDebug query={VaultStatsDocument} result={result.data} />
+      </Section.Body>
+    </PageBody>
   );
 }

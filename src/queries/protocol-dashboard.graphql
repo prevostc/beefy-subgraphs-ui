@@ -1,3 +1,11 @@
+fragment ProtocolMetrics on Protocol {
+  totalValueLockedUSD
+  activeVaultCount
+  activeInvestorCount
+  transactionCount
+  harvestCount
+}
+
 fragment ProtocolSnapshotMetrics on ProtocolSnapshot {
   totalValueLockedUSD
   activeVaultCount
@@ -24,17 +32,27 @@ fragment ProtocolSnapshotMetrics on ProtocolSnapshot {
   zapFeesCollectedUSD
 }
 
-query ProtocolSnapshots {
+fragment ProtocolSnapshot on ProtocolSnapshot {
+  id
+  period
+  roundedTimestamp
+  timestamp
+  ...ProtocolSnapshotMetrics
+}
+
+query ProtocolDashboard {
+  protocol(id: "0x01000000") {
+    id
+    name
+    ...ProtocolMetrics
+  }
+
   dailySnapshots: protocolSnapshots(
     where: { period: 86400 }
     orderBy: roundedTimestamp
     orderDirection: desc
     first: 30
   ) {
-    id
-    period
-    roundedTimestamp
-    timestamp
-    ...ProtocolSnapshotMetrics
+    ...ProtocolSnapshot
   }
 }

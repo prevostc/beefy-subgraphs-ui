@@ -14,7 +14,6 @@ import { useMatchRoute } from "@tanstack/react-router";
 
 const menuItems: { title: string; route: AppLinkProps["to"] }[] = [
   { title: "Beefy ALM", route: "/" },
-  { title: "Snapshots", route: "/protocol/timeseries" },
   { title: "Vaults", route: "/vaults" },
   { title: "Investors", route: "/investors" },
 ];

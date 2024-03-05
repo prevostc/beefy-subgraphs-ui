@@ -4,11 +4,14 @@ import { Spinner } from "@nextui-org/react";
 import { QueryDebug } from "../QueryDebug";
 import { ReactNode } from "react";
 import { TokenDataTable } from "../TokenDataTable";
-import { ColumnDefType, SimpleTable } from "../SimpleTable/SimpleTable";
+import { ColumnDefType, SimpleTable } from "../SimpleTable";
 import { AppLink } from "../AppLink";
 import { AppLinkButton } from "../AppLinkButton";
 import { TransactionDataTable } from "../TransactionDataTable";
 import { VaultAddressesDataTable } from "../VaultAddressesDataTable";
+import { PageBody } from "../PageBody";
+import { Section } from "../Section";
+import { Query } from "../../../.graphclient/index";
 
 export function VaultList() {
   const [result, _] = useQuery({
@@ -20,14 +23,17 @@ export function VaultList() {
   }
 
   return (
-    <div>
-      <div>
+    <PageBody>
+      <Section.Title>Vaults</Section.Title>
+      <Section.Body>
         <VaultsTable data={result.data.vaults} />
-      </div>
-      <div className="mt-5">
+      </Section.Body>
+
+      <Section.Title>Query</Section.Title>
+      <Section.Body>
         <QueryDebug query={VaultListDocument} result={result.data.vaults} />
-      </div>
-    </div>
+      </Section.Body>
+    </PageBody>
   );
 }
 
