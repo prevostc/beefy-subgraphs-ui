@@ -10,7 +10,7 @@ fragment ProtocolMetrics on Protocol {
 fragment ProtocolSnapshotMetrics on ProtocolSnapshot {
   totalValueLockedUSD
   activeVaultCount
-  activeInvestorCount
+  uniqueActiveInvestorCount
   newInvestorCount
   transactionCount
   investorInteractionsCount

@@ -108,22 +108,22 @@ export function VaultMetrics({ address }: { address: string }) {
       <Section.Title>Counts</Section.Title>
       <Section.Metrics>
         <Metric
-          value={result.data.vault.totalHarvestCount}
-          description="Harvest count"
+          value={result.data.vault.cumulativeHarvestCount}
+          description="Harvests"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalDepositCount}
+          value={result.data.vault.cumulativeDepositCount}
           description="Deposits"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalWithdrawCount}
+          value={result.data.vault.cumulativeWithdrawCount}
           description="Withdrawals"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalTransferCount}
+          value={result.data.vault.cumulativeTransferCount}
           description="Transfers"
           mode="count"
         />
@@ -132,28 +132,28 @@ export function VaultMetrics({ address }: { address: string }) {
       <Section.Title>Harvest</Section.Title>
       <Section.Metrics>
         <Metric
-          value={result.data.vault.totalHarvestedAmount0}
-          description="Total Harvested token 0"
+          value={result.data.vault.cumulativeHarvestedAmount0}
+          description="Cumulative Harvested token 0"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalHarvestedAmount1}
-          description="Total Harvested token 1"
+          value={result.data.vault.cumulativeHarvestedAmount1}
+          description="Cumulative Harvested token 1"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalHarvestedAmount0USD}
-          description="Total Harvested token 0 (in USD)"
+          value={result.data.vault.cumulativeHarvestedAmount0USD}
+          description="Cumulative Harvested token 0 (in USD)"
           mode="usd"
         />
         <Metric
-          value={result.data.vault.totalHarvestedAmount1USD}
-          description="Total Harvested token 1 (in USD)"
+          value={result.data.vault.cumulativeHarvestedAmount1USD}
+          description="Cumulative Harvested token 1 (in USD)"
           mode="usd"
         />
         <Metric
-          value={result.data.vault.totalHarvestValueUSD}
-          description="Total Harvested (in USD)"
+          value={result.data.vault.cumulativeHarvestValueUSD}
+          description="Cumulative Harvested (in USD)"
           mode="usd"
         />
       </Section.Metrics>
@@ -161,33 +161,33 @@ export function VaultMetrics({ address }: { address: string }) {
       <Section.Title>Fees</Section.Title>
       <Section.Metrics>
         <Metric
-          value={result.data.vault.totalHarvesterFeeCollectedNative}
-          description="Total Harvested Fee (in native)"
+          value={result.data.vault.cumulativeHarvesterFeeCollectedNative}
+          description="Cumulative Harvested Fee (in native)"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalHarvesterFeeCollectedUSD}
-          description="Total Harvested Fee (in USD)"
+          value={result.data.vault.cumulativeHarvesterFeeCollectedUSD}
+          description="Cumulative Harvested Fee (in USD)"
           mode="usd"
         />
         <Metric
-          value={result.data.vault.totalProtocolFeeCollectedNative}
-          description="Total Protocol Fee (in native)"
+          value={result.data.vault.cumulativeProtocolFeeCollectedNative}
+          description="Cumulative Protocol Fee (in native)"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalProtocolFeeCollectedUSD}
-          description="Total Protocol Fee (in USD)"
+          value={result.data.vault.cumulativeProtocolFeeCollectedUSD}
+          description="Cumulative Protocol Fee (in USD)"
           mode="usd"
         />
         <Metric
-          value={result.data.vault.totalStrategistFeeCollectedNative}
-          description="Total Strategist Fee (in native)"
+          value={result.data.vault.cumulativeStrategistFeeCollectedNative}
+          description="Cumulative Strategist Fee (in native)"
           mode="count"
         />
         <Metric
-          value={result.data.vault.totalStrategistFeeCollectedUSD}
-          description="Total Strategist Fee (in USD)"
+          value={result.data.vault.cumulativeStrategistFeeCollectedUSD}
+          description="Cumulative Strategist Fee (in USD)"
           mode="usd"
         />
       </Section.Metrics>

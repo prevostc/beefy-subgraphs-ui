@@ -41,10 +41,10 @@ export function VaultList() {
 type ColumnKeys =
   | "name"
   | "totalValueLockedUSD"
-  | "totalHarvestCount"
-  | "totalDepositCount"
-  | "totalWithdrawCount"
-  | "totalTransferCount"
+  | "cumulativeHarvestCount"
+  | "cumulativeDepositCount"
+  | "cumulativeWithdrawCount"
+  | "cumulativeTransferCount"
   | "sharesToken"
   | "underlyingToken0"
   | "underlyingToken1"
@@ -54,10 +54,10 @@ type ColumnKeys =
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "name",
   "totalValueLockedUSD",
-  "totalHarvestCount",
-  "totalDepositCount",
-  "totalWithdrawCount",
-  "totalTransferCount",
+  "cumulativeHarvestCount",
+  "cumulativeDepositCount",
+  "cumulativeWithdrawCount",
+  "cumulativeTransferCount",
   "sharesToken",
   "createdWith",
   "actions",
@@ -79,24 +79,32 @@ const columns = [
     render: (vault) => <div>{formatAs(vault.totalValueLockedUSD, "usd")}</div>,
   },
   {
-    key: "totalHarvestCount",
+    key: "cumulativeHarvestCount",
     label: "Harvests",
-    render: (vault) => <div>{formatAs(vault.totalHarvestCount, "count")}</div>,
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeHarvestCount, "count")}</div>
+    ),
   },
   {
-    key: "totalDepositCount",
+    key: "cumulativeDepositCount",
     label: "Deposits",
-    render: (vault) => <div>{formatAs(vault.totalDepositCount, "count")}</div>,
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeDepositCount, "count")}</div>
+    ),
   },
   {
-    key: "totalWithdrawCount",
+    key: "cumulativeWithdrawCount",
     label: "Withdraws",
-    render: (vault) => <div>{formatAs(vault.totalWithdrawCount, "count")}</div>,
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeWithdrawCount, "count")}</div>
+    ),
   },
   {
-    key: "totalTransferCount",
+    key: "cumulativeTransferCount",
     label: "Transfers",
-    render: (vault) => <div>{formatAs(vault.totalTransferCount, "count")}</div>,
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeTransferCount, "count")}</div>
+    ),
   },
   {
     key: "sharesToken",

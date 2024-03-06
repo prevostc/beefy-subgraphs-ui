@@ -32,21 +32,21 @@ fragment VaultMetrics on BeefyCLVault {
   underlyingAmount0USD
   underlyingAmount1USD
   totalValueLockedUSD
-  totalHarvestCount
-  totalDepositCount
-  totalWithdrawCount
-  totalTransferCount
-  totalHarvestedAmount0
-  totalHarvestedAmount1
-  totalHarvestedAmount0USD
-  totalHarvestedAmount1USD
-  totalHarvestValueUSD
-  totalHarvesterFeeCollectedNative
-  totalProtocolFeeCollectedNative
-  totalStrategistFeeCollectedNative
-  totalHarvesterFeeCollectedUSD
-  totalProtocolFeeCollectedUSD
-  totalStrategistFeeCollectedUSD
+  cumulativeHarvestCount
+  cumulativeDepositCount
+  cumulativeWithdrawCount
+  cumulativeTransferCount
+  cumulativeHarvestedAmount0
+  cumulativeHarvestedAmount1
+  cumulativeHarvestedAmount0USD
+  cumulativeHarvestedAmount1USD
+  cumulativeHarvestValueUSD
+  cumulativeHarvesterFeeCollectedNative
+  cumulativeProtocolFeeCollectedNative
+  cumulativeStrategistFeeCollectedNative
+  cumulativeHarvesterFeeCollectedUSD
+  cumulativeProtocolFeeCollectedUSD
+  cumulativeStrategistFeeCollectedUSD
 }
 
 query VaultStats($address: ID!) {

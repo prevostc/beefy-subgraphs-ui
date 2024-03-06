@@ -17,7 +17,7 @@ type SnapshotType = ProtocolDashboardQuery["dailySnapshots"][0];
 const protocolTimeseriesConfigs: SnapshotTimeseriesConfig<SnapshotType>[] = [
   { key: "totalValueLockedUSD", format: "usd" },
   { key: "activeVaultCount", format: "count" },
-  { key: "activeInvestorCount", format: "count" },
+  { key: "uniqueActiveInvestorCount", format: "count" },
   { key: "newInvestorCount", format: "count" },
   { key: "transactionCount", format: "count" },
   { key: "investorInteractionsCount", format: "count" },
