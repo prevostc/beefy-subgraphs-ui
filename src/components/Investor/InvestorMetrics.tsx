@@ -1,5 +1,5 @@
 import { InvestorFragment } from "../../../.graphclient";
-import Metric from "../NumericMetric";
+import { Metric } from "../Metric";
 import { Section } from "../Section";
 
 export function InvestorMetrics({ investor }: { investor: InvestorFragment }) {

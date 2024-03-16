@@ -1,15 +1,13 @@
 # .graphclientrc.yml
+# https://github.com/graphprotocol/graph-client/blob/main/examples/composition/.graphclientrc.yml
+
 sources:
-  - name: beefy-cl
+  - name: beefy-alm
     handler:
       graphql:
-        endpoint: https://api.0xgraph.xyz/subgraphs/name/beefyfinance/beefy-cl
-
+        endpoint: https://api.0xgraph.xyz/subgraphs/name/beefyfinance/alm-{context.chainName:arbitrum}
+    transforms:
+      - autoTypeMerging: true
 
 documents:
-  - ./src/queries/protocol-dashboard.graphql
-  - ./src/queries/vault-list.graphql
-  - ./src/queries/vault.graphql
-  - ./src/queries/investor-list.graphql
-  - ./src/queries/investor-dashboard.graphql
-  - ./src/queries/position-dashboard.graphql
+  - ./src/queries/*.graphql

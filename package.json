@@ -14,6 +14,7 @@
   "dependencies": {
     "@graphprotocol/client-urql": "^2.0.0",
     "@nextui-org/react": "^2.2.9",
+    "@tanstack/react-query": "^5.28.4",
     "@tanstack/react-router": "^1.18.3",
     "@tanstack/router-devtools": "^1.18.3",
     "decimal.js": "^10.4.3",

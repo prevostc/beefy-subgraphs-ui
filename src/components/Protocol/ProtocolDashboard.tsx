@@ -1,10 +1,9 @@
-import { useQuery } from "urql";
 import {
   ProtocolDashboardDocument,
   ProtocolDashboardQuery,
+  getBuiltGraphSDK,
 } from "../../../.graphclient";
 import { Spinner } from "@nextui-org/react";
-import Metric from "../NumericMetric";
 import { QueryDebug } from "../QueryDebug";
 import { Section } from "../Section";
 import { PageBody } from "../PageBody";
@@ -12,6 +11,9 @@ import {
   SnapshotTimeseries,
   SnapshotTimeseriesConfig,
 } from "../SnapshotTimeseries";
+import { allChains } from "../../utils/chains";
+import { useQuery } from "@tanstack/react-query";
+import { ChainMetric } from "../ChainMetric";
 
 type SnapshotType = ProtocolDashboardQuery["dailySnapshots"][0];
 const protocolTimeseriesConfigs: SnapshotTimeseriesConfig<SnapshotType>[] = [
@@ -40,57 +42,85 @@ const protocolTimeseriesConfigs: SnapshotTimeseriesConfig<SnapshotType>[] = [
   { key: "zapFeesCollectedUSD", format: "usd" },
 ];
 
+const sdk = getBuiltGraphSDK();
+const fetchData = async () => {
+  const results = await Promise.all(
+    allChains.map((chain) =>
+      sdk
+        .ProtocolDashboard(
+          {},
+          {
+            chainName: chain,
+          }
+        )
+        .then((data) => ({ ...data, chain }))
+    )
+  );
+
+  return results;
+};
+
 export function ProtocolMetrics() {
-  const [result, _] = useQuery({
-    query: ProtocolDashboardDocument,
+  const { isPending, error, data } = useQuery({
+    queryKey: ["protocolDashboard"],
+    queryFn: fetchData,
   });
 
-  if (result.fetching || !result.data || !result.data.protocol) {
+  if (isPending) {
     return <Spinner size="lg" />;
   }
-  const protocol = result.data.protocol;
+
+  if (error) {
+    return <pre>Error: {JSON.stringify(error, null, 2)}</pre>;
+  }
+
   return (
     <PageBody>
       <Section.Title>Protocol</Section.Title>
       <Section.Metrics>
-        <Metric
+        <ChainMetric
           description="Beefy ALM TVL"
+          values={data}
+          get={(v) => v.protocol?.totalValueLockedUSD}
           mode="usd"
-          value={protocol.totalValueLockedUSD}
         />
-        <Metric
+        <ChainMetric
           description="Active Vaults"
+          values={data}
+          get={(v) => v.protocol?.activeVaultCount}
           mode="count"
-          value={protocol.activeVaultCount}
         />
-        <Metric
+        <ChainMetric
           description="Cumulative Trx Count"
+          values={data}
+          get={(v) => v.protocol?.cumulativeTransactionCount}
           mode="count"
-          value={protocol.cumulativeTransactionCount}
         />
-        <Metric
+        <ChainMetric
           description="Cumulative Investor Interactions Count"
+          values={data}
+          get={(v) => v.protocol?.cumulativeInvestorInteractionsCount}
           mode="count"
-          value={protocol.cumulativeInvestorInteractionsCount}
         />
-        <Metric
+        <ChainMetric
           description="Cumulative Harvest Count"
+          values={data}
+          get={(v) => v.protocol?.cumulativeHarvestCount}
           mode="count"
-          value={protocol.cumulativeHarvestCount}
         />
       </Section.Metrics>
 
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
         <SnapshotTimeseries
-          data={result.data.dailySnapshots}
+          data={data.map((d) => d.dailySnapshots).flat()}
           config={protocolTimeseriesConfigs}
         />
       </Section.Body>
 
       <Section.Title>Query</Section.Title>
       <Section.Body>
-        <QueryDebug query={ProtocolDashboardDocument} result={result.data} />
+        <QueryDebug query={ProtocolDashboardDocument} result={data} />
       </Section.Body>
     </PageBody>
   );

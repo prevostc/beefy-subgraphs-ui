@@ -11,7 +11,7 @@ import {
   SnapshotTimeseriesConfig,
 } from "../../SnapshotTimeseries";
 import { Section } from "../../Section";
-import Metric from "../../NumericMetric";
+import { Metric } from "../../Metric";
 import { SimpleDailyTsChart } from "../../SimpleDailyTsChart";
 import Decimal from "decimal.js";
 import { AppLink } from "../../AppLink";

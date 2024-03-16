@@ -9,7 +9,7 @@ import {
 import Decimal from "decimal.js";
 import { NumberFormatMode, formatAs } from "../utils/format-number";
 
-export default function Metric({
+export function Metric({
   description,
   value,
   mode,

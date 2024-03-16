@@ -9,6 +9,7 @@ import "./index.css";
 import { createClient, Provider } from "urql";
 import { graphExchange } from "@graphprotocol/client-urql";
 import * as GraphClient from "../.graphclient";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createRouter({ routeTree });
 
@@ -18,6 +19,7 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
+const queryClient = new QueryClient();
 
 const client = createClient({
   url: "https://api.0xgraph.xyz/subgraphs/name/beefyfinance/beefy-cl",
@@ -31,13 +33,15 @@ function App() {
   );
 
   return (
-    <Provider value={client}>
-      <NextUIProvider navigate={pushRoute as (path: string) => void}>
-        <NextThemesProvider attribute="class" defaultTheme="dark">
-          <RouterProvider router={router} />
-        </NextThemesProvider>
-      </NextUIProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider value={client}>
+        <NextUIProvider navigate={pushRoute as (path: string) => void}>
+          <NextThemesProvider attribute="class" defaultTheme="dark">
+            <RouterProvider router={router} />
+          </NextThemesProvider>
+        </NextUIProvider>
+      </Provider>
+    </QueryClientProvider>
   );
 }
 

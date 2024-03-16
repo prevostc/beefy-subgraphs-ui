@@ -5,7 +5,7 @@ import { QueryDebug } from "../QueryDebug";
 import { TokenBlock } from "../TokenBlock";
 import { TransactionBlock } from "../TransactionBlock";
 import { VaultAddressesBlock } from "../VaultAddressesBlock";
-import Metric from "../NumericMetric";
+import { Metric } from "../Metric";
 import { Section } from "../Section";
 import { PageBody } from "../PageBody";
 
