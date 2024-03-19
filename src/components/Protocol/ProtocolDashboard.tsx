@@ -79,7 +79,7 @@ export function ProtocolMetrics() {
       <Section.Title>Protocol</Section.Title>
       <Section.Metrics>
         <ChainMetric
-          description="Beefy ALM TVL"
+          description="Beefy CLM TVL"
           values={data}
           get={(v) => v.protocol?.totalValueLockedUSD}
           mode="usd"
@@ -113,7 +113,10 @@ export function ProtocolMetrics() {
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
         <SnapshotTimeseries
-          data={data.map((d) => d.dailySnapshots).flat()}
+          dataSets={data.map((d) => ({
+            name: d.chain,
+            snapshots: d.dailySnapshots,
+          }))}
           config={protocolTimeseriesConfigs}
         />
       </Section.Body>

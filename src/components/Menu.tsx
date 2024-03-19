@@ -13,7 +13,7 @@ import { AppLink, AppLinkProps } from "./AppLink";
 import { useMatchRoute } from "@tanstack/react-router";
 
 const menuItems: { title: string; route: AppLinkProps["to"] }[] = [
-  { title: "Beefy ALM", route: "/" },
+  { title: "Beefy CLM", route: "/" },
   { title: "Vaults", route: "/vaults" },
   { title: "Investors", route: "/investors" },
 ];
@@ -32,7 +32,7 @@ export const Menu = (props: MenuProps) => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">Beefy ALM</p>
+          <p className="font-bold text-inherit">Beefy CLM</p>
         </NavbarBrand>
       </NavbarContent>
 

@@ -2,10 +2,10 @@
 # https://github.com/graphprotocol/graph-client/blob/main/examples/composition/.graphclientrc.yml
 
 sources:
-  - name: beefy-alm
+  - name: beefy-clm
     handler:
       graphql:
-        endpoint: https://api.0xgraph.xyz/subgraphs/name/beefyfinance/alm-{context.chainName:arbitrum}
+        endpoint: https://api.0xgraph.xyz/subgraphs/name/beefyfinance/clm-{context.chainName:arbitrum}
     transforms:
       - autoTypeMerging: true
 

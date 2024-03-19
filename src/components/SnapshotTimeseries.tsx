@@ -21,10 +21,10 @@ type Snapshotify<TS> = TS extends Snapshot
     : never;
 
 export function SnapshotTimeseries<TRow extends Snapshot>({
-  data,
+  dataSets,
   config,
 }: {
-  data: Snapshotify<TRow>[];
+  dataSets: { name: string; snapshots: Snapshotify<TRow>[] }[];
   config: SnapshotTimeseriesConfig<TRow>[];
 }) {
   const configWithTitle = useMemo(
@@ -53,26 +53,40 @@ export function SnapshotTimeseries<TRow extends Snapshot>({
       [setSelectedConfig, configWithTitle]
     );
 
-  const dataset = useMemo(() => {
-    let ts = data.map((snapshot) => {
-      return [
-        ts2Date(snapshot.roundedTimestamp).getTime(),
-        // @ts-ignore
-        new Decimal(snapshot[selectedConfig.key]).toNumber(),
-      ];
-    });
-    // sort by date
-    ts.sort((a, b) => a[0] - b[0]);
-    return ts;
-  }, [data, selectedConfig.key]);
+  const series = useMemo(
+    () =>
+      dataSets.map(({ name, snapshots }) => {
+        const ts = snapshots.map((snapshot) => {
+          // @ts-expect-error snapshot type TRow is not type linked to config
+          const value = snapshot[selectedConfig.key];
+          return [
+            ts2Date(snapshot.roundedTimestamp).getTime(),
+            new Decimal(value).toNumber(),
+          ];
+        });
+        // sort by date
+        ts.sort((a, b) => a[0] - b[0]);
+        return {
+          name: name,
+          type: "line",
+          stack: "Total",
+          areaStyle: {},
+          emphasis: {
+            focus: "series",
+          },
+          data: ts,
+        };
+      }),
+    [dataSets, selectedConfig.key]
+  );
 
   const chartOptions: EChartsOption = useMemo(
     () => ({
-      dataset: {
-        source: dataset,
-      },
       tooltip: {
         trigger: "axis",
+        axisPointer: {
+          type: "cross",
+        },
         position: function (pt) {
           return [pt[0], "10%"];
         },
@@ -101,14 +115,23 @@ export function SnapshotTimeseries<TRow extends Snapshot>({
             }
           : {}),
       },
-      series: [
-        {
-          type: "line",
-          areaStyle: {},
+      series: series,
+      legend: {
+        data: series.map((s) => s.name),
+        top: "bottom",
+        bottom: 0,
+        textStyle: {
+          color: "#fff",
         },
-      ],
+      },
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true,
+      },
     }),
-    [dataset, selectedConfig, yAxisFitData, setYAxisFitData]
+    [series, selectedConfig, yAxisFitData]
   );
 
   return (
