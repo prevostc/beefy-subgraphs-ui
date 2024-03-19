@@ -1,8 +1,11 @@
-import { useQuery } from "urql";
-import { VaultListDocument, VaultListQuery } from "../../../.graphclient";
+import { useQuery } from "@tanstack/react-query";
+import {
+  VaultListDocument,
+  VaultListQuery,
+  getBuiltGraphSDK,
+} from "../../../.graphclient";
 import { Spinner } from "@nextui-org/react";
 import { QueryDebug } from "../QueryDebug";
-import { ReactNode } from "react";
 import { TokenDataTable } from "../TokenDataTable";
 import { ColumnDefType, SimpleTable } from "../SimpleTable";
 import { AppLink } from "../AppLink";
@@ -11,34 +14,64 @@ import { TransactionDataTable } from "../TransactionDataTable";
 import { VaultAddressesDataTable } from "../VaultAddressesDataTable";
 import { PageBody } from "../PageBody";
 import { Section } from "../Section";
-import { Query } from "../../../.graphclient/index";
 import { formatAs } from "../../utils/format-number";
+import { allChains } from "../../utils/chains";
+
+const sdk = getBuiltGraphSDK();
+const fetchData = async () => {
+  const results = await Promise.all(
+    allChains.map((chain) =>
+      sdk
+        .VaultList(
+          {},
+          {
+            chainName: chain,
+          }
+        )
+        .then((data) => ({ ...data, chain }))
+    )
+  );
+
+  return results;
+};
 
 export function VaultList() {
-  const [result, _] = useQuery({
-    query: VaultListDocument,
+  const { isPending, error, data } = useQuery({
+    queryKey: ["vaultList"],
+    queryFn: fetchData,
   });
 
-  if (result.fetching || !result.data || !result.data.vaults) {
+  if (isPending) {
     return <Spinner size="lg" />;
+  }
+
+  if (error) {
+    return <pre>Error: {JSON.stringify(error, null, 2)}</pre>;
   }
 
   return (
     <PageBody>
       <Section.Title>Vaults</Section.Title>
       <Section.Body>
-        <VaultsTable data={result.data.vaults} />
+        <VaultsTable
+          data={data
+            .map((c) => c.vaults.map((v) => ({ chain: c.chain, ...v })))
+            .flat()}
+        />
       </Section.Body>
 
       <Section.Title>Query</Section.Title>
       <Section.Body>
-        <QueryDebug query={VaultListDocument} result={result.data.vaults} />
+        <QueryDebug query={VaultListDocument} result={data} />
       </Section.Body>
     </PageBody>
   );
 }
 
+type RowType = VaultListQuery["vaults"][0] & { chain: string };
+
 type ColumnKeys =
+  | "chain"
   | "name"
   | "totalValueLockedUSD"
   | "cumulativeHarvestCount"
@@ -52,6 +85,7 @@ type ColumnKeys =
   | "addresses"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
+  "chain",
   "name",
   "totalValueLockedUSD",
   "cumulativeHarvestCount",
@@ -62,12 +96,14 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "createdWith",
   "actions",
 ];
-type VaultTableColumnDef = ColumnDefType<
-  ColumnKeys,
-  VaultListQuery["vaults"][0]
->;
+type VaultTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
 
 const columns = [
+  {
+    key: "chain",
+    label: "Chain",
+    render: (vault) => <div>{vault.chain}</div>,
+  },
   {
     key: "name",
     label: "Name",
@@ -146,7 +182,7 @@ const columns = [
   },
 ] as VaultTableColumnDef[];
 
-function VaultsTable({ data }: { data: VaultListQuery["vaults"] }) {
+function VaultsTable({ data }: { data: RowType[] }) {
   return (
     <SimpleTable
       data={data}
