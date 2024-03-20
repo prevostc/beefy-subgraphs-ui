@@ -9,9 +9,7 @@ fragment Transaction on Transaction {
   transactionHash: id
   blockNumber
   blockTimestamp
-  sender {
-    address: id
-  }
+  sender
 }
 
 fragment Investor on Investor {
