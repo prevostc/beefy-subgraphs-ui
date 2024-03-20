@@ -50,11 +50,40 @@ fragment PositionNavigation on InvestorPosition {
   }
 }
 
+fragment InvestorPositionInteractionList on InvestorPosition {
+  interactions(first: $first, skip: $skip) {
+    ...InvestorPositionInteraction
+  }
+}
+
+fragment InvestorPositionInteraction on InvestorPositionInteraction {
+  id
+  timestamp
+  createdWith {
+    id
+    blockTimestamp
+  }
+  type
+  sharesBalance
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+  sharesBalanceDelta
+  underlyingBalance0Delta
+  underlyingBalance1Delta
+  underlyingBalance0DeltaUSD
+  underlyingBalance1DeltaUSD
+  positionValueUSDDelta
+}
+
 query InvestorPositionDashboard($id: ID!, $first: Int = 1000, $skip: Int = 0) {
   investorPosition(id: $id) {
     id
     ...PositionNavigation
     ...PositionMetrics
     ...PositionSnapshotList
+    ...InvestorPositionInteractionList
   }
 }

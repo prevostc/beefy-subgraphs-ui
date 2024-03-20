@@ -1,17 +1,16 @@
 import Decimal from "decimal.js";
 import { ts2Date } from "./timestamp-to-date";
-import { format } from "echarts";
 
 const locale = "en-US";
 const durationFormatter = {
   format: (ms: number) => {
-    let days = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
     ms -= days * 1000 * 60 * 60 * 24;
-    let hours = Math.floor(ms / (1000 * 60 * 60));
+    const hours = Math.floor(ms / (1000 * 60 * 60));
     ms -= hours * 1000 * 60 * 60;
-    let minutes = Math.floor(ms / (1000 * 60));
+    const minutes = Math.floor(ms / (1000 * 60));
     ms -= minutes * 1000 * 60;
-    let seconds = Math.floor(ms / 1000);
+    const seconds = Math.floor(ms / 1000);
     let returnString = "";
     if (days > 0) {
       returnString += days + "d ";
@@ -29,9 +28,14 @@ const durationFormatter = {
   },
 };
 
-const datetimeFormatter = {
+const dateFormatter = {
   format: (ms: number) => {
     return new Date(ms).toISOString().slice(0, 10);
+  },
+};
+const datetimeFormatter = {
+  format: (ms: number) => {
+    return new Date(ms).toISOString().slice(0, 19);
   },
 };
 
@@ -89,6 +93,10 @@ const formatters = {
     }),
   },
   date: {
+    default: dateFormatter,
+    extreme: dateFormatter,
+  },
+  datetime: {
     default: datetimeFormatter,
     extreme: datetimeFormatter,
   },
@@ -138,6 +146,7 @@ function engineeringUtf8Superscript(str: string): string {
         if (!(c in superscript_map)) {
           return c;
         }
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return superscript_map[c];
       })
