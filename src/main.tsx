@@ -6,9 +6,6 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { LinkProps as RouterLinkProps } from "@tanstack/react-router";
 import "./index.css";
-import { createClient, Provider } from "urql";
-import { graphExchange } from "@graphprotocol/client-urql";
-import * as GraphClient from "../.graphclient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createRouter({ routeTree });
@@ -21,11 +18,6 @@ declare module "@tanstack/react-router" {
 }
 const queryClient = new QueryClient();
 
-const client = createClient({
-  url: "https://api.0xgraph.xyz/subgraphs/name/beefyfinance/beefy-cl",
-  exchanges: [graphExchange(GraphClient)],
-});
-
 function App() {
   const pushRoute = useCallback(
     (to: RouterLinkProps["to"]) => router.navigate({ to }),
@@ -34,13 +26,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider value={client}>
-        <NextUIProvider navigate={pushRoute as (path: string) => void}>
-          <NextThemesProvider attribute="class" defaultTheme="dark">
-            <RouterProvider router={router} />
-          </NextThemesProvider>
-        </NextUIProvider>
-      </Provider>
+      <NextUIProvider navigate={pushRoute as (path: string) => void}>
+        <NextThemesProvider attribute="class" defaultTheme="dark">
+          <RouterProvider router={router} />
+        </NextThemesProvider>
+      </NextUIProvider>
     </QueryClientProvider>
   );
 }

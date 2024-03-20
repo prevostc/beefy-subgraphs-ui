@@ -7,40 +7,10 @@ import { Spinner } from "@nextui-org/react";
 import { QueryDebug } from "../QueryDebug";
 import { Section } from "../Section";
 import { PageBody } from "../PageBody";
-import {
-  StackedLineTimeseries,
-  StackedLineTimeseriesConfig,
-} from "../StackedLineTimeseries";
+import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { allChains } from "../../utils/chains";
 import { useQuery } from "@tanstack/react-query";
 import { ChainMetric } from "../ChainMetric";
-
-type SnapshotType = ProtocolDashboardQuery["dailySnapshots"][0];
-const protocolTimeseriesConfigs: StackedLineTimeseriesConfig<SnapshotType>[] = [
-  { key: "totalValueLockedUSD", format: "usd" },
-  { key: "activeVaultCount", format: "count" },
-  { key: "uniqueActiveInvestorCount", format: "count" },
-  { key: "newInvestorCount", format: "count" },
-  { key: "transactionCount", format: "count" },
-  { key: "investorInteractionsCount", format: "count" },
-  { key: "harvesterTransactionsCount", format: "count" },
-  { key: "totalGasSpent", format: "count" },
-  { key: "totalGasSpentUSD", format: "usd" },
-  { key: "investorGasSpent", format: "count" },
-  { key: "investorGasSpentUSD", format: "usd" },
-  { key: "harvesterGasSpent", format: "count" },
-  { key: "harvesterGasSpentUSD", format: "usd" },
-  { key: "protocolGasSaved", format: "count" },
-  { key: "protocolGasSavedUSD", format: "usd" },
-  { key: "protocolFeesCollectedNative", format: "eth" },
-  { key: "protocolFeesCollectedUSD", format: "usd" },
-  { key: "harvesterFeesCollectedNative", format: "eth" },
-  { key: "harvesterFeesCollectedUSD", format: "usd" },
-  { key: "strategistFeesCollectedNative", format: "eth" },
-  { key: "strategistFeesCollectedUSD", format: "usd" },
-  { key: "zapFeesCollectedNative", format: "eth" },
-  { key: "zapFeesCollectedUSD", format: "usd" },
-];
 
 const sdk = getBuiltGraphSDK();
 const fetchData = async () => {
@@ -107,12 +77,36 @@ export function ProtocolMetrics() {
 
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
-        <StackedLineTimeseries
+        <StackedLineTimeseries<ProtocolDashboardQuery["dailySnapshots"][0]>
           dataSets={data.map((d) => ({
             name: d.chain,
             values: d.dailySnapshots,
           }))}
-          config={protocolTimeseriesConfigs}
+          config={[
+            { key: "totalValueLockedUSD", format: "usd" },
+            { key: "activeVaultCount", format: "count" },
+            { key: "uniqueActiveInvestorCount", format: "count" },
+            { key: "newInvestorCount", format: "count" },
+            { key: "transactionCount", format: "count" },
+            { key: "investorInteractionsCount", format: "count" },
+            { key: "harvesterTransactionsCount", format: "count" },
+            { key: "totalGasSpent", format: "count" },
+            { key: "totalGasSpentUSD", format: "usd" },
+            { key: "investorGasSpent", format: "count" },
+            { key: "investorGasSpentUSD", format: "usd" },
+            { key: "harvesterGasSpent", format: "count" },
+            { key: "harvesterGasSpentUSD", format: "usd" },
+            { key: "protocolGasSaved", format: "count" },
+            { key: "protocolGasSavedUSD", format: "usd" },
+            { key: "protocolFeesCollectedNative", format: "eth" },
+            { key: "protocolFeesCollectedUSD", format: "usd" },
+            { key: "harvesterFeesCollectedNative", format: "eth" },
+            { key: "harvesterFeesCollectedUSD", format: "usd" },
+            { key: "strategistFeesCollectedNative", format: "eth" },
+            { key: "strategistFeesCollectedUSD", format: "usd" },
+            { key: "zapFeesCollectedNative", format: "eth" },
+            { key: "zapFeesCollectedUSD", format: "usd" },
+          ]}
         />
       </Section.Body>
 

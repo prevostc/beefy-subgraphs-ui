@@ -8,7 +8,7 @@ import { formatAs } from "../utils/format-number";
 import { Checkbox, Select, SelectItem } from "@nextui-org/react";
 
 type ValidMetric<TKey> = keyof TKey & string;
-export type StackedLineTimeseriesConfig<TKey> = {
+type StackedLineTimeseriesConfig<TKey> = {
   key: ValidMetric<TKey>;
   //title: string;
   format: "usd" | "eth" | "count";
@@ -16,7 +16,8 @@ export type StackedLineTimeseriesConfig<TKey> = {
 
 type Snapshotify<TS> = TS extends Snapshot
   ? Snapshot
-  : TS extends Pick<infer T, any>
+  : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    TS extends Pick<infer T, any>
     ? Snapshotify<T>
     : never;
 
@@ -54,7 +55,7 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
     );
 
   const series = useMemo(
-    () =>
+    (): EChartsOption["series"] =>
       dataSets.map(({ name, values: snapshots }) => {
         const ts = snapshots.map((snapshot) => {
           // @ts-expect-error snapshot type TRow is not type linked to config
@@ -91,6 +92,7 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
           return [pt[0], "10%"];
         },
         formatter: function (params) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const value = params[0].data[1] as number;
           const formatted = formatAs(value, selectedConfig.format);
@@ -117,7 +119,7 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
       },
       series: series,
       legend: {
-        data: series.map((s) => s.name),
+        data: dataSets.map((d) => d.name),
         top: "bottom",
         bottom: 0,
         textStyle: {
@@ -131,7 +133,7 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
         containLabel: true,
       },
     }),
-    [series, selectedConfig, yAxisFitData]
+    [series, selectedConfig, yAxisFitData, dataSets]
   );
 
   return (
@@ -139,6 +141,7 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
       <div className="max-w-full m-auto">
         <div className="flex gap-unit-md">
           <Select
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             selectedKeys={[selectedConfig.key] as any}
             selectionMode="single"
             onChange={handleSelectionChange}

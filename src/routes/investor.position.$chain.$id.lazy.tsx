@@ -6,6 +6,6 @@ export const Route = createLazyFileRoute("/investor/position/$chain/$id")({
 });
 
 function Page() {
-  const { id } = Route.useParams();
-  return <InvestorPositionDashboard id={id} />;
+  const { chain, id } = Route.useParams();
+  return <InvestorPositionDashboard chain={chain} id={id} />;
 }

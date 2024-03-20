@@ -12,31 +12,9 @@ import { Section } from "../Section";
 import { InvestorPositionsTable } from "./Position/InvestorPositionsTable";
 import Decimal from "decimal.js";
 import { InvestorDashboardDocument } from "../../../.graphclient/index";
-import {
-  StackedLineTimeseries,
-  StackedLineTimeseriesConfig,
-} from "../StackedLineTimeseries";
+import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { PageBody } from "../PageBody";
 import { allChains } from "../../utils/chains";
-
-const investorTimeseriesConfigs: StackedLineTimeseriesConfig<InvestorSnapshotFragment>[] =
-  [
-    { key: "totalPositionValueUSD", format: "usd" },
-    { key: "interactionsCount", format: "count" },
-    { key: "depositCount", format: "count" },
-    { key: "withdrawCount", format: "count" },
-  ];
-
-const last30DTimeseriesConfigs: StackedLineTimeseriesConfig<
-  {
-    dailyTotalPositionValue: number;
-  } & Snapshot
->[] = [
-  {
-    key: "dailyTotalPositionValue",
-    format: "usd",
-  },
-];
 
 const sdk = getBuiltGraphSDK();
 const createFetchData = (address: string) => async () => {
@@ -98,7 +76,11 @@ export function InvestorDashboard({ address }: { address: string }) {
 
       <Section.Title>Last 30 days Wallet value</Section.Title>
       <Section.Body>
-        <StackedLineTimeseries
+        <StackedLineTimeseries<
+          {
+            dailyTotalPositionValue: number;
+          } & Snapshot
+        >
           dataSets={data.map((c) => ({
             name: c.chain,
             values: c.investor.last30DailyTotalPositionValuesUSD.map(
@@ -116,18 +98,28 @@ export function InvestorDashboard({ address }: { address: string }) {
               })
             ),
           }))}
-          config={last30DTimeseriesConfigs}
+          config={[
+            {
+              key: "dailyTotalPositionValue",
+              format: "usd",
+            },
+          ]}
         />
       </Section.Body>
 
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
-        <StackedLineTimeseries
+        <StackedLineTimeseries<InvestorSnapshotFragment>
           dataSets={data.map((d) => ({
             name: d.chain,
             values: d.investor.dailySnapshots,
           }))}
-          config={investorTimeseriesConfigs}
+          config={[
+            { key: "totalPositionValueUSD", format: "usd" },
+            { key: "interactionsCount", format: "count" },
+            { key: "depositCount", format: "count" },
+            { key: "withdrawCount", format: "count" },
+          ]}
         />
       </Section.Body>
 
