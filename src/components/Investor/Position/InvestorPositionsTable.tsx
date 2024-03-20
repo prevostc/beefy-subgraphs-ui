@@ -3,7 +3,11 @@ import { ColumnDefType, SimpleTable } from "../../SimpleTable";
 import { formatAs } from "../../../utils/format-number";
 import { AppLinkButton } from "../../AppLinkButton";
 
+type RowType = InvestorPositionsListFragment["positions"][0] & {
+  chain: string;
+};
 type ColumnKeys =
+  | "chain"
   | "vault"
   | "closedPositionDuration"
   | "positionOpenAtTimestamp"
@@ -17,16 +21,21 @@ type ColumnKeys =
   | "last30DailyPositionValuesUSD"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
+  "chain",
   "vault",
   "positionValueUSD",
   "underlyingBalance0USD",
   "underlyingBalance1USD",
   "actions",
 ];
-type RowType = InvestorPositionsListFragment["positions"][0];
 type VaultTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
 
 const columns = [
+  {
+    key: "chain",
+    label: "Chain",
+    render: (position) => <div>{position.chain}</div>,
+  },
   {
     key: "vault",
     label: "Vault",
@@ -112,15 +121,15 @@ const columns = [
     render: (position) => (
       <div className="flex gap-unit-sm">
         <AppLinkButton
-          to={`/vault/$address`}
-          params={{ address: position.vault.address }}
+          to={`/vault/$chain/$address`}
+          params={{ chain: position.chain, address: position.vault.address }}
           variant="faded"
         >
           vault
         </AppLinkButton>
         <AppLinkButton
-          to={`/investor/position/$id`}
-          params={{ id: position.id }}
+          to={`/investor/position/$chain/$id`}
+          params={{ chain: position.chain, id: position.id }}
         >
           👀
         </AppLinkButton>

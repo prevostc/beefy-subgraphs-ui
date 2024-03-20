@@ -8,7 +8,7 @@ import { formatAs } from "../utils/format-number";
 import { Checkbox, Select, SelectItem } from "@nextui-org/react";
 
 type ValidMetric<TKey> = keyof TKey & string;
-export type SnapshotTimeseriesConfig<TKey> = {
+export type StackedLineTimeseriesConfig<TKey> = {
   key: ValidMetric<TKey>;
   //title: string;
   format: "usd" | "eth" | "count";
@@ -20,12 +20,12 @@ type Snapshotify<TS> = TS extends Snapshot
     ? Snapshotify<T>
     : never;
 
-export function SnapshotTimeseries<TRow extends Snapshot>({
+export function StackedLineTimeseries<TRow extends Snapshot>({
   dataSets,
   config,
 }: {
-  dataSets: { name: string; snapshots: Snapshotify<TRow>[] }[];
-  config: SnapshotTimeseriesConfig<TRow>[];
+  dataSets: { name: string; values: Snapshotify<TRow>[] }[];
+  config: StackedLineTimeseriesConfig<TRow>[];
 }) {
   const configWithTitle = useMemo(
     () =>
@@ -55,7 +55,7 @@ export function SnapshotTimeseries<TRow extends Snapshot>({
 
   const series = useMemo(
     () =>
-      dataSets.map(({ name, snapshots }) => {
+      dataSets.map(({ name, values: snapshots }) => {
         const ts = snapshots.map((snapshot) => {
           // @ts-expect-error snapshot type TRow is not type linked to config
           const value = snapshot[selectedConfig.key];

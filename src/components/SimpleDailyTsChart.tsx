@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 export function SimpleDailyTsChart({ data }: { data: number[] }) {
   const dataset = useMemo(() => {
-    let nowTruncated = new Date();
+    const nowTruncated = new Date();
     nowTruncated.setHours(0, 0, 0, 0);
     return data
       .reverse()

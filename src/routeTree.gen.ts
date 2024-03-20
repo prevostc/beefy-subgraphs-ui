@@ -21,7 +21,9 @@ const InvestorsLazyImport = createFileRoute('/investors')()
 const IndexLazyImport = createFileRoute('/')()
 const InvestorAddressLazyImport = createFileRoute('/investor/$address')()
 const VaultChainAddressLazyImport = createFileRoute('/vault/$chain/$address')()
-const InvestorPositionIdLazyImport = createFileRoute('/investor/position/$id')()
+const InvestorPositionChainIdLazyImport = createFileRoute(
+  '/investor/position/$chain/$id',
+)()
 
 // Create/Update Routes
 
@@ -54,12 +56,13 @@ const VaultChainAddressLazyRoute = VaultChainAddressLazyImport.update({
   import('./routes/vault.$chain.$address.lazy').then((d) => d.Route),
 )
 
-const InvestorPositionIdLazyRoute = InvestorPositionIdLazyImport.update({
-  path: '/investor/position/$id',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/investor.position.$id.lazy').then((d) => d.Route),
-)
+const InvestorPositionChainIdLazyRoute =
+  InvestorPositionChainIdLazyImport.update({
+    path: '/investor/position/$chain/$id',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./routes/investor.position.$chain.$id.lazy').then((d) => d.Route),
+  )
 
 // Populate the FileRoutesByPath interface
 
@@ -81,12 +84,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvestorAddressLazyImport
       parentRoute: typeof rootRoute
     }
-    '/investor/position/$id': {
-      preLoaderRoute: typeof InvestorPositionIdLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/vault/$chain/$address': {
       preLoaderRoute: typeof VaultChainAddressLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/investor/position/$chain/$id': {
+      preLoaderRoute: typeof InvestorPositionChainIdLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -99,8 +102,8 @@ export const routeTree = rootRoute.addChildren([
   InvestorsLazyRoute,
   VaultsLazyRoute,
   InvestorAddressLazyRoute,
-  InvestorPositionIdLazyRoute,
   VaultChainAddressLazyRoute,
+  InvestorPositionChainIdLazyRoute,
 ])
 
 /* prettier-ignore-end */

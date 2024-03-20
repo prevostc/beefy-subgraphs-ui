@@ -11,14 +11,7 @@ import { PageBody } from "../PageBody";
 
 const sdk = getBuiltGraphSDK();
 const createFetchData = (chain: string, address: string) => async () => {
-  const data = await sdk.VaultStats(
-    {
-      address,
-    },
-    {
-      chainName: chain,
-    }
-  );
+  const data = await sdk.VaultStats({ address }, { chainName: chain });
   return { ...data, chain };
 };
 export function VaultMetrics({

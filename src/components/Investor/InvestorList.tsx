@@ -1,39 +1,65 @@
-import { useQuery } from "urql";
+import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@nextui-org/react";
 import { QueryDebug } from "../QueryDebug";
 import { ColumnDefType, SimpleTable } from "../SimpleTable";
 import { AppLink } from "../AppLink";
 import { AppLinkButton } from "../AppLinkButton";
-import { InvestorListDocument, InvestorListQuery } from "../../../.graphclient";
+import {
+  InvestorListDocument,
+  InvestorListQuery,
+  getBuiltGraphSDK,
+} from "../../../.graphclient";
 import { HexDisplay } from "../HexDisplay";
-import { ts2Date } from "../../utils/timestamp-to-date";
 import { formatAs } from "../../utils/format-number";
+import { allChains } from "../../utils/chains";
+
+const sdk = getBuiltGraphSDK();
+const fetchData = async () => {
+  const results = await Promise.all(
+    allChains.map((chain) =>
+      sdk
+        .InvestorList({}, { chainName: chain })
+        .then((data) => ({ ...data, chain }))
+    )
+  );
+
+  return results;
+};
 
 export function InvestorsList() {
-  const [result, _] = useQuery({
-    query: InvestorListDocument,
+  const { isPending, error, data } = useQuery({
+    queryKey: ["investorList"],
+    queryFn: fetchData,
   });
 
-  if (result.fetching || !result.data || !result.data.investors) {
+  if (isPending) {
     return <Spinner size="lg" />;
+  }
+
+  if (error) {
+    return <pre>Error: {JSON.stringify(error, null, 2)}</pre>;
   }
 
   return (
     <div>
       <div>
-        <InvestorsTable data={result.data.investors} />
+        <InvestorsTable
+          data={data
+            .map((c) => c.investors.map((i) => ({ chain: c.chain, ...i })))
+            .flat()}
+        />
       </div>
       <div className="mt-5">
-        <QueryDebug
-          query={InvestorListDocument}
-          result={result.data.investors}
-        />
+        <QueryDebug query={InvestorListDocument} result={data} />
       </div>
     </div>
   );
 }
 
+type RowType = InvestorListQuery["investors"][0] & { chain: string };
+
 type ColumnKeys =
+  | "chain"
   | "address"
   | "closedInvestmentDuration"
   | "currentInvestmentOpenAtTimestamp"
@@ -46,6 +72,7 @@ type ColumnKeys =
   | "cumulativeWithdrawCount"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
+  "chain",
   "address",
   "currentInvestmentOpenAtTimestamp",
   "activePositionCount",
@@ -56,12 +83,14 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "cumulativeWithdrawCount",
   "actions",
 ];
-type VaultTableColumnDef = ColumnDefType<
-  ColumnKeys,
-  InvestorListQuery["investors"][0]
->;
+type VaultTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
 
 const columns = [
+  {
+    key: "chain",
+    label: "Chain",
+    render: (vault) => <div>{vault.chain}</div>,
+  },
   {
     key: "address",
     label: "Address",
@@ -149,7 +178,7 @@ const columns = [
   },
 ] as VaultTableColumnDef[];
 
-function InvestorsTable({ data }: { data: InvestorListQuery["investors"] }) {
+function InvestorsTable({ data }: { data: RowType[] }) {
   return (
     <SimpleTable
       data={data}

@@ -7,9 +7,9 @@ import {
 import { BreadcrumbItem, Breadcrumbs, Spinner } from "@nextui-org/react";
 import { QueryDebug } from "../../QueryDebug";
 import {
-  SnapshotTimeseries,
-  SnapshotTimeseriesConfig,
-} from "../../SnapshotTimeseries";
+  StackedLineTimeseries,
+  StackedLineTimeseriesConfig,
+} from "../../StackedLineTimeseries";
 import { Section } from "../../Section";
 import { Metric } from "../../Metric";
 import { SimpleDailyTsChart } from "../../SimpleDailyTsChart";
@@ -19,7 +19,7 @@ import { HexDisplay } from "../../HexDisplay";
 import { PageBody } from "../../PageBody";
 
 type SnapshotType = InvestorPositionSnapshotFragment;
-const positionTimeseriesConfig: SnapshotTimeseriesConfig<SnapshotType>[] = [
+const positionTimeseriesConfig: StackedLineTimeseriesConfig<SnapshotType>[] = [
   { key: "sharesBalance", format: "count" },
   { key: "underlyingBalance0", format: "count" },
   { key: "underlyingBalance1", format: "count" },
@@ -127,7 +127,7 @@ export function InvestorPositionDashboard({ id }: { id: string }) {
 
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
-        <SnapshotTimeseries
+        <StackedLineTimeseries
           data={result.data.investorPosition.dailySnapshots}
           config={positionTimeseriesConfig}
         />

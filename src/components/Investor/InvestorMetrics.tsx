@@ -1,51 +1,63 @@
 import { InvestorFragment } from "../../../.graphclient";
-import { Metric } from "../Metric";
+import { ChainMetric } from "../ChainMetric";
 import { Section } from "../Section";
 
-export function InvestorMetrics({ investor }: { investor: InvestorFragment }) {
+export function InvestorMetrics({
+  investor,
+}: {
+  investor: (InvestorFragment & { chain: string })[];
+}) {
   return (
     <>
       <Section.Title>Investor</Section.Title>
       <Section.Body>
-        <Metric
-          value={investor.closedInvestmentDuration}
+        <ChainMetric
           description="Closed Investment Duration"
           mode="duration"
+          values={investor}
+          get={(v) => v.closedInvestmentDuration}
         />
-        <Metric
-          value={investor.currentInvestmentOpenAtTimestamp}
+        <ChainMetric
           description="Current Investment Open At"
           mode="date"
+          values={investor}
+          get={(v) => v.currentInvestmentOpenAtTimestamp}
         />
-        <Metric
-          value={investor.activePositionCount}
-          description="Active Positions"
+        <ChainMetric
+          description="Active Position Count"
           mode="count"
+          values={investor}
+          get={(v) => v.activePositionCount}
         />
-        <Metric
-          value={investor.totalPositionValueUSD}
+        <ChainMetric
           description="Total Position Value"
           mode="usd"
+          values={investor}
+          get={(v) => v.totalPositionValueUSD}
         />
-        <Metric
-          value={investor.averageDailyTotalPositionValueUSD30D}
+        <ChainMetric
           description="Average Daily Position Value (30D)"
           mode="usd"
+          values={investor}
+          get={(v) => v.averageDailyTotalPositionValueUSD30D}
         />
-        <Metric
-          value={investor.cumulativeInteractionsCount}
-          description="Cumulative Interactions count"
+        <ChainMetric
+          description="Cumulative Interactions Count"
           mode="count"
+          values={investor}
+          get={(v) => v.cumulativeInteractionsCount}
         />
-        <Metric
-          value={investor.cumulativeDepositCount}
-          description="Cumulative Deposits count"
+        <ChainMetric
+          description="Cumulative Deposits Count"
           mode="count"
+          values={investor}
+          get={(v) => v.cumulativeDepositCount}
         />
-        <Metric
-          value={investor.cumulativeWithdrawCount}
-          description="Cumulative Withdrawals count"
+        <ChainMetric
+          description="Cumulative Withdrawals Count"
           mode="count"
+          values={investor}
+          get={(v) => v.cumulativeWithdrawCount}
         />
       </Section.Body>
     </>

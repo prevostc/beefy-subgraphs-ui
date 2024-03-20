@@ -22,12 +22,7 @@ const fetchData = async () => {
   const results = await Promise.all(
     allChains.map((chain) =>
       sdk
-        .VaultList(
-          {},
-          {
-            chainName: chain,
-          }
-        )
+        .VaultList({}, { chainName: chain })
         .then((data) => ({ ...data, chain }))
     )
   );

@@ -8,15 +8,15 @@ import { QueryDebug } from "../QueryDebug";
 import { Section } from "../Section";
 import { PageBody } from "../PageBody";
 import {
-  SnapshotTimeseries,
-  SnapshotTimeseriesConfig,
-} from "../SnapshotTimeseries";
+  StackedLineTimeseries,
+  StackedLineTimeseriesConfig,
+} from "../StackedLineTimeseries";
 import { allChains } from "../../utils/chains";
 import { useQuery } from "@tanstack/react-query";
 import { ChainMetric } from "../ChainMetric";
 
 type SnapshotType = ProtocolDashboardQuery["dailySnapshots"][0];
-const protocolTimeseriesConfigs: SnapshotTimeseriesConfig<SnapshotType>[] = [
+const protocolTimeseriesConfigs: StackedLineTimeseriesConfig<SnapshotType>[] = [
   { key: "totalValueLockedUSD", format: "usd" },
   { key: "activeVaultCount", format: "count" },
   { key: "uniqueActiveInvestorCount", format: "count" },
@@ -47,12 +47,7 @@ const fetchData = async () => {
   const results = await Promise.all(
     allChains.map((chain) =>
       sdk
-        .ProtocolDashboard(
-          {},
-          {
-            chainName: chain,
-          }
-        )
+        .ProtocolDashboard({}, { chainName: chain })
         .then((data) => ({ ...data, chain }))
     )
   );
@@ -112,10 +107,10 @@ export function ProtocolMetrics() {
 
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
-        <SnapshotTimeseries
+        <StackedLineTimeseries
           dataSets={data.map((d) => ({
             name: d.chain,
-            snapshots: d.dailySnapshots,
+            values: d.dailySnapshots,
           }))}
           config={protocolTimeseriesConfigs}
         />
