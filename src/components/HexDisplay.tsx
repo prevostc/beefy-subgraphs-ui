@@ -1,12 +1,14 @@
 import { Tooltip } from "@nextui-org/react";
 
 export function HexDisplay({
-  hexString,
+  hexString: maybeHexString,
   showChars = 20,
 }: {
-  hexString: string;
+  hexString: string | null;
   showChars?: number;
 }) {
+  const hexString =
+    maybeHexString || "0x0000000000000000000000000000000000000000";
   const half = showChars / 2;
   return (
     <Tooltip
