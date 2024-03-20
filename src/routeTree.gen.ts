@@ -19,8 +19,8 @@ import { Route as rootRoute } from './routes/__root'
 const VaultsLazyImport = createFileRoute('/vaults')()
 const InvestorsLazyImport = createFileRoute('/investors')()
 const IndexLazyImport = createFileRoute('/')()
-const VaultAddressLazyImport = createFileRoute('/vault/$address')()
 const InvestorAddressLazyImport = createFileRoute('/investor/$address')()
+const VaultChainAddressLazyImport = createFileRoute('/vault/$chain/$address')()
 const InvestorPositionIdLazyImport = createFileRoute('/investor/position/$id')()
 
 // Create/Update Routes
@@ -40,18 +40,18 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const VaultAddressLazyRoute = VaultAddressLazyImport.update({
-  path: '/vault/$address',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/vault.$address.lazy').then((d) => d.Route),
-)
-
 const InvestorAddressLazyRoute = InvestorAddressLazyImport.update({
   path: '/investor/$address',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/investor.$address.lazy').then((d) => d.Route),
+)
+
+const VaultChainAddressLazyRoute = VaultChainAddressLazyImport.update({
+  path: '/vault/$chain/$address',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/vault.$chain.$address.lazy').then((d) => d.Route),
 )
 
 const InvestorPositionIdLazyRoute = InvestorPositionIdLazyImport.update({
@@ -81,12 +81,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvestorAddressLazyImport
       parentRoute: typeof rootRoute
     }
-    '/vault/$address': {
-      preLoaderRoute: typeof VaultAddressLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/investor/position/$id': {
       preLoaderRoute: typeof InvestorPositionIdLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/vault/$chain/$address': {
+      preLoaderRoute: typeof VaultChainAddressLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -99,8 +99,8 @@ export const routeTree = rootRoute.addChildren([
   InvestorsLazyRoute,
   VaultsLazyRoute,
   InvestorAddressLazyRoute,
-  VaultAddressLazyRoute,
   InvestorPositionIdLazyRoute,
+  VaultChainAddressLazyRoute,
 ])
 
 /* prettier-ignore-end */

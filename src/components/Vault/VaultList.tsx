@@ -173,8 +173,8 @@ const columns = [
     render: (vault) => (
       <AppLinkButton
         as={AppLink}
-        to={`/vault/$address`}
-        params={{ address: vault.id }}
+        to={`/vault/$chain/$address`}
+        params={{ chain: vault.chain, address: vault.id }}
       >
         👀
       </AppLinkButton>
