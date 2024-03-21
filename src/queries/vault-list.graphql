@@ -17,6 +17,18 @@ fragment VaultAddresses on BeefyCLVault {
   strategy {
     address: id
   }
+  createdWith {
+    ...Transaction
+  }
+  sharesToken {
+    ...Token
+  }
+  underlyingToken0 {
+    ...Token
+  }
+  underlyingToken1 {
+    ...Token
+  }
 }
 
 fragment VaultTokens on BeefyCLVault {
@@ -35,8 +47,8 @@ fragment VaultMetrics on BeefyCLVault {
   currentPriceOfToken0InToken1
   priceRangeMin1
   priceRangeMax1
-  priceRangeMin1USD
-  priceRangeMax1USD
+  priceRangeMinUSD
+  priceRangeMaxUSD
   underlyingAmount0
   underlyingAmount1
   underlyingAmount0USD
@@ -62,9 +74,6 @@ fragment VaultMetrics on BeefyCLVault {
 query VaultList {
   vaults: beefyCLVaults(where: { lifecycle: RUNNING }) {
     id
-    createdWith {
-      ...Transaction
-    }
     ...VaultTokens
     ...VaultAddresses
     ...VaultMetrics

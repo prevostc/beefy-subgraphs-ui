@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { VaultMetrics } from "../components/Vault/VaultMetrics";
+import { VaultDashboard } from "../components/Vault/VaultDashboard";
 
 export const Route = createLazyFileRoute("/vault/$chain/$address")({
   component: VaultPage,
@@ -7,5 +7,5 @@ export const Route = createLazyFileRoute("/vault/$chain/$address")({
 
 function VaultPage() {
   const { address, chain } = Route.useParams();
-  return <VaultMetrics chain={chain} address={address} />;
+  return <VaultDashboard chain={chain} address={address} />;
 }

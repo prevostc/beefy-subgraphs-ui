@@ -17,14 +17,26 @@ fragment VaultAddresses on BeefyCLVault {
   strategy {
     address: id
   }
+  createdWith {
+    ...Transaction
+  }
+  sharesToken {
+    ...Token
+  }
+  underlyingToken0 {
+    ...Token
+  }
+  underlyingToken1 {
+    ...Token
+  }
 }
 
 fragment VaultMetrics on BeefyCLVault {
   currentPriceOfToken0InToken1
   priceRangeMin1
   priceRangeMax1
-  priceRangeMin1USD
-  priceRangeMax1USD
+  priceRangeMinUSD
+  priceRangeMaxUSD
   underlyingAmount0
   underlyingAmount1
   underlyingAmount0USD
@@ -47,22 +59,30 @@ fragment VaultMetrics on BeefyCLVault {
   cumulativeStrategistFeeCollectedUSD
 }
 
+fragment VaultPriceRangeList on BeefyCLVault {
+  dailyPriceRanges: snapshots(
+    where: { period: 86400 }
+    orderBy: roundedTimestamp
+    orderDirection: asc
+  ) {
+    ...VaultPriceRange
+  }
+}
+
+fragment VaultPriceRange on BeefyCLVaultSnapshot {
+  period
+  roundedTimestamp
+  timestamp
+  currentPriceOfToken0InToken1
+  priceRangeMin1
+  priceRangeMax1
+}
+
 query VaultStats($address: ID!) {
   vault: beefyCLVault(id: $address) {
     address: id
-    createdWith {
-      ...Transaction
-    }
-    sharesToken {
-      ...Token
-    }
-    underlyingToken0 {
-      ...Token
-    }
-    underlyingToken1 {
-      ...Token
-    }
     ...VaultAddresses
     ...VaultMetrics
+    ...VaultPriceRangeList
   }
 }
