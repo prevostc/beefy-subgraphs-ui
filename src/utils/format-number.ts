@@ -115,7 +115,7 @@ export function formatAs(
   if (isNaN(d)) {
     return "NaN";
   }
-  if (mode === "duration" || mode === "date") {
+  if (mode === "duration" || mode === "date" || mode === "datetime") {
     d = ts2Date(d).getTime();
   }
 
