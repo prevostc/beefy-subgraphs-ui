@@ -43,6 +43,11 @@ fragment InvestorPositionSnapshot on InvestorPositionSnapshot {
   underlyingBalance0USD
   underlyingBalance1USD
   positionValueUSD
+  harvestedAmount0
+  harvestedAmount1
+  harvestedAmount0USD
+  harvestedAmount1USD
+  harvestValueUSD
 }
 
 fragment PositionNavigation on InvestorPosition {

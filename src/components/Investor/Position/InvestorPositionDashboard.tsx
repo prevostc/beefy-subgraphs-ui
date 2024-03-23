@@ -198,12 +198,17 @@ export function InvestorPositionDashboard({
             { name: chain, values: data.investorPosition.dailySnapshots },
           ]}
           config={[
-            { key: "sharesBalance", format: "count" },
-            { key: "underlyingBalance0", format: "count" },
-            { key: "underlyingBalance1", format: "count" },
+            { key: "sharesBalance", format: "float" },
+            { key: "underlyingBalance0", format: "float" },
+            { key: "underlyingBalance1", format: "float" },
             { key: "underlyingBalance0USD", format: "usd" },
             { key: "underlyingBalance1USD", format: "usd" },
             { key: "positionValueUSD", format: "usd" },
+            { key: "harvestedAmount0", format: "float" },
+            { key: "harvestedAmount1", format: "float" },
+            { key: "harvestedAmount0USD", format: "usd" },
+            { key: "harvestedAmount1USD", format: "usd" },
+            { key: "harvestValueUSD", format: "usd" },
           ]}
         />
       </Section.Body>
