@@ -94,6 +94,31 @@ export function InvestorPositionDashboard({
           mode="count"
         />
         <Metric
+          value={data.investorPosition.initialUnderlyingBalance0}
+          description="Initial Underlying balance 0"
+          mode="count"
+        />
+        <Metric
+          value={data.investorPosition.initialUnderlyingBalance1}
+          description="Initial Underlying balance 1"
+          mode="count"
+        />
+        <Metric
+          value={data.investorPosition.initialUnderlyingBalance0USD}
+          description="Initial Underlying balance 0 USD"
+          mode="usd"
+        />
+        <Metric
+          value={data.investorPosition.initialUnderlyingBalance1USD}
+          description="Initial Underlying balance 1 USD"
+          mode="usd"
+        />
+        <Metric
+          value={data.investorPosition.positionValueUSD}
+          description="Position value USD"
+          mode="usd"
+        />
+        <Metric
           value={data.investorPosition.underlyingBalance0}
           description="Underlying balance 0"
           mode="count"
@@ -121,6 +146,31 @@ export function InvestorPositionDashboard({
         <Metric
           value={data.investorPosition.averageDailyPositionValueUSD30D}
           description="Position value USD"
+          mode="usd"
+        />
+        <Metric
+          value={data.investorPosition.cumulativeHarvestedAmount0}
+          description="Cumulative Harvested Amount 0"
+          mode="count"
+        />
+        <Metric
+          value={data.investorPosition.cumulativeHarvestedAmount1}
+          description="Cumulative Harvested Amount 1"
+          mode="count"
+        />
+        <Metric
+          value={data.investorPosition.cumulativeHarvestedAmount0USD}
+          description="Cumulative Harvested Amount 0 USD"
+          mode="usd"
+        />
+        <Metric
+          value={data.investorPosition.cumulativeHarvestedAmount1USD}
+          description="Cumulative Harvested Amount 1 USD"
+          mode="usd"
+        />
+        <Metric
+          value={data.investorPosition.cumulativeHarvestValueUSD}
+          description="Cumulative Harvest Value USD"
           mode="usd"
         />
       </Section.Metrics>

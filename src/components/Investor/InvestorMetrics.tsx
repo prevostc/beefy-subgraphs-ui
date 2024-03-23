@@ -59,6 +59,12 @@ export function InvestorMetrics({
           values={investor}
           get={(v) => v.cumulativeWithdrawCount}
         />
+        <ChainMetric
+          description="Cumulative Harvest Value (USD)"
+          mode="usd"
+          values={investor}
+          get={(v) => v.cumulativeHarvestValueUSD}
+        />
       </Section.Body>
     </>
   );

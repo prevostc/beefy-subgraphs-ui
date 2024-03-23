@@ -119,6 +119,7 @@ export function InvestorDashboard({ address }: { address: string }) {
             { key: "interactionsCount", format: "count" },
             { key: "depositCount", format: "count" },
             { key: "withdrawCount", format: "count" },
+            { key: "harvestValueUSD", format: "usd" },
           ]}
         />
       </Section.Body>

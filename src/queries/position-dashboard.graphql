@@ -3,6 +3,11 @@ fragment PositionMetrics on InvestorPosition {
   closedPositionDuration
   positionOpenAtTimestamp
   sharesBalance
+  initialUnderlyingBalance0
+  initialUnderlyingBalance1
+  initialUnderlyingBalance0USD
+  initialUnderlyingBalance1USD
+  initialPositionValueUSD
   underlyingBalance0
   underlyingBalance1
   underlyingBalance0USD
@@ -10,6 +15,11 @@ fragment PositionMetrics on InvestorPosition {
   positionValueUSD
   averageDailyPositionValueUSD30D
   last30DailyPositionValuesUSD
+  cumulativeHarvestedAmount0
+  cumulativeHarvestedAmount1
+  cumulativeHarvestedAmount0USD
+  cumulativeHarvestedAmount1USD
+  cumulativeHarvestValueUSD
 }
 
 fragment PositionSnapshotList on InvestorPosition {

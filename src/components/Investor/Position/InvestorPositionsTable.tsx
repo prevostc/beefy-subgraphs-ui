@@ -12,6 +12,11 @@ type ColumnKeys =
   | "closedPositionDuration"
   | "positionOpenAtTimestamp"
   | "sharesBalance"
+  | "initialUnderlyingBalance0"
+  | "initialUnderlyingBalance1"
+  | "initialUnderlyingBalance0USD"
+  | "initialUnderlyingBalance1USD"
+  | "initialPositionValueUSD"
   | "underlyingBalance0"
   | "underlyingBalance1"
   | "underlyingBalance0USD"
@@ -19,13 +24,20 @@ type ColumnKeys =
   | "positionValueUSD"
   | "averageDailyPositionValueUSD30D"
   | "last30DailyPositionValuesUSD"
+  | "cumulativeHarvestedAmount0"
+  | "cumulativeHarvestedAmount1"
+  | "cumulativeHarvestedAmount0USD"
+  | "cumulativeHarvestedAmount1USD"
+  | "cumulativeHarvestValueUSD"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "chain",
   "vault",
-  "positionValueUSD",
+  "initialPositionValueUSD",
   "underlyingBalance0USD",
   "underlyingBalance1USD",
+  "positionValueUSD",
+  "cumulativeHarvestValueUSD",
   "actions",
 ];
 type VaultTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
@@ -60,6 +72,41 @@ const columns = [
     label: "Shares balance",
     render: (position) => (
       <div>{formatAs(position.sharesBalance, "float")}</div>
+    ),
+  },
+  {
+    key: "initialUnderlyingBalance0",
+    label: "Initial underlying balance 0",
+    render: (position) => (
+      <div>{formatAs(position.initialUnderlyingBalance0, "float")}</div>
+    ),
+  },
+  {
+    key: "initialUnderlyingBalance1",
+    label: "Initial underlying balance 1",
+    render: (position) => (
+      <div>{formatAs(position.initialUnderlyingBalance1, "float")}</div>
+    ),
+  },
+  {
+    key: "initialUnderlyingBalance0USD",
+    label: "Initial underlying balance 0 USD",
+    render: (position) => (
+      <div>{formatAs(position.initialUnderlyingBalance0USD, "usd")}</div>
+    ),
+  },
+  {
+    key: "initialUnderlyingBalance1USD",
+    label: "Initial underlying balance 1 USD",
+    render: (position) => (
+      <div>{formatAs(position.initialUnderlyingBalance1USD, "usd")}</div>
+    ),
+  },
+  {
+    key: "initialPositionValueUSD",
+    label: "Initial position value USD",
+    render: (position) => (
+      <div>{formatAs(position.initialPositionValueUSD, "usd")}</div>
     ),
   },
   {
@@ -113,6 +160,41 @@ const columns = [
           .map((v) => formatAs(v, "usd"))
           .join(" → ")}
       </div>
+    ),
+  },
+  {
+    key: "cumulativeHarvestedAmount0",
+    label: "Cumulative harvested amount 0",
+    render: (position) => (
+      <div>{formatAs(position.cumulativeHarvestedAmount0, "float")}</div>
+    ),
+  },
+  {
+    key: "cumulativeHarvestedAmount1",
+    label: "Cumulative harvested amount 1",
+    render: (position) => (
+      <div>{formatAs(position.cumulativeHarvestedAmount1, "float")}</div>
+    ),
+  },
+  {
+    key: "cumulativeHarvestedAmount0USD",
+    label: "Cumulative harvested amount 0 USD",
+    render: (position) => (
+      <div>{formatAs(position.cumulativeHarvestedAmount0USD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeHarvestedAmount1USD",
+    label: "Cumulative harvested amount 1 USD",
+    render: (position) => (
+      <div>{formatAs(position.cumulativeHarvestedAmount1USD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeHarvestValueUSD",
+    label: "Cumulative harvest value USD",
+    render: (position) => (
+      <div>{formatAs(position.cumulativeHarvestValueUSD, "usd")}</div>
     ),
   },
   {
