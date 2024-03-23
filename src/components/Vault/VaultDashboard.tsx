@@ -12,6 +12,7 @@ import { VaultMetrics } from "./VaultMetrics";
 import { VaultPriceRangeTsChart } from "./VaultPriceRangeTsChart";
 import { VaultHarvestTable } from "./VaultHarvestList";
 import { StackedLineTimeseries } from "../StackedLineTimeseries";
+import { VaultCollectTable } from "./VaultCollectList";
 
 const sdk = getBuiltGraphSDK();
 const createFetchData = (chain: string, address: string) => async () => {
@@ -52,6 +53,11 @@ export function VaultDashboard({
       <Section.Title>Harvests</Section.Title>
       <Section.Body>
         <VaultHarvestTable data={data.vault.harvests} />
+      </Section.Body>
+
+      <Section.Title>Collects</Section.Title>
+      <Section.Body>
+        <VaultCollectTable data={data.vault.collectedFees} />
       </Section.Body>
 
       <Section.Title>Timeseries</Section.Title>

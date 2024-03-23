@@ -86,6 +86,32 @@ fragment VaultHarvest on BeefyCLVaultHarvestEvent {
   priceOfToken0InUSD
 }
 
+fragment VaultCollectList on BeefyCLVault {
+  collectedFees(orderBy: timestamp, orderDirection: asc) {
+    ...VaultCollect
+  }
+}
+
+fragment VaultCollect on BeefyCLVaultUnderlyingFeesCollectedEvent {
+  id
+  createdWith {
+    ...Transaction
+  }
+  timestamp
+  underlyingAmount0
+  underlyingAmount1
+  underlyingAmount0USD
+  underlyingAmount1USD
+  totalValueLockedUSD
+  collectedAmount0
+  collectedAmount1
+  collectedAmount0USD
+  collectedAmount1USD
+  collectedValueUSD
+  priceOfToken0InToken1
+  priceOfToken0InUSD
+}
+
 fragment VaultPriceRangeList on BeefyCLVault {
   dailyPriceRanges: snapshots(
     where: { period: 86400 }
@@ -160,5 +186,6 @@ query VaultDashboard($address: ID!) {
     ...VaultPriceRangeList
     ...VaultHarvestList
     ...VaultSnapshotList
+    ...VaultCollectList
   }
 }
