@@ -45,6 +45,7 @@ fragment VaultTokens on BeefyCLVault {
 
 fragment VaultMetrics on BeefyCLVault {
   currentPriceOfToken0InToken1
+  currentPriceOfToken0InUSD
   priceRangeMin1
   priceRangeMax1
   priceRangeMinUSD

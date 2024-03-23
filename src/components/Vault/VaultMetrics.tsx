@@ -56,6 +56,11 @@ export function VaultMetrics({
           mode="usd"
         />
         <Metric
+          value={vault.currentPriceOfToken0InUSD}
+          description="Current Pool Price (in USD)"
+          mode="usd"
+        />
+        <Metric
           value={vault.priceRangeMaxUSD}
           description="Price range max (in USD)"
           mode="usd"

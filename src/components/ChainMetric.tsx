@@ -20,16 +20,18 @@ export function ChainMetric<T extends { chain: string }>({
   get: (v: T) => number | undefined;
   mode: NumberFormatMode;
 }) {
-  const value = useMemo(() => {
-    const d = values.map(get).filter((v) => v !== undefined) as number[];
+  const d = useMemo(() => {
+    const d = values
+      .map(get)
+      .filter((v): v is NonNullable<typeof v> => v !== undefined)
+      .map((d) => new Decimal(d)) as Decimal[];
     if (d.length === 0) {
       return 0;
     }
-    return d.reduce((a, b) => a + b, 0);
+    return d.reduce((a, b) => a.add(b), new Decimal(0));
   }, [values, get]);
-  const d = useMemo(() => new Decimal(value), [value]);
   const formattedValue = useMemo(() => formatAs(d, mode), [d, mode]);
-  const rawValue = useMemo(() => d.toNumber(), [d]);
+  const rawValue = useMemo(() => d.toString(), [d]);
   return (
     <Card className="min-w-unit-52">
       <CardHeader>{description}</CardHeader>

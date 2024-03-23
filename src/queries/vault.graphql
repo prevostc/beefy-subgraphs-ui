@@ -33,6 +33,7 @@ fragment VaultAddresses on BeefyCLVault {
 
 fragment VaultMetrics on BeefyCLVault {
   currentPriceOfToken0InToken1
+  currentPriceOfToken0InUSD
   priceRangeMin1
   priceRangeMax1
   priceRangeMinUSD
@@ -76,6 +77,9 @@ fragment VaultPriceRange on BeefyCLVaultSnapshot {
   currentPriceOfToken0InToken1
   priceRangeMin1
   priceRangeMax1
+  currentPriceOfToken0InUSD
+  priceRangeMinUSD
+  priceRangeMaxUSD
 }
 
 query VaultStats($address: ID!) {
