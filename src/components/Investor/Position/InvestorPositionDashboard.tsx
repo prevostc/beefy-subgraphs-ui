@@ -149,28 +149,28 @@ export function InvestorPositionDashboard({
           mode="usd"
         />
         <Metric
-          value={data.investorPosition.cumulativeHarvestedAmount0}
-          description="Cumulative Harvested Amount 0"
+          value={data.investorPosition.cumulativeCompoundedAmount0}
+          description="Cumulative Compounded Amount 0"
           mode="count"
         />
         <Metric
-          value={data.investorPosition.cumulativeHarvestedAmount1}
-          description="Cumulative Harvested Amount 1"
+          value={data.investorPosition.cumulativeCompoundedAmount1}
+          description="Cumulative Compounded Amount 1"
           mode="count"
         />
         <Metric
-          value={data.investorPosition.cumulativeHarvestedAmount0USD}
-          description="Cumulative Harvested Amount 0 USD"
+          value={data.investorPosition.cumulativeCompoundedAmount0USD}
+          description="Cumulative Compounded Amount 0 USD"
           mode="usd"
         />
         <Metric
-          value={data.investorPosition.cumulativeHarvestedAmount1USD}
-          description="Cumulative Harvested Amount 1 USD"
+          value={data.investorPosition.cumulativeCompoundedAmount1USD}
+          description="Cumulative Compounded Amount 1 USD"
           mode="usd"
         />
         <Metric
-          value={data.investorPosition.cumulativeHarvestValueUSD}
-          description="Cumulative Harvest Value USD"
+          value={data.investorPosition.cumulativeCompoundedValueUSD}
+          description="Cumulative Compounded Value USD"
           mode="usd"
         />
       </Section.Metrics>
@@ -204,11 +204,11 @@ export function InvestorPositionDashboard({
             { key: "underlyingBalance0USD", format: "usd" },
             { key: "underlyingBalance1USD", format: "usd" },
             { key: "positionValueUSD", format: "usd" },
-            { key: "harvestedAmount0", format: "float" },
-            { key: "harvestedAmount1", format: "float" },
-            { key: "harvestedAmount0USD", format: "usd" },
-            { key: "harvestedAmount1USD", format: "usd" },
-            { key: "harvestValueUSD", format: "usd" },
+            { key: "compoundedAmount0", format: "float" },
+            { key: "compoundedAmount1", format: "float" },
+            { key: "compoundedAmount0USD", format: "usd" },
+            { key: "compoundedAmount1USD", format: "usd" },
+            { key: "compoundedValueUSD", format: "usd" },
           ]}
         />
       </Section.Body>

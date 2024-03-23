@@ -24,11 +24,11 @@ type ColumnKeys =
   | "positionValueUSD"
   | "averageDailyPositionValueUSD30D"
   | "last30DailyPositionValuesUSD"
-  | "cumulativeHarvestedAmount0"
-  | "cumulativeHarvestedAmount1"
-  | "cumulativeHarvestedAmount0USD"
-  | "cumulativeHarvestedAmount1USD"
-  | "cumulativeHarvestValueUSD"
+  | "cumulativeCompoundedAmount0"
+  | "cumulativeCompoundedAmount1"
+  | "cumulativeCompoundedAmount0USD"
+  | "cumulativeCompoundedAmount1USD"
+  | "cumulativeCompoundedValueUSD"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "chain",
@@ -37,7 +37,7 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "underlyingBalance0USD",
   "underlyingBalance1USD",
   "positionValueUSD",
-  "cumulativeHarvestValueUSD",
+  "cumulativeCompoundedValueUSD",
   "actions",
 ];
 type VaultTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
@@ -163,38 +163,38 @@ const columns = [
     ),
   },
   {
-    key: "cumulativeHarvestedAmount0",
-    label: "Cumulative harvested amount 0",
+    key: "cumulativeCompoundedAmount0",
+    label: "Cumulative Compounded amount 0",
     render: (position) => (
-      <div>{formatAs(position.cumulativeHarvestedAmount0, "float")}</div>
+      <div>{formatAs(position.cumulativeCompoundedAmount0, "float")}</div>
     ),
   },
   {
-    key: "cumulativeHarvestedAmount1",
-    label: "Cumulative harvested amount 1",
+    key: "cumulativeCompoundedAmount1",
+    label: "Cumulative Compounded amount 1",
     render: (position) => (
-      <div>{formatAs(position.cumulativeHarvestedAmount1, "float")}</div>
+      <div>{formatAs(position.cumulativeCompoundedAmount1, "float")}</div>
     ),
   },
   {
-    key: "cumulativeHarvestedAmount0USD",
-    label: "Cumulative harvested amount 0 USD",
+    key: "cumulativeCompoundedAmount0USD",
+    label: "Cumulative Compounded amount 0 USD",
     render: (position) => (
-      <div>{formatAs(position.cumulativeHarvestedAmount0USD, "usd")}</div>
+      <div>{formatAs(position.cumulativeCompoundedAmount0USD, "usd")}</div>
     ),
   },
   {
-    key: "cumulativeHarvestedAmount1USD",
-    label: "Cumulative harvested amount 1 USD",
+    key: "cumulativeCompoundedAmount1USD",
+    label: "Cumulative Compounded amount 1 USD",
     render: (position) => (
-      <div>{formatAs(position.cumulativeHarvestedAmount1USD, "usd")}</div>
+      <div>{formatAs(position.cumulativeCompoundedAmount1USD, "usd")}</div>
     ),
   },
   {
-    key: "cumulativeHarvestValueUSD",
-    label: "Cumulative harvest value USD",
+    key: "cumulativeCompoundedValueUSD",
+    label: "Cumulative Compounded value USD",
     render: (position) => (
-      <div>{formatAs(position.cumulativeHarvestValueUSD, "usd")}</div>
+      <div>{formatAs(position.cumulativeCompoundedValueUSD, "usd")}</div>
     ),
   },
   {

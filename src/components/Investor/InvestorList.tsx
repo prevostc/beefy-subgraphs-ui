@@ -70,7 +70,7 @@ type ColumnKeys =
   | "cumulativeInteractionsCount"
   | "cumulativeDepositCount"
   | "cumulativeWithdrawCount"
-  | "cumulativeHarvestValueUSD"
+  | "cumulativeCompoundedValueUSD"
   | "actions";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "chain",
@@ -82,7 +82,7 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "cumulativeInteractionsCount",
   "cumulativeDepositCount",
   "cumulativeWithdrawCount",
-  "cumulativeHarvestValueUSD",
+  "cumulativeCompoundedValueUSD",
   "actions",
 ];
 type VaultTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
@@ -166,10 +166,10 @@ const columns = [
     ),
   },
   {
-    key: "cumulativeHarvestValueUSD",
-    label: "Cumulative harvest value USD",
+    key: "cumulativeCompoundedValueUSD",
+    label: "Cumulative Compounded value USD",
     render: (investor) => (
-      <div>{formatAs(investor.cumulativeHarvestValueUSD, "usd")}</div>
+      <div>{formatAs(investor.cumulativeCompoundedValueUSD, "usd")}</div>
     ),
   },
   {

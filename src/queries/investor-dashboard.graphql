@@ -24,7 +24,7 @@ fragment Investor on Investor {
   cumulativeInteractionsCount
   cumulativeDepositCount
   cumulativeWithdrawCount
-  cumulativeHarvestValueUSD
+  cumulativeCompoundedValueUSD
 }
 
 fragment InvestorPositionsList on Investor {
@@ -58,11 +58,11 @@ fragment PositionMetrics on InvestorPosition {
   positionValueUSD
   averageDailyPositionValueUSD30D
   last30DailyPositionValuesUSD
-  cumulativeHarvestedAmount0
-  cumulativeHarvestedAmount1
-  cumulativeHarvestedAmount0USD
-  cumulativeHarvestedAmount1USD
-  cumulativeHarvestValueUSD
+  cumulativeCompoundedAmount0
+  cumulativeCompoundedAmount1
+  cumulativeCompoundedAmount0USD
+  cumulativeCompoundedAmount1USD
+  cumulativeCompoundedValueUSD
 }
 
 fragment VaultTokens on BeefyCLVault {
@@ -86,7 +86,7 @@ fragment InvestorSnapshot on InvestorSnapshot {
   interactionsCount
   depositCount
   withdrawCount
-  harvestValueUSD
+  compoundedValueUSD
 }
 
 fragment InvestorSnapshotList on Investor {

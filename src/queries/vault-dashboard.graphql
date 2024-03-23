@@ -47,11 +47,11 @@ fragment VaultMetrics on BeefyCLVault {
   cumulativeDepositCount
   cumulativeWithdrawCount
   cumulativeTransferCount
-  cumulativeHarvestedAmount0
-  cumulativeHarvestedAmount1
-  cumulativeHarvestedAmount0USD
-  cumulativeHarvestedAmount1USD
-  cumulativeHarvestValueUSD
+  cumulativeCompoundedAmount0
+  cumulativeCompoundedAmount1
+  cumulativeCompoundedAmount0USD
+  cumulativeCompoundedAmount1USD
+  cumulativeCompoundedValueUSD
   cumulativeHarvesterFeeCollectedNative
   cumulativeProtocolFeeCollectedNative
   cumulativeStrategistFeeCollectedNative
@@ -77,11 +77,11 @@ fragment VaultHarvest on BeefyCLVaultHarvestEvent {
   underlyingAmount0USD
   underlyingAmount1USD
   totalValueLockedUSD
-  harvestedAmount0
-  harvestedAmount1
-  harvestedAmount0USD
-  harvestedAmount1USD
-  harvestValueUSD
+  compoundedAmount0
+  compoundedAmount1
+  compoundedAmount0USD
+  compoundedAmount1USD
+  compoundedValueUSD
   priceOfToken0InToken1
   priceOfToken0InUSD
 }
@@ -155,11 +155,11 @@ fragment VaultSnapshot on BeefyCLVaultSnapshot {
   depositCount
   withdrawCount
   transferCount
-  harvestedAmount0
-  harvestedAmount1
-  harvestedAmount0USD
-  harvestedAmount1USD
-  harvestValueUSD
+  compoundedAmount0
+  compoundedAmount1
+  compoundedAmount0USD
+  compoundedAmount1USD
+  compoundedValueUSD
   harvesterFeeCollectedNative
   protocolFeeCollectedNative
   strategistFeeCollectedNative

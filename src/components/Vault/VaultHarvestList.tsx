@@ -13,11 +13,11 @@ type ColumnKeys =
   | "underlyingAmount0USD"
   | "underlyingAmount1USD"
   | "totalValueLockedUSD"
-  | "harvestedAmount0"
-  | "harvestedAmount1"
-  | "harvestedAmount0USD"
-  | "harvestedAmount1USD"
-  | "harvestValueUSD"
+  | "compoundedAmount0"
+  | "compoundedAmount1"
+  | "compoundedAmount0USD"
+  | "compoundedAmount1USD"
+  | "compoundedValueUSD"
   | "priceOfToken0InToken1"
   | "priceOfToken0InUSD";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
@@ -28,11 +28,11 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "underlyingAmount0USD",
   "underlyingAmount1USD",
   "totalValueLockedUSD",
-  "harvestedAmount0",
-  "harvestedAmount1",
-  "harvestedAmount0USD",
-  "harvestedAmount1USD",
-  "harvestValueUSD",
+  "compoundedAmount0",
+  "compoundedAmount1",
+  "compoundedAmount0USD",
+  "compoundedAmount1USD",
+  "compoundedValueUSD",
   "priceOfToken0InToken1",
   "priceOfToken0InUSD",
 ];
@@ -75,29 +75,29 @@ const columns = [
     render: (row) => <div>{formatAs(row.totalValueLockedUSD, "usd")}</div>,
   },
   {
-    key: "harvestedAmount0",
-    label: "Harvested Amount 0",
-    render: (row) => <div>{formatAs(row.harvestedAmount0, "float")}</div>,
+    key: "compoundedAmount0",
+    label: "Compounded Amount 0",
+    render: (row) => <div>{formatAs(row.compoundedAmount0, "float")}</div>,
   },
   {
-    key: "harvestedAmount1",
-    label: "Harvested Amount 1",
-    render: (row) => <div>{formatAs(row.harvestedAmount1, "float")}</div>,
+    key: "compoundedAmount1",
+    label: "Compounded Amount 1",
+    render: (row) => <div>{formatAs(row.compoundedAmount1, "float")}</div>,
   },
   {
-    key: "harvestedAmount0USD",
-    label: "Harvested Amount 0 USD",
-    render: (row) => <div>{formatAs(row.harvestedAmount0USD, "usd")}</div>,
+    key: "compoundedAmount0USD",
+    label: "Compounded Amount 0 USD",
+    render: (row) => <div>{formatAs(row.compoundedAmount0USD, "usd")}</div>,
   },
   {
-    key: "harvestedAmount1USD",
-    label: "Harvested Amount 1 USD",
-    render: (row) => <div>{formatAs(row.harvestedAmount1USD, "usd")}</div>,
+    key: "compoundedAmount1USD",
+    label: "Compounded Amount 1 USD",
+    render: (row) => <div>{formatAs(row.compoundedAmount1USD, "usd")}</div>,
   },
   {
-    key: "harvestValueUSD",
+    key: "compoundedValueUSD",
     label: "Harvest Value USD",
-    render: (row) => <div>{formatAs(row.harvestValueUSD, "usd")}</div>,
+    render: (row) => <div>{formatAs(row.compoundedValueUSD, "usd")}</div>,
   },
   {
     key: "priceOfToken0InToken1",

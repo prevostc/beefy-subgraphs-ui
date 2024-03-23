@@ -15,11 +15,11 @@ fragment PositionMetrics on InvestorPosition {
   positionValueUSD
   averageDailyPositionValueUSD30D
   last30DailyPositionValuesUSD
-  cumulativeHarvestedAmount0
-  cumulativeHarvestedAmount1
-  cumulativeHarvestedAmount0USD
-  cumulativeHarvestedAmount1USD
-  cumulativeHarvestValueUSD
+  cumulativeCompoundedAmount0
+  cumulativeCompoundedAmount1
+  cumulativeCompoundedAmount0USD
+  cumulativeCompoundedAmount1USD
+  cumulativeCompoundedValueUSD
 }
 
 fragment PositionSnapshotList on InvestorPosition {
@@ -43,11 +43,11 @@ fragment InvestorPositionSnapshot on InvestorPositionSnapshot {
   underlyingBalance0USD
   underlyingBalance1USD
   positionValueUSD
-  harvestedAmount0
-  harvestedAmount1
-  harvestedAmount0USD
-  harvestedAmount1USD
-  harvestValueUSD
+  compoundedAmount0
+  compoundedAmount1
+  compoundedAmount0USD
+  compoundedAmount1USD
+  compoundedValueUSD
 }
 
 fragment PositionNavigation on InvestorPosition {

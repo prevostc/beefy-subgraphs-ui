@@ -60,10 +60,10 @@ export function InvestorMetrics({
           get={(v) => v.cumulativeWithdrawCount}
         />
         <ChainMetric
-          description="Cumulative Harvest Value (USD)"
+          description="Cumulative Compounded Value (USD)"
           mode="usd"
           values={investor}
-          get={(v) => v.cumulativeHarvestValueUSD}
+          get={(v) => v.cumulativeCompoundedValueUSD}
         />
       </Section.Body>
     </>

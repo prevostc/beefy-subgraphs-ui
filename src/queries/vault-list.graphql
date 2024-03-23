@@ -59,11 +59,11 @@ fragment VaultMetrics on BeefyCLVault {
   cumulativeDepositCount
   cumulativeWithdrawCount
   cumulativeTransferCount
-  cumulativeHarvestedAmount0
-  cumulativeHarvestedAmount1
-  cumulativeHarvestedAmount0USD
-  cumulativeHarvestedAmount1USD
-  cumulativeHarvestValueUSD
+  cumulativeCompoundedAmount0
+  cumulativeCompoundedAmount1
+  cumulativeCompoundedAmount0USD
+  cumulativeCompoundedAmount1USD
+  cumulativeCompoundedValueUSD
   cumulativeHarvesterFeeCollectedNative
   cumulativeProtocolFeeCollectedNative
   cumulativeStrategistFeeCollectedNative

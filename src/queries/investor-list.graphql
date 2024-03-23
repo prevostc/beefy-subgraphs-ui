@@ -10,7 +10,7 @@ fragment Investor on Investor {
   cumulativeInteractionsCount
   cumulativeDepositCount
   cumulativeWithdrawCount
-  cumulativeHarvestValueUSD
+  cumulativeCompoundedValueUSD
 }
 
 fragment Token on Token {

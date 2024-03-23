@@ -123,28 +123,28 @@ export function VaultMetrics({
       <Section.Title>Harvest</Section.Title>
       <Section.Metrics>
         <Metric
-          value={vault.cumulativeHarvestedAmount0}
-          description="Cumulative Harvested token 0"
+          value={vault.cumulativeCompoundedAmount0}
+          description="Cumulative Compounded token 0"
           mode="count"
         />
         <Metric
-          value={vault.cumulativeHarvestedAmount1}
-          description="Cumulative Harvested token 1"
+          value={vault.cumulativeCompoundedAmount1}
+          description="Cumulative Compounded token 1"
           mode="count"
         />
         <Metric
-          value={vault.cumulativeHarvestedAmount0USD}
-          description="Cumulative Harvested token 0 (in USD)"
+          value={vault.cumulativeCompoundedAmount0USD}
+          description="Cumulative Compounded token 0 (in USD)"
           mode="usd"
         />
         <Metric
-          value={vault.cumulativeHarvestedAmount1USD}
-          description="Cumulative Harvested token 1 (in USD)"
+          value={vault.cumulativeCompoundedAmount1USD}
+          description="Cumulative Compounded token 1 (in USD)"
           mode="usd"
         />
         <Metric
-          value={vault.cumulativeHarvestValueUSD}
-          description="Cumulative Harvested (in USD)"
+          value={vault.cumulativeCompoundedValueUSD}
+          description="Cumulative Compounded (in USD)"
           mode="usd"
         />
       </Section.Metrics>
@@ -153,12 +153,12 @@ export function VaultMetrics({
       <Section.Metrics>
         <Metric
           value={vault.cumulativeHarvesterFeeCollectedNative}
-          description="Cumulative Harvested Fee (in native)"
+          description="Cumulative Compounded Fee (in native)"
           mode="count"
         />
         <Metric
           value={vault.cumulativeHarvesterFeeCollectedUSD}
-          description="Cumulative Harvested Fee (in USD)"
+          description="Cumulative Compounded Fee (in USD)"
           mode="usd"
         />
         <Metric
