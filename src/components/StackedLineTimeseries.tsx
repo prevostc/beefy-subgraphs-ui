@@ -4,14 +4,13 @@ import { Snapshot } from "../../.graphclient";
 import { ts2Date } from "../utils/timestamp-to-date";
 import Decimal from "decimal.js";
 import { EChartsOption } from "echarts";
-import { formatAs } from "../utils/format-number";
+import { NumberFormatMode, formatAs } from "../utils/format-number";
 import { Checkbox, Select, SelectItem } from "@nextui-org/react";
 
 type ValidMetric<TKey> = keyof TKey & string;
 type StackedLineTimeseriesConfig<TKey> = {
   key: ValidMetric<TKey>;
-  //title: string;
-  format: "usd" | "eth" | "count";
+  format: NumberFormatMode;
 };
 
 type Snapshotify<TS> = TS extends Snapshot

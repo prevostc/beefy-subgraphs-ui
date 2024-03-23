@@ -108,12 +108,57 @@ fragment VaultPriceRange on BeefyCLVaultSnapshot {
   priceRangeMaxUSD
 }
 
-query VaultStats($address: ID!) {
+fragment VaultSnapshot on BeefyCLVaultSnapshot {
+  id
+  period
+  roundedTimestamp
+  timestamp
+
+  currentPriceOfToken0InToken1
+  currentPriceOfToken0InUSD
+  priceRangeMin1
+  priceRangeMax1
+  priceRangeMinUSD
+  priceRangeMaxUSD
+  underlyingAmount0
+  underlyingAmount1
+  underlyingAmount0USD
+  underlyingAmount1USD
+  totalValueLockedUSD
+  harvestCount
+  depositCount
+  withdrawCount
+  transferCount
+  harvestedAmount0
+  harvestedAmount1
+  harvestedAmount0USD
+  harvestedAmount1USD
+  harvestValueUSD
+  harvesterFeeCollectedNative
+  protocolFeeCollectedNative
+  strategistFeeCollectedNative
+  harvesterFeeCollectedUSD
+  protocolFeeCollectedUSD
+  strategistFeeCollectedUSD
+}
+
+fragment VaultSnapshotList on BeefyCLVault {
+  dailySnapshots: snapshots(
+    where: { period: 86400 }
+    orderBy: roundedTimestamp
+    orderDirection: desc
+  ) {
+    ...VaultSnapshot
+  }
+}
+
+query VaultDashboard($address: ID!) {
   vault: beefyCLVault(id: $address) {
     address: id
     ...VaultAddresses
     ...VaultMetrics
     ...VaultPriceRangeList
     ...VaultHarvestList
+    ...VaultSnapshotList
   }
 }
