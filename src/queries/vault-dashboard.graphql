@@ -185,6 +185,75 @@ fragment VaultSnapshotList on BeefyCLVault {
   }
 }
 
+fragment PositionMetrics on InvestorPosition {
+  id
+  closedPositionDuration
+  positionOpenAtTimestamp
+  sharesBalance
+  initialUnderlyingBalance0
+  initialUnderlyingBalance1
+  initialUnderlyingBalance0USD
+  initialUnderlyingBalance1USD
+  initialPositionValueUSD
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+  averageDailyPositionValueUSD30D
+  last30DailyPositionValuesUSD
+  cumulativeCompoundedAmount0
+  cumulativeCompoundedAmount1
+  cumulativeCompoundedAmount0USD
+  cumulativeCompoundedAmount1USD
+  cumulativeCompoundedValueUSD
+}
+
+fragment VaultPositionsList on BeefyCLVault {
+  positions {
+    ...PositionMetrics
+    vault {
+      id
+      address: id
+      ...VaultTokens
+    }
+    createdWith {
+      ...Transaction
+    }
+  }
+}
+
+fragment VaultPositionInteractionList on BeefyCLVault {
+  interactions {
+    ...InvestorPositionInteraction
+  }
+}
+
+fragment InvestorPositionInteraction on InvestorPositionInteraction {
+  id
+  timestamp
+  investor {
+    address: id
+  }
+  createdWith {
+    id
+    blockTimestamp
+  }
+  type
+  sharesBalance
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+  sharesBalanceDelta
+  underlyingBalance0Delta
+  underlyingBalance1Delta
+  underlyingBalance0DeltaUSD
+  underlyingBalance1DeltaUSD
+  positionValueUSDDelta
+}
+
 query VaultDashboard($address: ID!) {
   vault: beefyCLVault(id: $address) {
     address: id
@@ -194,5 +263,7 @@ query VaultDashboard($address: ID!) {
     ...VaultHarvestList
     ...VaultSnapshotList
     ...VaultCollectList
+    ...VaultPositionsList
+    ...VaultPositionInteractionList
   }
 }

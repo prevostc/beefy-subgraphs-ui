@@ -74,6 +74,9 @@ fragment InvestorPositionInteractionList on InvestorPosition {
 fragment InvestorPositionInteraction on InvestorPositionInteraction {
   id
   timestamp
+  investor {
+    address: id
+  }
   createdWith {
     id
     blockTimestamp

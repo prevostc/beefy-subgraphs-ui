@@ -13,6 +13,8 @@ import { VaultPriceRangeTsChart } from "./VaultPriceRangeTsChart";
 import { VaultHarvestTable } from "./VaultHarvestList";
 import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { VaultCollectTable } from "./VaultCollectList";
+import { InvestorPositionsTable } from "../Investor/Position/InvestorPositionsTable";
+import { InvestorPositionInteractionTable } from "../Investor/Position/InvestorPositionInteractionTable";
 
 const sdk = getBuiltGraphSDK();
 const createFetchData = (chain: string, address: string) => async () => {
@@ -60,6 +62,18 @@ export function VaultDashboard({
         <VaultCollectTable data={data.vault.collectedFees} />
       </Section.Body>
 
+      <Section.Title>Positions</Section.Title>
+      <Section.Body>
+        <InvestorPositionsTable
+          data={data.vault.positions.map((i) => ({ chain, ...i }))}
+        />
+      </Section.Body>
+
+      <Section.Title>Interactions</Section.Title>
+      <Section.Body>
+        <InvestorPositionInteractionTable data={data.vault.interactions} />
+      </Section.Body>
+
       <Section.Title>Timeseries</Section.Title>
       <Section.Body>
         <StackedLineTimeseries<VaultSnapshotFragment>
@@ -96,6 +110,9 @@ export function VaultDashboard({
             { key: "harvesterFeeCollectedUSD", format: "usd" },
             { key: "protocolFeeCollectedUSD", format: "usd" },
             { key: "strategistFeeCollectedUSD", format: "usd" },
+            { key: "apr1D", format: "percent" },
+            { key: "apr7D", format: "percent" },
+            { key: "apr30D", format: "percent" },
           ]}
         />
       </Section.Body>
