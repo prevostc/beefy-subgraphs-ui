@@ -28,13 +28,11 @@ export function SimpleTable<C extends string, R extends { id: string }>({
   columns,
   initialVisibleColumns,
   "aria-label": ariaLabel,
-  onRowClick,
 }: {
   data: R[];
   columns: ColumnDefType<C, R>[];
   initialVisibleColumns: C[];
   "aria-label": string;
-  onRowClick?: (row: R) => void;
 }) {
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(initialVisibleColumns)
@@ -50,7 +48,7 @@ export function SimpleTable<C extends string, R extends { id: string }>({
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.key)
     );
-  }, [visibleColumns]);
+  }, [columns, visibleColumns]);
 
   const pageItems = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -59,11 +57,14 @@ export function SimpleTable<C extends string, R extends { id: string }>({
     return data.slice(start, end);
   }, [page, data, rowsPerPage]);
 
-  const renderCell = useCallback((vault: (typeof data)[0], columnKey: C) => {
-    const column = columns.find((c) => c.key === columnKey);
-    if (!column) return null;
-    return column.render(vault);
-  }, []);
+  const renderCell = useCallback(
+    (vault: (typeof data)[0], columnKey: C) => {
+      const column = columns.find((c) => c.key === columnKey);
+      if (!column) return null;
+      return column.render(vault);
+    },
+    [columns]
+  );
 
   const onNextPage = useCallback(() => {
     if (page < pages) {
@@ -133,7 +134,13 @@ export function SimpleTable<C extends string, R extends { id: string }>({
         </div>
       </div>
     );
-  }, [visibleColumns, setVisibleColumns, onRowsPerPageChange, data.length]);
+  }, [
+    visibleColumns,
+    setVisibleColumns,
+    onRowsPerPageChange,
+    data.length,
+    columns,
+  ]);
 
   const bottomContent = useMemo(() => {
     return (
@@ -167,7 +174,7 @@ export function SimpleTable<C extends string, R extends { id: string }>({
         </div>
       </div>
     );
-  }, [pageItems.length, page, pages]);
+  }, [page, pages, onNextPage, onPreviousPage, setPage]);
 
   return (
     <Table
@@ -179,12 +186,13 @@ export function SimpleTable<C extends string, R extends { id: string }>({
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: "max-h-[600px]",
       }}
       topContent={topContent}
       topContentPlacement="outside"
     >
       <TableHeader
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         columns={headerColumns as any as { key: string; label: string }[]}
       >
         {(column) => (
@@ -197,6 +205,7 @@ export function SimpleTable<C extends string, R extends { id: string }>({
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               <TableCell>{renderCell(item, columnKey as any)}</TableCell>
             )}
           </TableRow>

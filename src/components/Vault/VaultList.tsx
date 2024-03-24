@@ -68,11 +68,34 @@ type RowType = VaultListQuery["vaults"][0] & { chain: string };
 type ColumnKeys =
   | "chain"
   | "name"
+  | "currentPriceOfToken0InToken1"
+  | "currentPriceOfToken0InUSD"
+  | "priceRangeMin1"
+  | "priceRangeMax1"
+  | "priceRangeMinUSD"
+  | "priceRangeMaxUSD"
+  | "underlyingAmount0"
+  | "underlyingAmount1"
+  | "underlyingAmount0USD"
+  | "underlyingAmount1USD"
   | "totalValueLockedUSD"
   | "cumulativeHarvestCount"
   | "cumulativeDepositCount"
   | "cumulativeWithdrawCount"
   | "cumulativeTransferCount"
+  | "cumulativeCompoundedAmount0"
+  | "cumulativeCompoundedAmount1"
+  | "cumulativeCompoundedAmount0USD"
+  | "cumulativeCompoundedAmount1USD"
+  | "cumulativeCompoundedValueUSD"
+  | "cumulativeHarvesterFeeCollectedNative"
+  | "cumulativeProtocolFeeCollectedNative"
+  | "cumulativeStrategistFeeCollectedNative"
+  | "cumulativeHarvesterFeeCollectedUSD"
+  | "cumulativeProtocolFeeCollectedUSD"
+  | "cumulativeStrategistFeeCollectedUSD"
+  | "lastCollectedFeeTimestamp"
+  | "annualPercentageRateFromLastCollection"
   | "sharesToken"
   | "underlyingToken0"
   | "underlyingToken1"
@@ -83,6 +106,7 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "chain",
   "name",
   "totalValueLockedUSD",
+  "annualPercentageRateFromLastCollection",
   "cumulativeHarvestCount",
   "cumulativeDepositCount",
   "cumulativeWithdrawCount",
@@ -106,36 +130,131 @@ const columns = [
   },
   {
     key: "totalValueLockedUSD",
-    label: "TVL",
+    label: "Total Value Locked (in USD)",
     render: (vault) => <div>{formatAs(vault.totalValueLockedUSD, "usd")}</div>,
   },
   {
+    key: "annualPercentageRateFromLastCollection",
+    label: "APR",
+    render: (vault) => (
+      <div>
+        {formatAs(vault.annualPercentageRateFromLastCollection, "percent")}
+      </div>
+    ),
+  },
+  {
     key: "cumulativeHarvestCount",
-    label: "Harvests",
+    label: "Cumulative Harvest Count",
     render: (vault) => (
       <div>{formatAs(vault.cumulativeHarvestCount, "count")}</div>
     ),
   },
   {
     key: "cumulativeDepositCount",
-    label: "Deposits",
+    label: "Cumulative Deposit Count",
     render: (vault) => (
       <div>{formatAs(vault.cumulativeDepositCount, "count")}</div>
     ),
   },
   {
     key: "cumulativeWithdrawCount",
-    label: "Withdraws",
+    label: "Cumulative Withdraw Count",
     render: (vault) => (
       <div>{formatAs(vault.cumulativeWithdrawCount, "count")}</div>
     ),
   },
   {
     key: "cumulativeTransferCount",
-    label: "Transfers",
+    label: "Cumulative Transfer Count",
     render: (vault) => (
       <div>{formatAs(vault.cumulativeTransferCount, "count")}</div>
     ),
+  },
+  {
+    key: "cumulativeCompoundedAmount0",
+    label: "Cumulative Compounded token 0",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeCompoundedAmount0, "count")}</div>
+    ),
+  },
+  {
+    key: "cumulativeCompoundedAmount1",
+    label: "Cumulative Compounded token 1",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeCompoundedAmount1, "count")}</div>
+    ),
+  },
+  {
+    key: "cumulativeCompoundedAmount0USD",
+    label: "Cumulative Compounded token 0 (in USD)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeCompoundedAmount0USD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeCompoundedAmount1USD",
+    label: "Cumulative Compounded token 1 (in USD)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeCompoundedAmount1USD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeCompoundedValueUSD",
+    label: "Cumulative Compounded (in USD)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeCompoundedValueUSD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeHarvesterFeeCollectedNative",
+    label: "Cumulative Harvester Fee Collected (Native)",
+    render: (vault) => (
+      <div>
+        {formatAs(vault.cumulativeHarvesterFeeCollectedNative, "count")}
+      </div>
+    ),
+  },
+  {
+    key: "cumulativeProtocolFeeCollectedNative",
+    label: "Cumulative Protocol Fee Collected (Native)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeProtocolFeeCollectedNative, "count")}</div>
+    ),
+  },
+  {
+    key: "cumulativeStrategistFeeCollectedNative",
+    label: "Cumulative Strategist Fee Collected (Native)",
+    render: (vault) => (
+      <div>
+        {formatAs(vault.cumulativeStrategistFeeCollectedNative, "count")}
+      </div>
+    ),
+  },
+  {
+    key: "cumulativeHarvesterFeeCollectedUSD",
+    label: "Cumulative Harvester Fee Collected (in USD)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeHarvesterFeeCollectedUSD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeProtocolFeeCollectedUSD",
+    label: "Cumulative Protocol Fee Collected (in USD)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeProtocolFeeCollectedUSD, "usd")}</div>
+    ),
+  },
+  {
+    key: "cumulativeStrategistFeeCollectedUSD",
+    label: "Cumulative Strategist Fee Collected (in USD)",
+    render: (vault) => (
+      <div>{formatAs(vault.cumulativeStrategistFeeCollectedUSD, "usd")}</div>
+    ),
+  },
+  {
+    key: "lastCollectedFeeTimestamp",
+    label: "Last Collected Fee Timestamp",
+    render: (vault) => <div>{vault.lastCollectedFeeTimestamp}</div>,
   },
   {
     key: "sharesToken",

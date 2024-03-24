@@ -58,6 +58,8 @@ fragment VaultMetrics on BeefyCLVault {
   cumulativeHarvesterFeeCollectedUSD
   cumulativeProtocolFeeCollectedUSD
   cumulativeStrategistFeeCollectedUSD
+  lastCollectedFeeTimestamp
+  annualPercentageRateFromLastCollection
 }
 
 fragment VaultHarvestList on BeefyCLVault {
@@ -166,6 +168,7 @@ fragment VaultSnapshot on BeefyCLVaultSnapshot {
   harvesterFeeCollectedUSD
   protocolFeeCollectedUSD
   strategistFeeCollectedUSD
+  annualPercentageRateFromLastCollection
 }
 
 fragment VaultSnapshotList on BeefyCLVault {
