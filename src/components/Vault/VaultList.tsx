@@ -95,6 +95,7 @@ type ColumnKeys =
   | "cumulativeProtocolFeeCollectedUSD"
   | "cumulativeStrategistFeeCollectedUSD"
   | "lastCollectedFeeTimestamp"
+  | "aprState"
   | "apr1D"
   | "apr7D"
   | "apr30D"
@@ -136,6 +137,13 @@ const columns = [
     key: "totalValueLockedUSD",
     label: "Total Value Locked (in USD)",
     render: (vault) => <div>{formatAs(vault.totalValueLockedUSD, "usd")}</div>,
+  },
+  {
+    key: "aprState",
+    label: "APR State",
+    render: (vault) => (
+      <div>{vault.aprState.map((d) => d.toString()).join("\n")}</div>
+    ),
   },
   {
     key: "apr1D",
