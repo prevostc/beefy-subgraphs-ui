@@ -3,12 +3,14 @@ import { HexDisplay } from "../../HexDisplay";
 import { ColumnDefType, SimpleTable } from "../../SimpleTable";
 import { formatAs } from "../../../utils/format-number";
 
-type RowType = InvestorPositionInteractionFragment;
+type RowType = InvestorPositionInteractionFragment & { chain: string };
 
 type ColumnKeys =
+  | "chain"
   | "createdWith"
   | "timestamp"
   | "investor"
+  | "vault"
   | "type"
   | "sharesBalance"
   | "underlyingBalance0"
@@ -23,6 +25,8 @@ type ColumnKeys =
   | "underlyingBalance1DeltaUSD"
   | "positionValueUSDDelta";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
+  "chain",
+  "vault",
   "investor",
   "createdWith",
   "timestamp",
@@ -35,6 +39,18 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
 type InvestorPositionInteractionColumnDef = ColumnDefType<ColumnKeys, RowType>;
 
 const columns = [
+  {
+    key: "chain",
+    label: "Chain",
+    render: (interaction) => <div>{interaction.chain}</div>,
+  },
+  {
+    key: "vault",
+    label: "Vault",
+    render: (interaction) => (
+      <HexDisplay hexString={interaction.vault.address} />
+    ),
+  },
   {
     key: "investor",
     label: "Investor",

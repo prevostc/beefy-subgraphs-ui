@@ -71,7 +71,9 @@ export function VaultDashboard({
 
       <Section.Title>Interactions</Section.Title>
       <Section.Body>
-        <InvestorPositionInteractionTable data={data.vault.interactions} />
+        <InvestorPositionInteractionTable
+          data={data.vault.interactions.map((i) => ({ chain, ...i }))}
+        />
       </Section.Body>
 
       <Section.Title>Timeseries</Section.Title>

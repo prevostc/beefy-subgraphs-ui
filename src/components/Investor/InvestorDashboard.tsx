@@ -15,6 +15,7 @@ import { InvestorDashboardDocument } from "../../../.graphclient/index";
 import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { PageBody } from "../PageBody";
 import { allChains } from "../../utils/chains";
+import { InvestorPositionInteractionTable } from "./Position/InvestorPositionInteractionTable";
 
 const sdk = getBuiltGraphSDK();
 const createFetchData = (address: string) => async () => {
@@ -104,6 +105,17 @@ export function InvestorDashboard({ address }: { address: string }) {
               format: "usd",
             },
           ]}
+        />
+      </Section.Body>
+
+      <Section.Title>Interactions</Section.Title>
+      <Section.Body>
+        <InvestorPositionInteractionTable
+          data={data
+            .map((c) =>
+              c.investor.interactions.map((i) => ({ ...i, chain: c.chain }))
+            )
+            .flat()}
         />
       </Section.Body>
 

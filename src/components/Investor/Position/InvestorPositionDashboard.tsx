@@ -176,7 +176,10 @@ export function InvestorPositionDashboard({
       <Section.Title>Interactions</Section.Title>
       <Section.Body>
         <InvestorPositionInteractionTable
-          data={data.investorPosition.interactions}
+          data={data.investorPosition.interactions.map((i) => ({
+            ...i,
+            chain,
+          }))}
         />
       </Section.Body>
 

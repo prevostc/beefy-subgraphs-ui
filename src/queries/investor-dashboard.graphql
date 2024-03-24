@@ -99,10 +99,45 @@ fragment InvestorSnapshotList on Investor {
   }
 }
 
+fragment InvestorInteractionList on Investor {
+  interactions {
+    ...InvestorPositionInteraction
+  }
+}
+
+fragment InvestorPositionInteraction on InvestorPositionInteraction {
+  id
+  timestamp
+  vault {
+    address: id
+  }
+  investor {
+    address: id
+  }
+  createdWith {
+    id
+    blockTimestamp
+  }
+  type
+  sharesBalance
+  underlyingBalance0
+  underlyingBalance1
+  underlyingBalance0USD
+  underlyingBalance1USD
+  positionValueUSD
+  sharesBalanceDelta
+  underlyingBalance0Delta
+  underlyingBalance1Delta
+  underlyingBalance0DeltaUSD
+  underlyingBalance1DeltaUSD
+  positionValueUSDDelta
+}
+
 query InvestorDashboard($address: ID!, $first: Int = 1000, $skip: Int = 0) {
   investor(id: $address) {
     ...Investor
     ...InvestorPositionsList
     ...InvestorSnapshotList
+    ...InvestorInteractionList
   }
 }
