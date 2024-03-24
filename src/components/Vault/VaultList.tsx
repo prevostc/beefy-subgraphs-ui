@@ -95,7 +95,9 @@ type ColumnKeys =
   | "cumulativeProtocolFeeCollectedUSD"
   | "cumulativeStrategistFeeCollectedUSD"
   | "lastCollectedFeeTimestamp"
-  | "annualPercentageRateFromLastCollection"
+  | "apr1D"
+  | "apr7D"
+  | "apr30D"
   | "sharesToken"
   | "underlyingToken0"
   | "underlyingToken1"
@@ -106,7 +108,9 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "chain",
   "name",
   "totalValueLockedUSD",
-  "annualPercentageRateFromLastCollection",
+  "apr1D",
+  "apr7D",
+  "apr30D",
   "cumulativeHarvestCount",
   "cumulativeDepositCount",
   "cumulativeWithdrawCount",
@@ -134,13 +138,19 @@ const columns = [
     render: (vault) => <div>{formatAs(vault.totalValueLockedUSD, "usd")}</div>,
   },
   {
-    key: "annualPercentageRateFromLastCollection",
-    label: "APR",
-    render: (vault) => (
-      <div>
-        {formatAs(vault.annualPercentageRateFromLastCollection, "percent")}
-      </div>
-    ),
+    key: "apr1D",
+    label: "APR 1D",
+    render: (vault) => <div>{formatAs(vault.apr1D, "percent")}</div>,
+  },
+  {
+    key: "apr7D",
+    label: "APR 7D",
+    render: (vault) => <div>{formatAs(vault.apr7D, "percent")}</div>,
+  },
+  {
+    key: "apr30D",
+    label: "APR 30D",
+    render: (vault) => <div>{formatAs(vault.apr30D, "percent")}</div>,
   },
   {
     key: "cumulativeHarvestCount",
@@ -250,11 +260,6 @@ const columns = [
     render: (vault) => (
       <div>{formatAs(vault.cumulativeStrategistFeeCollectedUSD, "usd")}</div>
     ),
-  },
-  {
-    key: "lastCollectedFeeTimestamp",
-    label: "Last Collected Fee Timestamp",
-    render: (vault) => <div>{vault.lastCollectedFeeTimestamp}</div>,
   },
   {
     key: "sharesToken",

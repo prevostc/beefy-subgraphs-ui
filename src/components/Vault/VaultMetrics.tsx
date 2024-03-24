@@ -181,16 +181,9 @@ export function VaultMetrics({
           description="Cumulative Strategist Fee (in USD)"
           mode="usd"
         />
-        <Metric
-          value={vault.lastCollectedFeeTimestamp}
-          description="Last Collected Fee Timestamp"
-          mode="datetime"
-        />
-        <Metric
-          value={vault.annualPercentageRateFromLastCollection}
-          description="APR from last collection"
-          mode="percent"
-        />
+        <Metric value={vault.apr1D} description="APR 1D" mode="percent" />
+        <Metric value={vault.apr7D} description="APR 7D" mode="percent" />
+        <Metric value={vault.apr30D} description="APR 30D" mode="percent" />
       </Section.Metrics>
     </>
   );
