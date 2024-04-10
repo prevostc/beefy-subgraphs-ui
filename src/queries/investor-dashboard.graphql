@@ -75,6 +75,9 @@ fragment VaultTokens on BeefyCLVault {
   underlyingToken1 {
     ...Token
   }
+  earnedToken {
+    ...Token
+  }
 }
 
 fragment InvestorSnapshot on InvestorSnapshot {

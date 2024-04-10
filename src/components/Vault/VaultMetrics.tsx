@@ -30,6 +30,7 @@ export function VaultMetrics({
           token={vault.underlyingToken1}
           description="Underlying token 1"
         />
+        <TokenBlock token={vault.earnedToken} description="Earned token" />
         <VaultAddressesBlock vaultAddresses={vault} description="Addresses" />
       </Section.Metrics>
 

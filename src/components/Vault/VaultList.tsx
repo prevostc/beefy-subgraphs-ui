@@ -102,6 +102,7 @@ type ColumnKeys =
   | "sharesToken"
   | "underlyingToken0"
   | "underlyingToken1"
+  | "earnedToken"
   | "createdWith"
   | "addresses"
   | "actions";
@@ -283,6 +284,11 @@ const columns = [
     key: "underlyingToken1",
     label: "Underlying token 1",
     render: (vault) => <TokenDataTable token={vault.underlyingToken1} />,
+  },
+  {
+    key: "earnedToken",
+    label: "Earned token",
+    render: (vault) => <TokenDataTable token={vault.earnedToken} />,
   },
   {
     key: "createdWith",

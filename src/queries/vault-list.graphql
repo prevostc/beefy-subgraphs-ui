@@ -29,6 +29,9 @@ fragment VaultAddresses on BeefyCLVault {
   underlyingToken1 {
     ...Token
   }
+  earnedToken {
+    ...Token
+  }
 }
 
 fragment VaultTokens on BeefyCLVault {
@@ -39,6 +42,9 @@ fragment VaultTokens on BeefyCLVault {
     ...Token
   }
   underlyingToken1 {
+    ...Token
+  }
+  earnedToken {
     ...Token
   }
 }

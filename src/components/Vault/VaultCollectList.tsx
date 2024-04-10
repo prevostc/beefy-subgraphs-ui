@@ -15,11 +15,15 @@ type ColumnKeys =
   | "totalValueLockedUSD"
   | "collectedAmount0"
   | "collectedAmount1"
+  | "collectedAmountEarned"
   | "collectedAmount0USD"
   | "collectedAmount1USD"
+  | "collectedAmountEarnedUSD"
   | "collectValueUSD"
   | "priceOfToken0InToken1"
-  | "priceOfToken0InUSD";
+  | "priceOfToken0InUSD"
+  | "priceOfToken1InUSD"
+  | "collectedAmountEarnedUSD";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "createdWith",
   "timestamp",
@@ -30,11 +34,15 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "totalValueLockedUSD",
   "collectedAmount0",
   "collectedAmount1",
+  "collectedAmountEarned",
   "collectedAmount0USD",
   "collectedAmount1USD",
+  "collectedAmountEarnedUSD",
   "collectValueUSD",
   "priceOfToken0InToken1",
   "priceOfToken0InUSD",
+  "priceOfToken1InUSD",
+  "collectedAmountEarnedUSD",
 ];
 type VaultCollectTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
 
@@ -85,6 +93,11 @@ const columns = [
     render: (row) => <div>{formatAs(row.collectedAmount1, "float")}</div>,
   },
   {
+    key: "collectedAmountEarned",
+    label: "Collected Amount Earned",
+    render: (row) => <div>{formatAs(row.collectedAmountEarned, "float")}</div>,
+  },
+  {
     key: "collectedAmount0USD",
     label: "Collected Amount 0 USD",
     render: (row) => <div>{formatAs(row.collectedAmount0USD, "usd")}</div>,
@@ -93,6 +106,11 @@ const columns = [
     key: "collectedAmount1USD",
     label: "Collected Amount 1 USD",
     render: (row) => <div>{formatAs(row.collectedAmount1USD, "usd")}</div>,
+  },
+  {
+    key: "collectedAmountEarnedUSD",
+    label: "Collected Amount Earned USD",
+    render: (row) => <div>{formatAs(row.collectedAmountEarnedUSD, "usd")}</div>,
   },
   {
     key: "collectedValueUSD",
@@ -108,6 +126,16 @@ const columns = [
     key: "priceOfToken0InUSD",
     label: "Price Of Token 0 In USD",
     render: (row) => <div>{formatAs(row.priceOfToken0InUSD, "usd")}</div>,
+  },
+  {
+    key: "priceOfToken1InUSD",
+    label: "Price Of Token 1 In USD",
+    render: (row) => <div>{formatAs(row.priceOfToken1InUSD, "usd")}</div>,
+  },
+  {
+    key: "collectedAmountEarnedUSD",
+    label: "Price Of Earned Token In USD",
+    render: (row) => <div>{formatAs(row.collectedAmountEarnedUSD, "usd")}</div>,
   },
 ] as VaultCollectTableColumnDef[];
 

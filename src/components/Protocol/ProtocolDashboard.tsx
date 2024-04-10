@@ -68,6 +68,12 @@ export function ProtocolMetrics() {
           mode="count"
         />
         <ChainMetric
+          description="Active Investor Count"
+          values={data}
+          get={(v) => v.protocol?.activeInvestorCount}
+          mode="count"
+        />
+        <ChainMetric
           description="Cumulative Harvest Count"
           values={data}
           get={(v) => v.protocol?.cumulativeHarvestCount}

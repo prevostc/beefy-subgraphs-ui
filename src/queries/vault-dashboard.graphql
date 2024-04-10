@@ -29,6 +29,9 @@ fragment VaultAddresses on BeefyCLVault {
   underlyingToken1 {
     ...Token
   }
+  earnedToken {
+    ...Token
+  }
 }
 
 fragment VaultMetrics on BeefyCLVault {
@@ -109,11 +112,15 @@ fragment VaultCollect on BeefyCLVaultUnderlyingFeesCollectedEvent {
   totalValueLockedUSD
   collectedAmount0
   collectedAmount1
+  collectedAmountEarned
   collectedAmount0USD
   collectedAmount1USD
+  collectedAmountEarnedUSD
   collectedValueUSD
   priceOfToken0InToken1
   priceOfToken0InUSD
+  priceOfToken1InUSD
+  collectedAmountEarnedUSD
 }
 
 fragment VaultPriceRangeList on BeefyCLVault {
