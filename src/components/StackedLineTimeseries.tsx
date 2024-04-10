@@ -45,6 +45,7 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
     [config]
   );
   const [yAxisFitData, setYAxisFitData] = useState(false);
+  const [stackSeries, setStackSeries] = useState(true);
   const [selectedConfig, setSelectedConfig] = useState(configWithTitle[0]);
 
   const handleSelectionChange: ChangeEventHandler<HTMLSelectElement> =
@@ -65,32 +66,70 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
     [onPeriodChange]
   );
 
-  const series = useMemo(
-    (): EChartsOption["series"] =>
-      dataSets.map(({ name, values: snapshots }) => {
-        const ts = snapshots.map((snapshot) => {
-          // @ts-expect-error snapshot type TRow is not type linked to config
-          const value = snapshot[selectedConfig.key];
-          return [
-            ts2Date(snapshot.roundedTimestamp).getTime(),
-            new Decimal(value).toNumber(),
-          ];
-        });
-        // sort by date
-        ts.sort((a, b) => a[0] - b[0]);
-        return {
-          name: name,
-          type: "line",
-          stack: "Total",
-          areaStyle: {},
-          emphasis: {
-            focus: "series",
-          },
-          data: ts,
-        };
-      }),
-    [dataSets, selectedConfig.key]
-  );
+  const series = useMemo((): EChartsOption["series"] => {
+    let timeseries = dataSets.map(({ name, values: snapshots }) => {
+      const ts = snapshots.map((snapshot) => {
+        // @ts-expect-error snapshot type TRow is not type linked to config
+        const value = snapshot[selectedConfig.key];
+        return [
+          ts2Date(snapshot.roundedTimestamp).getTime(),
+          new Decimal(value).toNumber(),
+        ];
+      });
+      // sort by date
+      ts.sort((a, b) => a[0] - b[0]);
+      return { name, ts };
+    });
+
+    // adapt ts so they have the same length and are aligned by date
+    const tss = timeseries.map(({ ts }) => ts);
+    const alignedTss = timeseries.map(() => [] as number[][]);
+    let maxIter = 1000000;
+    while (tss.some((ts) => ts.length > 0) && maxIter-- > 0) {
+      // find the minimum date
+      const minDate = Math.min(
+        ...tss.map((ts) => (ts.length > 0 ? ts[0][0] : Infinity))
+      );
+      // add the values to the alignedTs
+      tss.forEach((ts, i) => {
+        const alignedTs = alignedTss[i];
+        if (ts.length > 0 && ts[0][0] === minDate) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          alignedTs.push([minDate, (ts.shift() as number[])[1] as any]);
+        } else {
+          // find the previous value
+
+          alignedTs.push([
+            minDate,
+            i === 0
+              ? 0
+              : alignedTs.length > 1
+                ? alignedTs[alignedTs.length - 1][1]
+                : 0,
+          ]);
+        }
+      });
+    }
+
+    timeseries = timeseries.map(({ name }, i) => ({
+      ts: alignedTss[i],
+      name,
+    }));
+    console.log(timeseries);
+
+    return timeseries.map(({ name, ts }) => {
+      return {
+        name: name,
+        type: "line",
+        stack: stackSeries ? "Total" : undefined,
+        areaStyle: {},
+        emphasis: {
+          focus: "series",
+        },
+        data: ts,
+      };
+    });
+  }, [dataSets, selectedConfig.key, stackSeries]);
 
   const chartOptions: EChartsOption = useMemo(
     () => ({
@@ -102,19 +141,19 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
         position: function (pt) {
           return [pt[0], "10%"];
         },
-        formatter: function (params) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          const value = params[0].data[1] as number;
-          const formatted = formatAs(value, selectedConfig.format);
-          return `
-              <div style="text-align: right;">
-                   <b>${selectedConfig.title}</b>
-                    </br><hr />
-                    <b> ${formatted}</b><br />
-                     ${value} <br />
-              </div>`;
-        },
+        // formatter: function (params) {
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   const value = params[0].data[1] as number;
+        //   const formatted = formatAs(value, selectedConfig.format);
+        //   return `
+        //       <div style="text-align: right;">
+        //            <b>${selectedConfig.title}</b>
+        //             </br><hr />
+        //             <b> ${formatted}</b><br />
+        //              ${value} <br />
+        //       </div>`;
+        // },
       },
       xAxis: { type: "time" },
       yAxis: {
@@ -188,6 +227,11 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
           <div className="w-unit-4xl flex flex-col items-center justify-center">
             <Checkbox isSelected={yAxisFitData} onValueChange={setYAxisFitData}>
               Fit Data
+            </Checkbox>
+          </div>
+          <div className="w-unit-4xl flex flex-col items-center justify-center">
+            <Checkbox isSelected={stackSeries} onValueChange={setStackSeries}>
+              Stack
             </Checkbox>
           </div>
         </div>
