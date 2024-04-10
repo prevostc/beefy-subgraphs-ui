@@ -120,12 +120,14 @@ fragment VaultCollect on BeefyCLVaultUnderlyingFeesCollectedEvent {
   priceOfToken0InToken1
   priceOfToken0InUSD
   priceOfToken1InUSD
-  collectedAmountEarnedUSD
+  priceOfEarnedTokenInUSD
 }
 
 fragment VaultPriceRangeList on BeefyCLVault {
-  dailyPriceRanges: snapshots(
-    where: { period: 86400 }
+  priceRanges: snapshots(
+    first: $first
+    skip: $skip
+    where: { period: $period }
     orderBy: roundedTimestamp
     orderDirection: asc
   ) {
@@ -183,10 +185,12 @@ fragment VaultSnapshot on BeefyCLVaultSnapshot {
 }
 
 fragment VaultSnapshotList on BeefyCLVault {
-  dailySnapshots: snapshots(
-    where: { period: 86400 }
+  snapshots: snapshots(
+    first: $first
+    skip: $skip
+    where: { period: $period }
     orderBy: roundedTimestamp
-    orderDirection: desc
+    orderDirection: asc
   ) {
     ...VaultSnapshot
   }
@@ -263,7 +267,12 @@ fragment InvestorPositionInteraction on InvestorPositionInteraction {
   positionValueUSDDelta
 }
 
-query VaultDashboard($address: ID!) {
+query VaultDashboard(
+  $address: ID!
+  $period: BigInt = "86400"
+  $first: Int = 1000
+  $skip: Int = 0
+) {
   vault: beefyCLVault(id: $address) {
     address: id
     ...VaultAddresses

@@ -22,10 +22,12 @@ fragment PositionMetrics on InvestorPosition {
 }
 
 fragment PositionSnapshotList on InvestorPosition {
-  dailySnapshots: snapshots(
+  snapshots: snapshots(
     first: $first
     skip: $skip
-    where: { period: 86400 }
+    where: { period: $period }
+    orderBy: roundedTimestamp
+    orderDirection: asc
   ) {
     ...InvestorPositionSnapshot
   }
@@ -98,7 +100,12 @@ fragment InvestorPositionInteraction on InvestorPositionInteraction {
   positionValueUSDDelta
 }
 
-query InvestorPositionDashboard($id: ID!, $first: Int = 1000, $skip: Int = 0) {
+query InvestorPositionDashboard(
+  $id: ID!
+  $period: BigInt = "86400"
+  $first: Int = 1000
+  $skip: Int = 0
+) {
   investorPosition(id: $id) {
     id
     ...PositionNavigation

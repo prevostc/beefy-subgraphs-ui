@@ -6,11 +6,16 @@ import Decimal from "decimal.js";
 import { EChartsOption } from "echarts";
 import { formatAs } from "../../utils/format-number";
 import { Checkbox, Select, SelectItem } from "@nextui-org/react";
+import { PERIODS } from "../../utils/periods";
 
 export function VaultPriceRangeTsChart({
   ranges,
+  period,
+  onPeriodChange,
 }: {
   ranges: VaultPriceRangeFragment[];
+  period: number;
+  onPeriodChange: (period: number) => void;
 }) {
   const [yAxisFitData, setYAxisFitData] = useState(false);
   const [selectedMode, setSelectedMode] = useState<"usd" | "token">("token");
@@ -23,93 +28,70 @@ export function VaultPriceRangeTsChart({
       [setSelectedMode]
     );
 
-  const series = useMemo(
-    (): EChartsOption["series"] =>
-      selectedMode === "usd"
-        ? [
-            {
-              name: "Price Range Low (in USD)",
-              type: "line",
-              //stack: "Total",
-              areaStyle: {},
-              emphasis: {
-                focus: "series",
-              },
-              data: ranges.map((r) => [
-                ts2Date(r.roundedTimestamp).getTime(),
-                new Decimal(r.priceRangeMinUSD).toNumber(),
-              ]),
-            },
-            {
-              name: "Price",
-              type: "line",
-              //stack: "Total",
-              areaStyle: {},
-              emphasis: {
-                focus: "series",
-              },
-              data: ranges.map((r) => [
-                ts2Date(r.roundedTimestamp).getTime(),
-                new Decimal(r.currentPriceOfToken0InUSD).toNumber(),
-              ]),
-            },
-            {
-              name: "Price Range High",
-              type: "line",
-              //stack: "Total",
-              areaStyle: {},
-              emphasis: {
-                focus: "series",
-              },
-              data: ranges.map((r) => [
-                ts2Date(r.roundedTimestamp).getTime(),
-                new Decimal(r.priceRangeMaxUSD).toNumber(),
-              ]),
-            },
-          ]
-        : [
-            {
-              name: "Price Range Low (in token 1)",
-              type: "line",
-              //stack: "Total",
-              areaStyle: {},
-              emphasis: {
-                focus: "series",
-              },
-              data: ranges.map((r) => [
-                ts2Date(r.roundedTimestamp).getTime(),
-                new Decimal(r.priceRangeMin1).toNumber(),
-              ]),
-            },
-            {
-              name: "Price (in token 1)",
-              type: "line",
-              //stack: "Total",
-              areaStyle: {},
-              emphasis: {
-                focus: "series",
-              },
-              data: ranges.map((r) => [
-                ts2Date(r.roundedTimestamp).getTime(),
-                new Decimal(r.currentPriceOfToken0InToken1).toNumber(),
-              ]),
-            },
-            {
-              name: "Price Range High (in token 1)",
-              type: "line",
-              //stack: "Total",
-              areaStyle: {},
-              emphasis: {
-                focus: "series",
-              },
-              data: ranges.map((r) => [
-                ts2Date(r.roundedTimestamp).getTime(),
-                new Decimal(r.priceRangeMax1).toNumber(),
-              ]),
-            },
-          ],
-    [ranges, selectedMode]
+  const handlePeriodChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => {
+      onPeriodChange(parseInt(e.target.value, 10));
+    },
+    [onPeriodChange]
   );
+
+  const series = useMemo((): EChartsOption["series"] => {
+    // sort ranges by timestamp asc
+    ranges.sort((a, b) => a.roundedTimestamp - b.roundedTimestamp);
+    return selectedMode === "usd"
+      ? [
+          {
+            name: "Price Range Low (in USD)",
+            type: "line",
+            data: ranges.map((r) => [
+              ts2Date(r.roundedTimestamp).getTime(),
+              new Decimal(r.priceRangeMinUSD).toNumber(),
+            ]),
+          },
+          {
+            name: "Price",
+            type: "line",
+            data: ranges.map((r) => [
+              ts2Date(r.roundedTimestamp).getTime(),
+              new Decimal(r.currentPriceOfToken0InUSD).toNumber(),
+            ]),
+          },
+          {
+            name: "Price Range High",
+            type: "line",
+            data: ranges.map((r) => [
+              ts2Date(r.roundedTimestamp).getTime(),
+              new Decimal(r.priceRangeMaxUSD).toNumber(),
+            ]),
+          },
+        ]
+      : [
+          {
+            name: "Price Range Low (in token 1)",
+            type: "line",
+            data: ranges.map((r) => [
+              ts2Date(r.roundedTimestamp).getTime(),
+              new Decimal(r.priceRangeMin1).toNumber(),
+            ]),
+          },
+          {
+            name: "Price (in token 1)",
+            type: "line",
+            data: ranges.map((r) => [
+              ts2Date(r.roundedTimestamp).getTime(),
+              new Decimal(r.currentPriceOfToken0InToken1).toNumber(),
+            ]),
+          },
+          {
+            name: "Price Range High (in token 1)",
+            type: "line",
+            data: ranges.map((r) => [
+              ts2Date(r.roundedTimestamp).getTime(),
+              new Decimal(r.priceRangeMax1).toNumber(),
+            ]),
+          },
+        ];
+  }, [ranges, selectedMode]);
 
   const chartOptions: EChartsOption = useMemo(
     () => ({
@@ -120,23 +102,13 @@ export function VaultPriceRangeTsChart({
         },
         position: function (pt) {
           return [pt[0], "10%"];
-        } /*
-        formatter: function (params) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          const value = params[0].data[1] as number;
-          const formatted = formatAs(value, selectedConfig.format);
-          return `
-              <div style="text-align: right;">
-                   <b>${selectedConfig.title}</b>
-                    </br><hr />
-                    <b> ${formatted}</b><br />
-                     ${value} <br />
-              </div>`;
-        },*/,
+        },
       },
       xAxis: { type: "time" },
       yAxis: {
+        splitLine: {
+          show: false,
+        },
         axisLabel: {
           formatter: (v: number) =>
             formatAs(v, selectedMode === "usd" ? "usd" : "float"),
@@ -187,6 +159,23 @@ export function VaultPriceRangeTsChart({
             <SelectItem key={"token"} value={"token"}>
               Token 1
             </SelectItem>
+          </Select>
+          <Select
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            selectedKeys={[period + ""] as any}
+            selectionMode="single"
+            onChange={handlePeriodChange}
+            label="Period"
+            placeholder="Select a period"
+            className="max-w-xs sm:min-w-unit-2xl"
+            color="secondary"
+            variant="bordered"
+          >
+            {PERIODS.map(({ key, title }) => (
+              <SelectItem key={key + ""} value={key}>
+                {title}
+              </SelectItem>
+            ))}
           </Select>
           <div className="w-unit-4xl flex flex-col items-center justify-center">
             <Checkbox isSelected={yAxisFitData} onValueChange={setYAxisFitData}>

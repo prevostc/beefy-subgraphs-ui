@@ -11,24 +11,27 @@ import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { allChains } from "../../utils/chains";
 import { useQuery } from "@tanstack/react-query";
 import { ChainMetric } from "../ChainMetric";
+import { PERIODS } from "../../utils/periods";
+import { useState } from "react";
 
 const sdk = getBuiltGraphSDK();
-const fetchData = async () => {
+
+const createFetchData = (period: number) => async () => {
   const results = await Promise.all(
     allChains.map((chain) =>
       sdk
-        .ProtocolDashboard({}, { chainName: chain })
+        .ProtocolDashboard({ period }, { chainName: chain })
         .then((data) => ({ ...data, chain }))
     )
   );
-
   return results;
 };
 
 export function ProtocolMetrics() {
+  const [period, setPeriod] = useState(PERIODS[1].key);
   const { isPending, error, data } = useQuery({
-    queryKey: ["protocolDashboard"],
-    queryFn: fetchData,
+    queryKey: ["protocolDashboard", { period }],
+    queryFn: createFetchData(period),
   });
 
   if (isPending) {
@@ -81,12 +84,14 @@ export function ProtocolMetrics() {
         />
       </Section.Metrics>
 
-      <Section.Title>Timeseries</Section.Title>
+      <Section.Title>Snapshots</Section.Title>
       <Section.Body>
-        <StackedLineTimeseries<ProtocolDashboardQuery["dailySnapshots"][0]>
+        <StackedLineTimeseries<ProtocolDashboardQuery["snapshots"][0]>
+          period={period}
+          onPeriodChange={setPeriod}
           dataSets={data.map((d) => ({
             name: d.chain,
-            values: d.dailySnapshots,
+            values: d.snapshots,
           }))}
           config={[
             { key: "totalValueLockedUSD", format: "usd" },

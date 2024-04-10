@@ -41,18 +41,23 @@ fragment ProtocolSnapshot on ProtocolSnapshot {
   ...ProtocolSnapshotMetrics
 }
 
-query ProtocolDashboard {
+query ProtocolDashboard(
+  $period: BigInt = "86400"
+  $first: Int = 1000
+  $skip: Int = 0
+) {
   protocol(id: "0x01000000") {
     id
     name
     ...ProtocolMetrics
   }
 
-  dailySnapshots: protocolSnapshots(
-    where: { period: 86400 }
+  snapshots: protocolSnapshots(
+    first: $first
+    skip: $skip
+    where: { period: $period }
     orderBy: roundedTimestamp
-    orderDirection: desc
-    first: 30
+    orderDirection: asc
   ) {
     ...ProtocolSnapshot
   }

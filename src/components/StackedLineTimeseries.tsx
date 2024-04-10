@@ -6,6 +6,7 @@ import Decimal from "decimal.js";
 import { EChartsOption } from "echarts";
 import { NumberFormatMode, formatAs } from "../utils/format-number";
 import { Checkbox, Select, SelectItem } from "@nextui-org/react";
+import { PERIODS } from "../utils/periods";
 
 type ValidMetric<TKey> = keyof TKey & string;
 type StackedLineTimeseriesConfig<TKey> = {
@@ -23,9 +24,13 @@ type Snapshotify<TS> = TS extends Snapshot
 export function StackedLineTimeseries<TRow extends Snapshot>({
   dataSets,
   config,
+  period,
+  onPeriodChange,
 }: {
   dataSets: { name: string; values: Snapshotify<TRow>[] }[];
   config: StackedLineTimeseriesConfig<TRow>[];
+  period: number;
+  onPeriodChange: (period: number) => void;
 }) {
   const configWithTitle = useMemo(
     () =>
@@ -52,6 +57,13 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
       },
       [setSelectedConfig, configWithTitle]
     );
+
+  const handlePeriodChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => {
+      onPeriodChange(parseInt(e.target.value));
+    },
+    [onPeriodChange]
+  );
 
   const series = useMemo(
     (): EChartsOption["series"] =>
@@ -152,6 +164,23 @@ export function StackedLineTimeseries<TRow extends Snapshot>({
           >
             {configWithTitle.map(({ key, title }) => (
               <SelectItem key={key} value={key}>
+                {title}
+              </SelectItem>
+            ))}
+          </Select>
+          <Select
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            selectedKeys={[period + ""] as any}
+            selectionMode="single"
+            onChange={handlePeriodChange}
+            label="Period"
+            placeholder="Select a period"
+            className="max-w-xs sm:min-w-unit-2xl"
+            color="secondary"
+            variant="bordered"
+          >
+            {PERIODS.map(({ key, title }) => (
+              <SelectItem key={key + ""} value={key}>
                 {title}
               </SelectItem>
             ))}

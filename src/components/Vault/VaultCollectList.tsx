@@ -23,7 +23,7 @@ type ColumnKeys =
   | "priceOfToken0InToken1"
   | "priceOfToken0InUSD"
   | "priceOfToken1InUSD"
-  | "collectedAmountEarnedUSD";
+  | "priceOfEarnedTokenInUSD";
 const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "createdWith",
   "timestamp",
@@ -42,7 +42,7 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "priceOfToken0InToken1",
   "priceOfToken0InUSD",
   "priceOfToken1InUSD",
-  "collectedAmountEarnedUSD",
+  "priceOfEarnedTokenInUSD",
 ];
 type VaultCollectTableColumnDef = ColumnDefType<ColumnKeys, RowType>;
 
@@ -133,9 +133,9 @@ const columns = [
     render: (row) => <div>{formatAs(row.priceOfToken1InUSD, "usd")}</div>,
   },
   {
-    key: "collectedAmountEarnedUSD",
+    key: "priceOfEarnedTokenInUSD",
     label: "Price Of Earned Token In USD",
-    render: (row) => <div>{formatAs(row.collectedAmountEarnedUSD, "usd")}</div>,
+    render: (row) => <div>{formatAs(row.priceOfEarnedTokenInUSD, "usd")}</div>,
   },
 ] as VaultCollectTableColumnDef[];
 

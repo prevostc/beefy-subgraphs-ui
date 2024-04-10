@@ -91,10 +91,12 @@ fragment InvestorSnapshot on InvestorSnapshot {
 }
 
 fragment InvestorSnapshotList on Investor {
-  dailySnapshots: snapshots(
-    where: { period: 86400 }
+  snapshots: snapshots(
     first: $first
     skip: $skip
+    where: { period: $period }
+    orderBy: roundedTimestamp
+    orderDirection: asc
   ) {
     ...InvestorSnapshot
   }
@@ -134,7 +136,12 @@ fragment InvestorPositionInteraction on InvestorPositionInteraction {
   positionValueUSDDelta
 }
 
-query InvestorDashboard($address: ID!, $first: Int = 1000, $skip: Int = 0) {
+query InvestorDashboard(
+  $address: ID!
+  $period: BigInt = "86400"
+  $first: Int = 1000
+  $skip: Int = 0
+) {
   investor(id: $address) {
     ...Investor
     ...InvestorPositionsList

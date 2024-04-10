@@ -14,13 +14,15 @@ import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { PageBody } from "../PageBody";
 import { allChains } from "../../utils/chains";
 import { InvestorPositionInteractionTable } from "./Position/InvestorPositionInteractionTable";
+import { PERIODS } from "../../utils/periods";
+import { useState } from "react";
 
 const sdk = getBuiltGraphSDK();
-const createFetchData = (address: string) => async () => {
+const createFetchData = (address: string, period: number) => async () => {
   const results = await Promise.all(
     allChains.map((chain) =>
       sdk
-        .InvestorDashboard({ address }, { chainName: chain })
+        .InvestorDashboard({ address, period }, { chainName: chain })
         .then((data) => ({ ...data, chain }))
     )
   );
@@ -29,13 +31,14 @@ const createFetchData = (address: string) => async () => {
 };
 
 export function InvestorDashboard({ address }: { address: string }) {
+  const [period, setPeriod] = useState(PERIODS[1].key);
   const {
     isPending,
     error,
     data: rawData,
   } = useQuery({
-    queryKey: ["investorDashboard"],
-    queryFn: createFetchData(address),
+    queryKey: ["investorDashboard", { address, period }],
+    queryFn: createFetchData(address, period),
   });
 
   if (isPending) {
@@ -84,12 +87,14 @@ export function InvestorDashboard({ address }: { address: string }) {
         />
       </Section.Body>
 
-      <Section.Title>Timeseries</Section.Title>
+      <Section.Title>Snapshots</Section.Title>
       <Section.Body>
         <StackedLineTimeseries<InvestorSnapshotFragment>
+          period={period}
+          onPeriodChange={setPeriod}
           dataSets={data.map((d) => ({
             name: d.chain,
-            values: d.investor.dailySnapshots,
+            values: d.investor.snapshots,
           }))}
           config={[
             { key: "totalPositionValueUSD", format: "usd" },

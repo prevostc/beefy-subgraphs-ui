@@ -15,12 +15,19 @@ import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { VaultCollectTable } from "./VaultCollectList";
 import { InvestorPositionsTable } from "../Investor/Position/InvestorPositionsTable";
 import { InvestorPositionInteractionTable } from "../Investor/Position/InvestorPositionInteractionTable";
+import { PERIODS } from "../../utils/periods";
+import { useState } from "react";
 
 const sdk = getBuiltGraphSDK();
-const createFetchData = (chain: string, address: string) => async () => {
-  const data = await sdk.VaultDashboard({ address }, { chainName: chain });
-  return { ...data, chain };
-};
+const createFetchData =
+  (chain: string, address: string, period: number) => async () => {
+    const data = await sdk.VaultDashboard(
+      { address, period: period },
+      { chainName: chain }
+    );
+    return { ...data, chain };
+  };
+
 export function VaultDashboard({
   chain,
   address,
@@ -28,9 +35,10 @@ export function VaultDashboard({
   chain: string;
   address: string;
 }) {
+  const [period, setPeriod] = useState(PERIODS[1].key);
   const { isPending, error, data } = useQuery({
-    queryKey: ["vaultDashboard"],
-    queryFn: createFetchData(chain, address),
+    queryKey: ["vaultDashboard", { chain, address, period }],
+    queryFn: createFetchData(chain, address, period),
   });
 
   if (isPending) {
@@ -49,7 +57,11 @@ export function VaultDashboard({
     <PageBody>
       <Section.Title>Price Range</Section.Title>
       <Section.Body>
-        <VaultPriceRangeTsChart ranges={data.vault.dailyPriceRanges} />
+        <VaultPriceRangeTsChart
+          ranges={data.vault.priceRanges}
+          period={period}
+          onPeriodChange={setPeriod}
+        />
       </Section.Body>
 
       <Section.Title>Harvests</Section.Title>
@@ -76,13 +88,13 @@ export function VaultDashboard({
         />
       </Section.Body>
 
-      <Section.Title>Timeseries</Section.Title>
+      <Section.Title>Snapshots</Section.Title>
       <Section.Body>
         <StackedLineTimeseries<VaultSnapshotFragment>
           dataSets={[
             {
               name: "Vault",
-              values: data.vault.dailySnapshots,
+              values: data.vault.snapshots,
             },
           ]}
           config={[
@@ -116,6 +128,8 @@ export function VaultDashboard({
             { key: "apr7D", format: "percent" },
             { key: "apr30D", format: "percent" },
           ]}
+          period={period}
+          onPeriodChange={setPeriod}
         />
       </Section.Body>
 

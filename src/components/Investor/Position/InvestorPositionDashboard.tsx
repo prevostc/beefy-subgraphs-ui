@@ -13,13 +13,16 @@ import { AppLink } from "../../AppLink";
 import { HexDisplay } from "../../HexDisplay";
 import { PageBody } from "../../PageBody";
 import { InvestorPositionInteractionTable } from "./InvestorPositionInteractionTable";
+import { useState } from "react";
+import { PERIODS } from "../../../utils/periods";
 
 const sdk = getBuiltGraphSDK();
-const createFetchData = (chain: string, id: string) => async () => {
-  return sdk
-    .InvestorPositionDashboard({ id }, { chainName: chain })
-    .then((data) => ({ ...data, chain }));
-};
+const createFetchData =
+  (chain: string, id: string, period: number) => async () => {
+    return sdk
+      .InvestorPositionDashboard({ id, period }, { chainName: chain })
+      .then((data) => ({ ...data, chain }));
+  };
 
 export function InvestorPositionDashboard({
   chain,
@@ -28,9 +31,10 @@ export function InvestorPositionDashboard({
   chain: string;
   id: string;
 }) {
+  const [period, setPeriod] = useState(PERIODS[1].key);
   const { isPending, error, data } = useQuery({
-    queryKey: ["investorPositionDashboard"],
-    queryFn: createFetchData(chain, id),
+    queryKey: ["investorPositionDashboard", { id, period }],
+    queryFn: createFetchData(chain, id, period),
   });
 
   if (isPending) {
@@ -176,12 +180,12 @@ export function InvestorPositionDashboard({
         />
       </Section.Body>
 
-      <Section.Title>Timeseries</Section.Title>
+      <Section.Title>Snapshots</Section.Title>
       <Section.Body>
         <StackedLineTimeseries<InvestorPositionSnapshotFragment>
-          dataSets={[
-            { name: chain, values: data.investorPosition.dailySnapshots },
-          ]}
+          period={period}
+          onPeriodChange={setPeriod}
+          dataSets={[{ name: chain, values: data.investorPosition.snapshots }]}
           config={[
             { key: "sharesBalance", format: "float" },
             { key: "underlyingBalance0", format: "float" },
