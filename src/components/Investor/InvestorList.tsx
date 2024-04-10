@@ -66,7 +66,6 @@ type ColumnKeys =
   | "activePositionCount"
   | "totalPositionValueUSD"
   | "averageDailyTotalPositionValueUSD30D"
-  | "last30DailyTotalPositionValuesUSD"
   | "cumulativeInteractionsCount"
   | "cumulativeDepositCount"
   | "cumulativeWithdrawCount"
@@ -130,17 +129,6 @@ const columns = [
     render: (investor) => (
       <div>
         {formatAs(investor.averageDailyTotalPositionValueUSD30D, "usd")}
-      </div>
-    ),
-  },
-  {
-    key: "last30DailyTotalPositionValuesUSD",
-    label: "Last 30 daily total position values USD",
-    render: (investor) => (
-      <div>
-        {investor.last30DailyTotalPositionValuesUSD
-          .map((v) => formatAs(v, "usd"))
-          .join(" → ")}
       </div>
     ),
   },

@@ -6,7 +6,6 @@ fragment Investor on Investor {
   activePositionCount
   totalPositionValueUSD
   averageDailyTotalPositionValueUSD30D
-  last30DailyTotalPositionValuesUSD
   cumulativeInteractionsCount
   cumulativeDepositCount
   cumulativeWithdrawCount

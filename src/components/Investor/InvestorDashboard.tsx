@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   InvestorFragment,
   InvestorSnapshotFragment,
-  Snapshot,
   getBuiltGraphSDK,
 } from "../../../.graphclient";
 import { Spinner } from "@nextui-org/react";
@@ -10,7 +9,6 @@ import { QueryDebug } from "../QueryDebug";
 import { InvestorMetrics } from "./InvestorMetrics";
 import { Section } from "../Section";
 import { InvestorPositionsTable } from "./Position/InvestorPositionsTable";
-import Decimal from "decimal.js";
 import { InvestorDashboardDocument } from "../../../.graphclient/index";
 import { StackedLineTimeseries } from "../StackedLineTimeseries";
 import { PageBody } from "../PageBody";
@@ -72,39 +70,6 @@ export function InvestorDashboard({ address }: { address: string }) {
               c.investor.positions.map((i) => ({ chain: c.chain, ...i }))
             )
             .flat()}
-        />
-      </Section.Body>
-
-      <Section.Title>Last 30 days Wallet value</Section.Title>
-      <Section.Body>
-        <StackedLineTimeseries<
-          {
-            dailyTotalPositionValue: number;
-          } & Snapshot
-        >
-          dataSets={data.map((c) => ({
-            name: c.chain,
-            values: c.investor.last30DailyTotalPositionValuesUSD.map(
-              (v, i) => ({
-                period: 0,
-                roundedTimestamp:
-                  new Date().getTime() -
-                  (c.investor.last30DailyTotalPositionValuesUSD.length - i) *
-                    86400000,
-                timestamp:
-                  new Date().getTime() -
-                  (c.investor.last30DailyTotalPositionValuesUSD.length - i) *
-                    86400000,
-                dailyTotalPositionValue: new Decimal(v).toNumber(),
-              })
-            ),
-          }))}
-          config={[
-            {
-              key: "dailyTotalPositionValue",
-              format: "usd",
-            },
-          ]}
         />
       </Section.Body>
 

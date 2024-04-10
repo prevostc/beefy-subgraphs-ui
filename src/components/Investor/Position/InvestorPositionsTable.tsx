@@ -23,7 +23,6 @@ type ColumnKeys =
   | "underlyingBalance1USD"
   | "positionValueUSD"
   | "averageDailyPositionValueUSD30D"
-  | "last30DailyPositionValuesUSD"
   | "cumulativeCompoundedAmount0"
   | "cumulativeCompoundedAmount1"
   | "cumulativeCompoundedAmount0USD"
@@ -37,6 +36,7 @@ const INITIAL_VISIBLE_COLUMNS: ColumnKeys[] = [
   "underlyingBalance0USD",
   "underlyingBalance1USD",
   "positionValueUSD",
+  "averageDailyPositionValueUSD30D",
   "cumulativeCompoundedValueUSD",
   "actions",
 ];
@@ -149,17 +149,6 @@ const columns = [
     label: "Average daily position value USD 30D",
     render: (position) => (
       <div>{formatAs(position.averageDailyPositionValueUSD30D, "usd")}</div>
-    ),
-  },
-  {
-    key: "last30DailyPositionValuesUSD",
-    label: "Last 30 daily position values USD",
-    render: (position) => (
-      <div>
-        {position.last30DailyPositionValuesUSD
-          .map((v) => formatAs(v, "usd"))
-          .join(" → ")}
-      </div>
     ),
   },
   {

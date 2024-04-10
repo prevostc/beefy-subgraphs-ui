@@ -9,8 +9,6 @@ import { QueryDebug } from "../../QueryDebug";
 import { StackedLineTimeseries } from "../../StackedLineTimeseries";
 import { Section } from "../../Section";
 import { Metric } from "../../Metric";
-import { SimpleDailyTsChart } from "../../SimpleDailyTsChart";
-import Decimal from "decimal.js";
 import { AppLink } from "../../AppLink";
 import { HexDisplay } from "../../HexDisplay";
 import { PageBody } from "../../PageBody";
@@ -112,11 +110,6 @@ export function InvestorPositionDashboard({
           mode="usd"
         />
         <Metric
-          value={data.investorPosition.positionValueUSD}
-          description="Position value USD"
-          mode="usd"
-        />
-        <Metric
           value={data.investorPosition.underlyingBalance0}
           description="Underlying balance 0"
           mode="count"
@@ -143,7 +136,7 @@ export function InvestorPositionDashboard({
         />
         <Metric
           value={data.investorPosition.averageDailyPositionValueUSD30D}
-          description="Position value USD"
+          description="Average daily position value USD 30D"
           mode="usd"
         />
         <Metric
@@ -180,15 +173,6 @@ export function InvestorPositionDashboard({
             ...i,
             chain,
           }))}
-        />
-      </Section.Body>
-
-      <Section.Title>Last 30 days position value</Section.Title>
-      <Section.Body>
-        <SimpleDailyTsChart
-          data={data.investorPosition.last30DailyPositionValuesUSD.map(
-            (v: string) => new Decimal(v).toNumber()
-          )}
         />
       </Section.Body>
 

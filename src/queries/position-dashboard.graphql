@@ -14,7 +14,6 @@ fragment PositionMetrics on InvestorPosition {
   underlyingBalance1USD
   positionValueUSD
   averageDailyPositionValueUSD30D
-  last30DailyPositionValuesUSD
   cumulativeCompoundedAmount0
   cumulativeCompoundedAmount1
   cumulativeCompoundedAmount0USD

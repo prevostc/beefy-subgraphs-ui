@@ -1,1 +1,1 @@
-export const allChains = ["arbitrum", "base", "optimism"] as const;
+export const allChains = ["arbitrum" /*, "base", "optimism"*/] as const;
